@@ -1,4 +1,5 @@
 import "./styles.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 // note for later: allow only the creation of one instance of this class
 class ProjectManager {
