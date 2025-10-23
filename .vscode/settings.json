@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "debug",
-        "core"
+        "core",
+        "footer"
     ]
 }

@@ -196,10 +196,3 @@ console.log(projectDefault.getToDo(idToDo)); // use id to check if the correct t
 
 projectDefault.toggleComplete(idToDo);
 console.log(projectDefault.getToDo(idToDo));
-/*
-<details>
-  <summary>Buy groceries</summary>
-  <p>Milk, bread, eggs</p>
-  <p>Due: tomorrow</p>
-</details>   
-*/
