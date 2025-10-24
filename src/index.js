@@ -196,10 +196,16 @@ const idTodo_3 = projectDefault.addToDo(
 */
 
 function createAddProject() {
+  const listProjectName = document.getElementById("li-project-name");
+  if(listProjectName) {
+    listProjectName.remove();
+  }
+  
   const list = document.createElement("li");
   const button = document.createElement("button");
   const icon = document.createElement("i");
 
+  list.id = "li-add-project";
   button.id = "btn-add-project"
   button.classList.add("btn-add-project");
   button.textContent = "NEW";
@@ -211,6 +217,48 @@ function createAddProject() {
 
   button.addEventListener("click", () => {
     console.log("click");
+    createInputProject();
+  })
+}
+
+function createInputProject() {
+  const listAddProject = document.getElementById("li-add-project");
+  listAddProject.remove();
+
+  const list = document.createElement("li");
+  const input = document.createElement("input");
+  const btnConfirm = document.createElement("button");
+  const btnCancel = document.createElement("button");
+  const iconConfirm = document.createElement("i");
+  const iconCancel = document.createElement("i");
+
+  list.id = "li-project-name"
+  input.id = "input-project-name";
+  input.type = "text";
+  input.maxLength = "50";
+
+  list.classList.add("li-project-name");
+  btnConfirm.classList.add("btn-confirm");
+  btnCancel.classList.add("btn-cancel");
+  iconConfirm.classList.add("fas", "fa-check", "fa-lg");
+  iconCancel.classList.add("fas", "fa-times", "fa-lg");
+
+  btnConfirm.appendChild(iconConfirm);
+  btnCancel.appendChild(iconCancel);
+  list.appendChild(input);
+  list.appendChild(btnConfirm);
+  list.appendChild(btnCancel);
+
+  projectList.innerHTML = "";
+  projectList.appendChild(list);
+
+  btnConfirm.addEventListener("click", () => {
+    console.log("confirm project name");
+    createAddProject();
+  })
+
+  btnCancel.addEventListener("click", () => {
+    console.log("cancel project name");
   })
 }
 
