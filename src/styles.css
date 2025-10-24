@@ -6,7 +6,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -20,11 +21,10 @@ body {
   justify-items: center;
   grid-template-areas:
     "header"
-    "add-project"
     "project-list"
     "main"
     "footer";
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   gap: 1rem;
   height: 100%;
 }
@@ -47,26 +47,6 @@ main,
 .page-header h1 {
 }
 
-.page-add-project {
-  grid-area: add-project;
-
-  display: flex;
-  justify-content: center;
-  gap: 0.4rem;
-  font-size: 1.2rem;
-}
-
-.page-add-project h2 {
-}
-
-.page-add-project button {
-  width: 30px;
-
-  border: none;
-  border-radius: 4px;
-  background-color: hsl(120, 60%, 49%);
-}
-
 .page-project-list {
   grid-area: project-list;
 
@@ -76,8 +56,7 @@ main,
   align-items: center;
 }
 
-.page-project-list h3 {
-  
+.page-project-list h2 {
 }
 
 .page-project-list ul {
@@ -94,9 +73,46 @@ main,
 
 .page-project-list button {
   width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   border: none;
-  font-size: 1.1rem;
 }
+
+.btn-add-project {
+  background-color: hsl(125, 88%, 47%);
+  color: hsl(0, 0%, 100%);
+  font-weight: bold;
+}
+
+.li-project-name {
+  display: flex;
+  gap: 0.4rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.li-project-name input {
+  flex: 3;
+  padding-left: 0.2rem;
+  border-radius: 4px;
+}
+
+.li-project-name button {
+  flex: 1;
+  border: 1px solid hsla(0, 0%, 61%, 0.887);
+  border-radius: 4px;
+}
+
+.fa-check {
+  color: green;
+}
+
+.fa-times {
+  color: red;
+}
+
+
+
 
 main {
   grid-area: main;
@@ -120,7 +136,7 @@ main {
 .card-todo {
   grid-template-areas:
     "todo-dueDate todo-priority todo-done"
-    "todo-title todo-title todo-remove";
+    "todo-title todo-title todo-trash";
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -130,10 +146,10 @@ main {
   grid-template-areas:
     "todo-dueDate todo-priority todo-done"
     "todo-title todo-title todo-title"
-    "todo-description todo-description todo-remove";
+    "todo-description todo-description todo-trash";
+  align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  align-items: center;
 }
 
 .todo-dueDate {
@@ -162,7 +178,7 @@ main {
 }
 
 .todo-trash {
-  grid-area: todo-remove;
+  grid-area: todo-trash;
   justify-self: end;
   align-self: end;
   border: none;
@@ -175,7 +191,6 @@ main {
 }
 
 /* page footer */
-
 .page-footer {
   grid-area: footer;
 

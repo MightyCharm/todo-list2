@@ -1,6 +1,17 @@
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
+
+
+// const btnAddProject = document.getElementById("btn-add-project");
+const projectList = document.getElementById("project-list");
+
+// btnAddProject.addEventListener("click", () => {
+//   console.log("create project");
+// })
+
+
+
 // note for later: allow only the creation of one instance of this class
 class ProjectManager {
   constructor() {
@@ -53,12 +64,12 @@ class ProjectManager {
 class Project {
   constructor(name, id) {
     this.name = name;
-    this.todos = [];
     if (id === undefined) {
       this.id = self.crypto.randomUUID();
     } else {
       this.id = id;
     }
+    this.todos = [];
   }
 
   addToDo(title, description, dueDate, priority) {
@@ -78,9 +89,9 @@ class Project {
 
   toggleComplete(id) {
     const todo = this.todos.find((todo) => todo.id === id);
-    if(!todo) {
+    if (!todo) {
       console.log("todo not found");
-      return undefined
+      return undefined;
     }
     todo.done = !todo.done;
   }
@@ -111,6 +122,14 @@ class Project {
     });
   }
 
+  getName() {
+    return this.name;
+  }
+
+  getId() {
+    return this.id;
+  }
+
   getToDo(id) {
     // should return todo
     const todo = this.todos.find((todo) => todo.id === id);
@@ -136,29 +155,24 @@ class ToDo {
   }
 }
 
+
+/*
 const projectManager = new ProjectManager();
 projectManager.addProject("Chores");
 projectManager.addProject("Homework");
 projectManager.addProject("Friends");
-// console.log(projectManager.getProjects());
-// console.log(projectManager.getActiveProject());
-// console.log(projectManager.getDefaultProject().name);
-projectManager.removeProject(projectManager.getActiveProject().id);
-// console.log(projectManager.getProjects());
-// console.log(projectManager.getActiveProject());
 
-// simulating a button click for now, button is clicked and id is send to method
+console.log(projectManager.getProjects());
+console.log(projectManager.getActiveProject());
 
-const projectDefault = projectManager.getDefaultProject();
-projectManager.switchActiveProject(projectManager.getProjects()[1].id);
-const projectChores = projectManager.getActiveProject();
-projectManager.switchActiveProject(projectManager.getProjects()[2].id);
-const projectHomework = projectManager.getActiveProject();
-
-console.log(projectDefault.name);
-console.log(projectChores.name);
-console.log(projectHomework.name);
-
+const projectDefault = projectManager.getProjects()[0];
+const projectHomework = projectManager.getProjects()[1];
+const projectFriends = projectManager.getProjects()[2];
+console.log(projectDefault);
+console.log(projectHomework);
+console.log(projectFriends)
+*/
+/*
 const idTodo_1 = projectDefault.addToDo(
   "Meet with Kevin",
   "Kevin called, its urgent, we meet in the city at cafe Vertigo",
@@ -179,20 +193,31 @@ const idTodo_3 = projectDefault.addToDo(
   "22.6.25",
   "normal"
 );
+*/
 
-// console.log(JSON.parse(JSON.stringify(projectManager.getProjects())));
-// console.log("before")
-projectDefault.removeToDo(idTodo_2);
-// console.log("after")
-// console.log(projectManager.getProjects());
+function createAddProject() {
+  const list = document.createElement("li");
+  const button = document.createElement("button");
+  const icon = document.createElement("i");
 
-const defaultToDos = projectDefault.getToDos(); // get all todos, so i can select one an get id
-console.log(defaultToDos);
-const idToDo = defaultToDos[1].id; // get id of an todo in project default
-console.log(projectDefault.getToDo(idToDo)); // use id to check if the correct todo is return
+  button.id = "btn-add-project"
+  button.classList.add("btn-add-project");
+  button.textContent = "NEW";
+  icon.classList.add("fas", "fa-plus-circle");
 
-// projectDefault.updateToDo(idToDo); // use id to change todo
-// console.log(projectDefault.getToDo(idToDo)); // check if changes are saved
+  button.appendChild(icon)
+  list.appendChild(button)
+  projectList.appendChild(list);
 
-projectDefault.toggleComplete(idToDo);
-console.log(projectDefault.getToDo(idToDo));
+  button.addEventListener("click", () => {
+    console.log("click");
+  })
+}
+
+
+function initialSetup() {
+  console.log("hello");
+  createAddProject()
+}
+
+initialSetup();

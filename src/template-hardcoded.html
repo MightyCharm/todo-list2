@@ -11,24 +11,37 @@
         <h1>ToDo App</h1>
       </header>
 
-      <section class="page-add-project">
-        <h2>New</h2>
-        <button>+</button>
-      </section>
-
       <section class="page-project-list">
         <h2>Projects</h2>
-        <ul>
-          <li><button>Default</button></li>
-          <li><button>Chores</button></li>
-          <li><button>Friends</button></li>
+        <ul id="project-list">
+          <li><button id="1">Default</button></li>
+          <li><button id="2">Chores</button></li>
+          <li><button id="2">Friends</button></li> 
+
+
+          <li class="li-project-name">
+            <input id="input-project-name" type="text" maxlength="50">
+            <button id="btn-confirm-project-name" class="btn-confirm">
+              <i class="fas fa-check fa-lg"></i>
+            </button>
+            <button id="btn-cancel-project-name" class="btn-cancel">
+              <i class="fas fa-times fa-lg"></i>
+            </button>
+          </li>
+
+
+          <li>
+            <button id="btn-add-project" class="btn-add-project">NEW 
+              <i class="fas fa-plus-circle"></i>
+            </button>
+          </li>
+          
+          
         </ul>
       </section>
 
       <main>
         <div class="container-todos">
-
-      
           <article class="card card-todo" id="todo-456">
             <p class="todo-dueDate">Due: 3.6.25</p>
             <p class="todo-title">Call Grandpa</p>
@@ -45,133 +58,14 @@
               <option value="high">HIGH</option>
             </select>
 
-          
-              <p class="todo-description is-hidden">
-                Grandpa asked about the books i ordered. Should call him back
-                ASAP.
-              </p>
-              <button class="todo-trash">
-                <i class="fas fa-trash"></i>
-              </button>
-          
-
+            <p class="todo-description is-hidden">
+              Grandpa asked about the books i ordered. Should call him back
+              ASAP.
+            </p>
+            <button class="todo-trash">
+              <i class="fas fa-trash"></i>
+            </button>
           </article>
-
-           <article class="card card-todo" id="todo-456">
-            <p class="todo-dueDate">Due: 3.6.25</p>
-            <p class="todo-title">Call Grandpa</p>
-            <input
-              class="todo-done"
-              type="checkbox"
-              id="checkbox-done"
-              name="done"
-              value="done"
-            />
-            <select class="todo-priority" name="priority" id="select-priority">
-              <option value="low">LOW</option>
-              <option value="normal">NORMAL</option>
-              <option value="high">HIGH</option>
-            </select>
-
-          
-              <p class="todo-description is-hidden">
-                Grandpa asked about the books i ordered. Should call him back
-                ASAP.
-              </p>
-              <button class="todo-trash">
-                <i class="fas fa-trash"></i>
-              </button>
-          
-
-          </article>
-
-           <article class="card card-todo" id="todo-456">
-            <p class="todo-dueDate">Due: 3.6.25</p>
-            <p class="todo-title">Call Grandpa</p>
-            <input
-              class="todo-done"
-              type="checkbox"
-              id="checkbox-done"
-              name="done"
-              value="done"
-            />
-            <select class="todo-priority" name="priority" id="select-priority">
-              <option value="low">LOW</option>
-              <option value="normal">NORMAL</option>
-              <option value="high">HIGH</option>
-            </select>
-
-          
-              <p class="todo-description is-hidden">
-                Grandpa asked about the books i ordered. Should call him back
-                ASAP.
-              </p>
-              <button class="todo-trash">
-                <i class="fas fa-trash"></i>
-              </button>
-          
-
-          </article>
-
-           <article class="card card-todo" id="todo-456">
-            <p class="todo-dueDate">Due: 3.6.25</p>
-            <p class="todo-title">Call Grandpa</p>
-            <input
-              class="todo-done"
-              type="checkbox"
-              id="checkbox-done"
-              name="done"
-              value="done"
-            />
-            <select class="todo-priority" name="priority" id="select-priority">
-              <option value="low">LOW</option>
-              <option value="normal">NORMAL</option>
-              <option value="high">HIGH</option>
-            </select>
-
-          
-              <p class="todo-description is-hidden">
-                Grandpa asked about the books i ordered. Should call him back
-                ASAP.
-              </p>
-              <button class="todo-trash">
-                <i class="fas fa-trash"></i>
-              </button>
-          
-
-          </article>
-
-
-           <article class="card card-todo" id="todo-456">
-            <p class="todo-dueDate">Due: 3.6.25</p>
-            <p class="todo-title">Call Grandpa</p>
-            <input
-              class="todo-done"
-              type="checkbox"
-              id="checkbox-done"
-              name="done"
-              value="done"
-            />
-            <select class="todo-priority" name="priority" id="select-priority">
-              <option value="low">LOW</option>
-              <option value="normal">NORMAL</option>
-              <option value="high">HIGH</option>
-            </select>
-
-          
-              <p class="todo-description is-hidden">
-                Grandpa asked about the books i ordered. Should call him back
-                ASAP.
-              </p>
-              <button class="todo-trash">
-                <i class="fas fa-trash"></i>
-              </button>
-          
-
-          </article>
-      
-
-
         </div>
       </main>
 
