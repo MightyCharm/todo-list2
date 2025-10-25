@@ -60,7 +60,6 @@ function createInputProject() {
   list.appendChild(btnConfirm);
   list.appendChild(btnCancel);
 
-  projectList.innerHTML = "";
   projectList.appendChild(list);
 
   btnConfirm.addEventListener("click", () => {
