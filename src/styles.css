@@ -69,22 +69,18 @@ main,
 
 .page-project-list li {
   width: 100%;
-  border: 1px solid red;
   height: 45px;
 }
 
-.page-project-list button {
+.btn-add-project {
+  font-weight: bold;
   width: 100%;
   height: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   border: none;
-}
-
-.btn-add-project {
-  background-color: hsl(125, 88%, 47%);
   color: hsl(0, 0%, 100%);
-  font-weight: bold;
+  background-color: hsl(125, 88%, 47%);
 }
 
 .li-project-name {
@@ -114,9 +110,6 @@ main,
   color: red;
 }
 
-
-
-
 main {
   grid-area: main;
 }
@@ -127,6 +120,19 @@ main {
   align-items: center;
   gap: 2rem;
   padding: 1rem;
+}
+
+.btn-add-todo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: hsl(125, 88%, 47%);
+  color: hsl(0, 0%, 100%);
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 16px;
+  border: none;
 }
 
 .card {

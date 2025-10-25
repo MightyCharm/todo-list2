@@ -1,7 +1,7 @@
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { ProjectManager } from "./project-manager.js"
-import { createAddProject, createNewProject } from "./dom.js";
+import { createAddProject, createNewProject, createAddToDo } from "./dom.js";
 
 // gets/checks user input for new project and calls function to create new
 function getProjectName() {
@@ -19,6 +19,7 @@ function getProjectName() {
 function initialSetup() {
   console.log("hello");
   createAddProject();
+  createAddToDo();
 }
 
 const projectManager = new ProjectManager();

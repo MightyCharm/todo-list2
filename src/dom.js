@@ -1,8 +1,9 @@
 import { getProjectName } from "./index.js";
 
 const projectList = document.getElementById("project-list");
+const containerToDos = document.getElementById("container-todos");
 
-// create Button Add +
+// create button New + for project
 function createAddProject() {
   const listProjectName = document.getElementById("li-project-name");
   if (listProjectName) {
@@ -16,8 +17,9 @@ function createAddProject() {
   list.id = "li-add-project";
   button.id = "btn-add-project";
   button.classList.add("btn-add-project");
-  button.textContent = "NEW";
   icon.classList.add("fas", "fa-plus-circle");
+
+  button.textContent = "NEW";
 
   button.appendChild(icon);
   list.appendChild(button);
@@ -29,7 +31,26 @@ function createAddProject() {
   });
 }
 
-// creates input and buttons to confirm/cancel 
+// creates button New + for todos
+function createAddToDo() {
+  console.log("createAddToDo");
+  const button = document.createElement("button");
+  const icon = document.createElement("i");
+
+  button.classList.add("btn-add-todo");
+  icon.classList.add("fas", "fa-plus-circle");
+
+  button.textContent = "New";
+
+  button.appendChild(icon);
+  containerToDos.appendChild(button);
+
+  button.addEventListener("click", () => {
+    console.log("open todo for entering stuff");
+  });
+}
+
+// creates input and buttons to confirm/cancel
 function createInputProject() {
   const listAddProject = document.getElementById("li-add-project");
   if (listAddProject) {
@@ -76,7 +97,7 @@ function createInputProject() {
 function createNewProject(project) {
   const listProjectName = document.getElementById("li-project-name");
   // remove "li-project-name"
-  if(listProjectName) {
+  if (listProjectName) {
     listProjectName.remove();
   }
   const list = document.createElement("li");
@@ -99,4 +120,4 @@ function cancelInputProject() {
   createAddProject();
 }
 
-export { createAddProject, createNewProject };
+export { createAddProject, createNewProject, createAddToDo };
