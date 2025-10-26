@@ -195,6 +195,78 @@ main {
   height: 20px;
 }
 
+.card-create-todo {
+  grid-template-areas:
+    "create-todo-date create-todo-priority create-todo-done"
+    "create-todo-title create-todo-title create-todo-title"
+    "create-todo-description create-todo-description create-todo-buttons";
+  gap: 1rem;
+  padding: 1rem;
+  /* border: 5px solid red; */
+}
+
+.create-todo-date {
+  grid-area: create-todo-date;
+  /* border: 5px solid red; */
+}
+
+.create-todo-priority {
+  grid-area: create-todo-priority;
+  /* border: 5px solid red; */
+}
+
+.create-todo-done {
+  grid-area: create-todo-done;
+
+  width: 20px;
+  height: 20px;
+  justify-self: end;
+  /* height: 50px; */
+}
+
+.create-todo-title {
+  grid-area: create-todo-title;
+
+  display: flex;
+  flex-direction: column;
+
+  /* border: 5px solid red; */
+}
+
+.input-title {
+  padding: 0.2rem;
+}
+
+.create-todo-description {
+  grid-area: create-todo-description;
+
+  display: flex;
+  flex-direction: column;
+  /* border: 5px solid red; */
+}
+
+.textarea-description {
+  resize: none;
+  padding: 0.4rem 0.2rem;
+  /* border: 5px solid red; */
+}
+
+.create-todo-buttons {
+  grid-area: create-todo-buttons;
+
+  display: flex;
+  align-items: end;
+  gap: 0.2rem;
+}
+
+.btn-confirm-input {
+  /* border: 5px solid red; */
+}
+
+.btn-cancel-input {
+  /* border: 5px solid red; */
+}
+
 .is-hidden {
   display: none;
 }

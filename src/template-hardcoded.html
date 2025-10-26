@@ -39,6 +39,7 @@
 
       <main>
         <div id="container-todos" class="container-todos">
+
           <article class="card card-todo" id="todo-456">
             <p class="todo-dueDate">Due: 3.6.25</p>
             <p class="todo-title">Call Grandpa</p>
@@ -49,7 +50,7 @@
               name="done"
               value="done"
             />
-            <select class="todo-priority" name="priority" id="select-priority">
+            <select id="select-priority" class="todo-priority" name="priority">
               <option value="low">LOW</option>
               <option value="normal">NORMAL</option>
               <option value="high">HIGH</option>
@@ -64,10 +65,63 @@
             </button>
           </article>
 
+
+          <!-- input todo for entering data on the fly  -->
+          <article class="card card-create-todo">
+            <input id="create-todo-date" class="create-todo-date" type="date" />
+
+            <select
+              id="create-todo-priority"
+              class="create-todo-priority"
+              name="create-todo-priority"
+            >
+              <option value="low">LOW</option>
+              <option value="normal">NORMAL</option>
+              <option value="high">HIGH</option>
+            </select>
+
+            <input
+              id="create-todo-done"
+              class="create-todo-done"
+              type="checkbox"
+              name="checkbox-done"
+              value="checkbox-done"
+            />
+
+            <div class="create-todo-title">
+              <label for="input-title">Title</label>
+              <input id="input-title" class="input-title" type="text" />
+            </div>
+
+            <div class="create-todo-description">
+              <label for="textarea-description">Description</label>
+              <textarea
+                id="textarea-description"
+                class="textarea-description"
+                rows="3"
+                maxlength="100"
+              ></textarea>
+            </div>
+
+            <div class="create-todo-buttons">
+              <button id="btn-confirm-input" class="btn-confirm-input">
+                <i class="fas fa-check fa-lg"></i>
+              </button>
+              <button id="btn-cancel-input" class="btn-cancel-input">
+                <i class="fas fa-times fa-lg"></i>
+              </button>
+            </div>
+          </article>
+
           <button class="btn-add-todo">
             NEW
             <i class="fas fa-plus-circle"></i>
           </button>
+
+
+
+
+
 
 
         </div>
