@@ -1,4 +1,4 @@
-import { getProjectName } from "./index.js";
+import { getProjectName, validateInput } from "./index.js";
 
 const projectList = document.getElementById("project-list");
 const containerToDos = document.getElementById("container-todos");
@@ -196,7 +196,9 @@ function createInputToDo() {
   containerToDos.appendChild(article);
 
   buttonConfirm.addEventListener("click", () => {
-    createNewToDo();
+    if (validateInput()) {
+      createNewToDo();
+    }
   });
 
   buttonCancel.addEventListener("click", () => {
@@ -216,7 +218,7 @@ function createNewProject(project) {
 
   list.classList.add("li-project");
   button.id = project.getId();
-  button.classList.add("btn-project")
+  button.classList.add("btn-project");
   button.textContent = project.getName();
 
   list.appendChild(button);
@@ -224,39 +226,7 @@ function createNewProject(project) {
 }
 
 // create a new todo
-function createNewToDo() {
-  const date = document.getElementById("create-todo-date");
-  const priority = document.getElementById("create-todo-priority");
-  const done = document.getElementById("create-todo-done");
-  const title = document.getElementById("input-title");
-  const description = document.getElementById("textarea-description");
-
-  const inputDate = date.value;
-  const inputPriority = priority.value;
-  const inputDone = done.checked;
-  const inputTitle = title.value.trim();
-  const inputDescription = description.value.trim();
-
-  console.log(`date: ${inputDate}  length: ${inputDate.length}`);
-  console.log(`priority: ${inputPriority} length: ${inputPriority.length}`);
-  console.log(`done: ${inputDone} length: ${inputDone.length}`);
-  console.log(`title ${inputTitle} length: ${inputTitle.length}`);
-  console.log(`description: ${inputDescription} length: ${inputDescription.length}`);
-
-  // date should not be length 0
-
-  
-  // good values: create todo
-  if(inputDate && inputTitle && inputDescription) {
-    console.log("data good...create todo| remove input todo, add New + button again");
-
-    return
-  }
-  console.log("Input is missing something, do nothing for now");  
-
-  // bad values: do nothing
-
-}
+function createNewToDo() {}
 
 function cancelInputProject() {
   // remove input
@@ -270,7 +240,7 @@ function cancelInputProject() {
 
 function cancelInputToDo() {
   const cardCreateToDo = document.getElementById("card-create-todo");
-  if(cardCreateToDo) {
+  if (cardCreateToDo) {
     cardCreateToDo.remove();
   }
   createAddToDo();
