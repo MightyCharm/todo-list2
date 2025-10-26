@@ -124,6 +124,7 @@ function createInputToDo() {
   const iconConfirm = document.createElement("i");
   const iconCancel = document.createElement("i");
 
+  article.id = "card-create-todo";
   article.classList.add("card", "card-create-todo");
 
   inputDate.id = "create-todo-date";
@@ -182,7 +183,8 @@ function createInputToDo() {
   buttonConfirm.appendChild(iconConfirm);
   buttonCancel.appendChild(iconCancel);
   divButtons.appendChild(buttonConfirm);
-  divButtons.appendChild(buttonCancel), article.appendChild(inputDate);
+  divButtons.appendChild(buttonCancel);
+  article.appendChild(inputDate);
   article.appendChild(selectPriority);
   article.appendChild(checkboxDone);
   article.appendChild(divTitle);
@@ -196,9 +198,7 @@ function createInputToDo() {
   });
 
   buttonCancel.addEventListener("click", () => {
-    console.log(
-      "button cancel was pressed, remove create todo and add New + button again"
-    );
+    cancelInputToDo();
   });
 }
 
@@ -226,6 +226,14 @@ function cancelInputProject() {
   }
   // add project button
   createAddProject();
+}
+
+function cancelInputToDo() {
+  const cardCreateToDo = document.getElementById("card-create-todo");
+  if(cardCreateToDo) {
+    cardCreateToDo.remove();
+  }
+  createAddToDo();
 }
 
 export { createAddProject, createNewProject, createAddToDo };
