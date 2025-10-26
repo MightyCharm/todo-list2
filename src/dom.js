@@ -15,6 +15,7 @@ function createAddProject() {
   const icon = document.createElement("i");
 
   list.id = "li-add-project";
+  list.classList.add("li-project");
   button.id = "btn-add-project";
   button.classList.add("btn-add-project");
   icon.classList.add("fas", "fa-plus-circle");
@@ -50,7 +51,7 @@ function createAddToDo() {
   });
 }
 
-// creates input and buttons to confirm/cancel
+// creates form so user can enter name for new project
 function createInputProject() {
   const listAddProject = document.getElementById("li-add-project");
   if (listAddProject) {
@@ -69,7 +70,7 @@ function createInputProject() {
   input.type = "text";
   input.maxLength = "50";
 
-  list.classList.add("li-project-name");
+  list.classList.add("li-project", "li-project-name");
   btnConfirm.classList.add("btn-confirm");
   btnCancel.classList.add("btn-cancel");
   iconConfirm.classList.add("fas", "fa-check", "fa-lg");
@@ -94,6 +95,7 @@ function createInputProject() {
   });
 }
 
+// creates form so user can enter data for a new todo
 function createInputToDo() {
   const btnAddToDo = document.getElementById("btn-add-todo");
   if (btnAddToDo) {
@@ -194,7 +196,7 @@ function createInputToDo() {
   containerToDos.appendChild(article);
 
   buttonConfirm.addEventListener("click", () => {
-    console.log("confirm button was pressed, get input data and do stuff");
+    createNewToDo();
   });
 
   buttonCancel.addEventListener("click", () => {
@@ -202,6 +204,7 @@ function createInputToDo() {
   });
 }
 
+// create a new project
 function createNewProject(project) {
   const listProjectName = document.getElementById("li-project-name");
   // remove "li-project-name"
@@ -211,11 +214,48 @@ function createNewProject(project) {
   const list = document.createElement("li");
   const button = document.createElement("button");
 
+  list.classList.add("li-project");
   button.id = project.getId();
+  button.classList.add("btn-project")
   button.textContent = project.getName();
 
   list.appendChild(button);
   projectList.appendChild(list);
+}
+
+// create a new todo
+function createNewToDo() {
+  const date = document.getElementById("create-todo-date");
+  const priority = document.getElementById("create-todo-priority");
+  const done = document.getElementById("create-todo-done");
+  const title = document.getElementById("input-title");
+  const description = document.getElementById("textarea-description");
+
+  const inputDate = date.value;
+  const inputPriority = priority.value;
+  const inputDone = done.checked;
+  const inputTitle = title.value.trim();
+  const inputDescription = description.value.trim();
+
+  console.log(`date: ${inputDate}  length: ${inputDate.length}`);
+  console.log(`priority: ${inputPriority} length: ${inputPriority.length}`);
+  console.log(`done: ${inputDone} length: ${inputDone.length}`);
+  console.log(`title ${inputTitle} length: ${inputTitle.length}`);
+  console.log(`description: ${inputDescription} length: ${inputDescription.length}`);
+
+  // date should not be length 0
+
+  
+  // good values: create todo
+  if(inputDate && inputTitle && inputDescription) {
+    console.log("data good...create todo| remove input todo, add New + button again");
+
+    return
+  }
+  console.log("Input is missing something, do nothing for now");  
+
+  // bad values: do nothing
+
 }
 
 function cancelInputProject() {

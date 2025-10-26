@@ -57,20 +57,31 @@ main,
 }
 
 .page-project-list h2 {
+
 }
 
-.page-project-list ul {
+.project-list {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   list-style-type: none;
   width: 100%;
+
 }
 
-.page-project-list li {
+.li-project {
   width: 100%;
   height: 45px;
 }
+
+.btn-project {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: hsl(240, 2%, 82%);
+}
+
+
 
 .btn-add-project {
   font-weight: bold;
