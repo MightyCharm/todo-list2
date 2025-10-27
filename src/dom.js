@@ -1,10 +1,12 @@
-import { getProjectName, validateInput } from "./index.js";
-
 const projectList = document.getElementById("project-list");
 const containerToDos = document.getElementById("container-todos");
 
+function initialSetup(projectManager) {
+  renderProject(projectManager);
+};
+
 // create button New + for project
-function createAddProject() {
+function createAddProject(projectManager) {
   const listProjectName = document.getElementById("li-project-name");
   if (listProjectName) {
     listProjectName.remove();
@@ -27,32 +29,13 @@ function createAddProject() {
   projectList.appendChild(list);
 
   button.addEventListener("click", () => {
-    console.log("click");
-    createInputProject();
-  });
-}
-
-// creates button New + for todos
-function createAddToDo() {
-  const button = document.createElement("button");
-  const icon = document.createElement("i");
-
-  button.id = "btn-add-todo";
-  button.classList.add("btn-add-todo");
-  icon.classList.add("fas", "fa-plus-circle");
-
-  button.textContent = "New";
-
-  button.appendChild(icon);
-  containerToDos.appendChild(button);
-
-  button.addEventListener("click", () => {
-    createInputToDo();
+    console.log("eventlistener createAddProject");
+    createInputProject(projectManager);
   });
 }
 
 // creates form so user can enter name for new project
-function createInputProject() {
+function createInputProject(projectManager) {
   const listAddProject = document.getElementById("li-add-project");
   if (listAddProject) {
     listAddProject.remove();
@@ -85,18 +68,40 @@ function createInputProject() {
   projectList.appendChild(list);
 
   btnConfirm.addEventListener("click", () => {
-    console.log("confirm project name");
-    getProjectName();
-    createAddProject();
+    console.log("eventlistener createInputProject");
+    createProject(projectManager);
+    createAddProject(projectManager);
   });
 
   btnCancel.addEventListener("click", () => {
-    cancelInputProject();
+    console.log("eventlistener createInputProject");
+    cancelInputProject(projectManager);
+  });
+}
+
+
+// creates button New + for todos
+function createAddToDo(projectManager) {
+  const button = document.createElement("button");
+  const icon = document.createElement("i");
+
+  button.id = "btn-add-todo";
+  button.classList.add("btn-add-todo");
+  icon.classList.add("fas", "fa-plus-circle");
+
+  button.textContent = "New";
+
+  button.appendChild(icon);
+  containerToDos.appendChild(button);
+
+  button.addEventListener("click", () => {
+    console.log("eventlistener createAddToDo");
+    createInputToDo(projectManager);
   });
 }
 
 // creates form so user can enter data for a new todo
-function createInputToDo() {
+function createInputToDo(projectManager) {
   const btnAddToDo = document.getElementById("btn-add-todo");
   if (btnAddToDo) {
     btnAddToDo.remove();
@@ -109,8 +114,6 @@ function createInputToDo() {
   const optionLow = document.createElement("option");
   const optionNormal = document.createElement("option");
   const optionHigh = document.createElement("option");
-
-  const checkboxDone = document.createElement("input");
 
   const divTitle = document.createElement("div");
   const labelTitle = document.createElement("label");
@@ -142,12 +145,6 @@ function createInputToDo() {
   optionNormal.textContent = "Normal";
   optionHigh.value = "high";
   optionHigh.textContent = "High";
-
-  checkboxDone.id = "create-todo-done";
-  checkboxDone.classList.add("create-todo-done");
-  checkboxDone.type = "checkbox";
-  checkboxDone.name = "checkbox-done";
-  checkboxDone.value = "checkbox-done";
 
   divTitle.classList.add("create-todo-title");
   labelTitle.htmlFor = "input-title";
@@ -188,7 +185,6 @@ function createInputToDo() {
   divButtons.appendChild(buttonCancel);
   article.appendChild(inputDate);
   article.appendChild(selectPriority);
-  article.appendChild(checkboxDone);
   article.appendChild(divTitle);
   article.appendChild(divDescription);
   article.appendChild(divButtons);
@@ -196,18 +192,103 @@ function createInputToDo() {
   containerToDos.appendChild(article);
 
   buttonConfirm.addEventListener("click", () => {
-    if (validateInput()) {
-      createNewToDo();
+    console.log("eventlistener createInputToDo");
+    const validation = validateInputToDo()
+    if (validation.check) {
+      console.log("validation was successful");
+      const title = validation.inputs.title;
+      const description = validation.inputs.description;
+      const dueDate = validation.inputs.dueDate;
+      const priority = validation.inputs.priority;
+      const project = projectManager.getActiveProject();
+      console.log(project);
+      project.addToDo(title, description, dueDate, priority, project);
+      console.log(projectManager.getActiveProject())
+
+      renderToDo(projectManager);
     }
   });
 
   buttonCancel.addEventListener("click", () => {
-    cancelInputToDo();
+    console.log("eventlistener createInputToDo");
+    cancelInputToDo(projectManager);
   });
 }
 
+
+
+// create a new todo
+function renderToDo(projectManager) {
+
+}
+
+function cancelInputProject(projectManager) {
+  // remove input
+  const listProjectName = document.getElementById("li-project-name");
+  if (listProjectName) {
+    listProjectName.remove();
+  }
+  // add project button
+  createAddProject(projectManager);
+}
+
+function cancelInputToDo() {
+  const cardCreateToDo = document.getElementById("card-create-todo");
+  if (cardCreateToDo) {
+    cardCreateToDo.remove();
+  }
+  createAddToDo(projectManager);
+}
+
+function validateInputToDo() {
+  const date = document.getElementById("create-todo-date");
+  const priority = document.getElementById("create-todo-priority");
+  const title = document.getElementById("input-title");
+  const description = document.getElementById("textarea-description");
+
+  const inputDate = date.value;
+  const inputPriority = priority.value;
+  const inputTitle = title.value.trim();
+  const inputDescription = description.value.trim();
+
+  console.log(`date: ${inputDate}  length: ${inputDate.length}`);
+  console.log(`priority: ${inputPriority} length: ${inputPriority.length}`);
+  console.log(`title ${inputTitle} length: ${inputTitle.length}`);
+  console.log(`description: ${inputDescription} length: ${inputDescription.length}`);
+
+  // good values: create todo
+  if(inputDate && inputTitle && inputDescription) {
+    return {
+      check: true, inputs: {
+        title: inputTitle,
+        description: inputDescription,
+        dueDate: inputDate,
+        priority: inputPriority,
+        
+    }};
+  }
+  console.log("Input is missing something, do nothing for now");  
+  return {check: false};
+
+}
+
+
+// gets/checks user input for new project and calls function to create new
+function createProject(projectManager) {
+  const userInput = document.getElementById("input-project-name").value;
+  const cleanedInput = userInput.trim();
+  if(cleanedInput.length > 0) {
+    // create project
+    projectManager.addProject(cleanedInput);
+    renderProject(projectManager);
+  } else {
+    console.log("Please enter valid Project Name");
+  }
+}
+
 // create a new project
-function createNewProject(project) {
+function renderProject(projectManager) {
+  const project = projectManager.getActiveProject();
   const listProjectName = document.getElementById("li-project-name");
   // remove "li-project-name"
   if (listProjectName) {
@@ -225,25 +306,4 @@ function createNewProject(project) {
   projectList.appendChild(list);
 }
 
-// create a new todo
-function createNewToDo() {}
-
-function cancelInputProject() {
-  // remove input
-  const listProjectName = document.getElementById("li-project-name");
-  if (listProjectName) {
-    listProjectName.remove();
-  }
-  // add project button
-  createAddProject();
-}
-
-function cancelInputToDo() {
-  const cardCreateToDo = document.getElementById("card-create-todo");
-  if (cardCreateToDo) {
-    cardCreateToDo.remove();
-  }
-  createAddToDo();
-}
-
-export { createAddProject, createNewProject, createAddToDo };
+export { initialSetup, createAddProject, createAddToDo };

@@ -208,9 +208,9 @@ main {
 
 .card-create-todo {
   grid-template-areas:
-    "create-todo-date create-todo-priority create-todo-done"
-    "create-todo-title create-todo-title create-todo-title"
-    "create-todo-description create-todo-description create-todo-buttons";
+    "create-todo-date create-todo-priority"
+    "create-todo-title create-todo-title"
+    "create-todo-description create-todo-buttons";
   gap: 1rem;
   padding: 1rem;
   /* border: 5px solid red; */
@@ -266,6 +266,7 @@ main {
   grid-area: create-todo-buttons;
 
   display: flex;
+  justify-content: end;
   align-items: end;
   gap: 0.2rem;
 }
