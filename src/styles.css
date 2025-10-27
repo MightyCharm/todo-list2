@@ -107,7 +107,8 @@ main,
   border-radius: 4px;
 }
 
-.li-project-name button {
+.btn-confirm-project,
+.btn-cancel-project {
   flex: 1;
   border: 1px solid hsla(0, 0%, 61%, 0.887);
   border-radius: 4px;
@@ -271,11 +272,11 @@ main {
   gap: 0.2rem;
 }
 
-.btn-confirm-input {
+.btn-confirm-todo {
   /* border: 5px solid red; */
 }
 
-.btn-cancel-input {
+.btn-cancel-todo {
   /* border: 5px solid red; */
 }
 

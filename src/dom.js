@@ -3,7 +3,7 @@ const containerToDos = document.getElementById("container-todos");
 
 function initialSetup(projectManager) {
   renderProject(projectManager);
-};
+}
 
 // create button New + for project
 function createAddProject(projectManager) {
@@ -27,11 +27,6 @@ function createAddProject(projectManager) {
   button.appendChild(icon);
   list.appendChild(button);
   projectList.appendChild(list);
-
-  button.addEventListener("click", () => {
-    console.log("eventlistener createAddProject");
-    createInputProject(projectManager);
-  });
 }
 
 // creates form so user can enter name for new project
@@ -52,10 +47,12 @@ function createInputProject(projectManager) {
   input.id = "input-project-name";
   input.type = "text";
   input.maxLength = "50";
+  btnConfirm.id = "btn-confirm-project";
+  btnCancel.id = "btn-cancel-project";
 
   list.classList.add("li-project", "li-project-name");
-  btnConfirm.classList.add("btn-confirm");
-  btnCancel.classList.add("btn-cancel");
+  btnConfirm.classList.add("btn-confirm-project");
+  btnCancel.classList.add("btn-cancel-project");
   iconConfirm.classList.add("fas", "fa-check", "fa-lg");
   iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
@@ -66,19 +63,7 @@ function createInputProject(projectManager) {
   list.appendChild(btnCancel);
 
   projectList.appendChild(list);
-
-  btnConfirm.addEventListener("click", () => {
-    console.log("eventlistener createInputProject");
-    createProject(projectManager);
-    createAddProject(projectManager);
-  });
-
-  btnCancel.addEventListener("click", () => {
-    console.log("eventlistener createInputProject");
-    cancelInputProject(projectManager);
-  });
 }
-
 
 // creates button New + for todos
 function createAddToDo(projectManager) {
@@ -93,11 +78,6 @@ function createAddToDo(projectManager) {
 
   button.appendChild(icon);
   containerToDos.appendChild(button);
-
-  button.addEventListener("click", () => {
-    console.log("eventlistener createAddToDo");
-    createInputToDo(projectManager);
-  });
 }
 
 // creates form so user can enter data for a new todo
@@ -162,10 +142,10 @@ function createInputToDo(projectManager) {
   textareaDescription.maxLength = "100";
 
   divButtons.classList.add("create-todo-buttons");
-  buttonConfirm.id = "btn-confirm-input";
-  buttonConfirm.classList.add("btn-confirm-input");
-  buttonCancel.id = "btn-cancel-input";
-  buttonCancel.classList.add("btn-cancel-input");
+  buttonConfirm.id = "btn-confirm-todo";
+  buttonConfirm.classList.add("btn-confirm-todo");
+  buttonCancel.id = "btn-cancel-todo";
+  buttonCancel.classList.add("btn-cancel-todo");
   iconConfirm.classList.add("fas", "fa-check", "fa-lg");
   iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
@@ -190,37 +170,10 @@ function createInputToDo(projectManager) {
   article.appendChild(divButtons);
 
   containerToDos.appendChild(article);
-
-  buttonConfirm.addEventListener("click", () => {
-    console.log("eventlistener createInputToDo");
-    const validation = validateInputToDo()
-    if (validation.check) {
-      console.log("validation was successful");
-      const title = validation.inputs.title;
-      const description = validation.inputs.description;
-      const dueDate = validation.inputs.dueDate;
-      const priority = validation.inputs.priority;
-      const project = projectManager.getActiveProject();
-      console.log(project);
-      project.addToDo(title, description, dueDate, priority, project);
-      console.log(projectManager.getActiveProject())
-
-      renderToDo(projectManager);
-    }
-  });
-
-  buttonCancel.addEventListener("click", () => {
-    console.log("eventlistener createInputToDo");
-    cancelInputToDo(projectManager);
-  });
 }
-
-
 
 // create a new todo
-function renderToDo(projectManager) {
-
-}
+function renderToDo(projectManager) {}
 
 function cancelInputProject(projectManager) {
   // remove input
@@ -232,7 +185,7 @@ function cancelInputProject(projectManager) {
   createAddProject(projectManager);
 }
 
-function cancelInputToDo() {
+function cancelInputToDo(projectManager) {
   const cardCreateToDo = document.getElementById("card-create-todo");
   if (cardCreateToDo) {
     cardCreateToDo.remove();
@@ -254,30 +207,31 @@ function validateInputToDo() {
   console.log(`date: ${inputDate}  length: ${inputDate.length}`);
   console.log(`priority: ${inputPriority} length: ${inputPriority.length}`);
   console.log(`title ${inputTitle} length: ${inputTitle.length}`);
-  console.log(`description: ${inputDescription} length: ${inputDescription.length}`);
+  console.log(
+    `description: ${inputDescription} length: ${inputDescription.length}`
+  );
 
   // good values: create todo
-  if(inputDate && inputTitle && inputDescription) {
+  if (inputDate && inputTitle && inputDescription) {
     return {
-      check: true, inputs: {
+      check: true,
+      inputs: {
         title: inputTitle,
         description: inputDescription,
         dueDate: inputDate,
         priority: inputPriority,
-        
-    }};
+      },
+    };
   }
-  console.log("Input is missing something, do nothing for now");  
-  return {check: false};
-
+  console.log("Input is missing something, do nothing for now");
+  return { check: false };
 }
-
 
 // gets/checks user input for new project and calls function to create new
 function createProject(projectManager) {
   const userInput = document.getElementById("input-project-name").value;
   const cleanedInput = userInput.trim();
-  if(cleanedInput.length > 0) {
+  if (cleanedInput.length > 0) {
     // create project
     projectManager.addProject(cleanedInput);
     renderProject(projectManager);
@@ -306,4 +260,14 @@ function renderProject(projectManager) {
   projectList.appendChild(list);
 }
 
-export { initialSetup, createAddProject, createAddToDo };
+export {
+  initialSetup,
+  createAddProject,
+  createAddToDo,
+  createInputProject,
+  createProject,
+  cancelInputProject,
+  createInputToDo,
+  validateInputToDo,
+  cancelInputToDo,
+};
