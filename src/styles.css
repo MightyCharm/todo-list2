@@ -157,7 +157,7 @@ main {
 .card-todo {
   grid-template-areas:
     "todo-dueDate todo-priority todo-done"
-    "todo-title todo-title todo-trash";
+    "todo-title todo-title btn-todo-trash";
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -167,7 +167,7 @@ main {
   grid-template-areas:
     "todo-dueDate todo-priority todo-done"
     "todo-title todo-title todo-title"
-    "todo-description todo-description todo-trash";
+    "todo-description todo-description btn-todo-trash";
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -177,9 +177,9 @@ main {
   grid-area: todo-dueDate;
 }
 
-.todo-title {
-  grid-area: todo-title;
-  font-weight: bold;
+
+.todo-priority {
+  grid-area: todo-priority;
 }
 
 .todo-done {
@@ -188,23 +188,26 @@ main {
   width: 20px;
   height: 20px;
   justify-self: end;
+
 }
 
-.todo-priority {
-  grid-area: todo-priority;
+.todo-title {
+  grid-area: todo-title;
+  font-weight: bold;
 }
 
 .todo-description {
   grid-area: todo-description;
 }
 
-.todo-trash {
-  grid-area: todo-trash;
+.btn-todo-trash {
+  grid-area: btn-todo-trash;
   justify-self: end;
   align-self: end;
   border: none;
   width: 20px;
   height: 20px;
+
 }
 
 .card-create-todo {

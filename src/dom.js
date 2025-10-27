@@ -1,3 +1,5 @@
+
+
 const projectList = document.getElementById("project-list");
 const containerToDos = document.getElementById("container-todos");
 
@@ -173,7 +175,73 @@ function createInputToDo(projectManager) {
 }
 
 // create a new todo
-function renderToDo(projectManager) {}
+function renderToDo(projectManager, idToDo) {
+  const cardCreateToDo = document.getElementById("card-create-todo");
+  if(cardCreateToDo) {
+    cardCreateToDo.remove();
+  }
+  console.log(projectManager);
+  // here <---
+  const project = projectManager.getActiveProject();
+  const todo = project.getToDo(idToDo);
+  console.log(todo);
+  console.log(todo.id);
+  // create todo
+
+  const article = document.createElement("article");
+  const pDueDate = document.createElement("p");
+  const pTitle = document.createElement("p");
+  const checkDone = document.createElement("input");
+  const selectPriority = document.createElement("select");
+  const optionLow = document.createElement("option");
+  const optionNormal = document.createElement("option");
+  const optionHigh = document.createElement("option");
+  const pDescription = document.createElement("p");
+  const btnTrash = document.createElement("button");
+  const iconTrash = document.createElement("i");
+
+  article.id = todo.id; 
+  article.classList.add("card", "card-todo");
+  pDueDate.classList.add("todo-dueDate");
+  pTitle.classList.add("todo-title");
+  checkDone.id = `checkbox-done-${todo.id}`;
+  checkDone.classList.add("todo-done");
+  checkDone.type = "checkbox";
+  checkDone.name = "done";
+  checkDone.value = "done";
+  selectPriority.id = `select-priority-${todo.id}`;
+  selectPriority.classList.add("todo-priority");
+  selectPriority.name = "priority";
+  pDescription.classList.add("todo-description", "is-hidden");
+  btnTrash.id = `btn-todo-trash-${todo.id}`
+  btnTrash.classList.add("btn-todo-trash");
+  iconTrash.classList.add("fas", "fa-trash");
+
+  pDueDate.textContent = `Due: ${todo.dueDate}`;
+  pTitle.textContent = todo.title;
+  optionLow.value = "low";
+  optionLow.textContent = "LOW";
+  optionNormal.value = "normal";
+  optionNormal.textContent = "NORMAL";
+  optionHigh.value = "high";
+  optionHigh.textContent = "HIGH";
+  pDescription.textContent = todo.description;
+  
+
+  selectPriority.appendChild(optionLow);
+  selectPriority.appendChild(optionNormal);
+  selectPriority.appendChild(optionHigh);
+  btnTrash.appendChild(iconTrash);
+
+  article.appendChild(pDueDate);
+  article.appendChild(selectPriority);
+  article.appendChild(checkDone);
+  article.appendChild(pTitle);
+  article.appendChild(pDescription);
+  article.appendChild(btnTrash);
+
+  containerToDos.appendChild(article);
+}
 
 function cancelInputProject(projectManager) {
   // remove input
@@ -203,13 +271,6 @@ function validateInputToDo() {
   const inputPriority = priority.value;
   const inputTitle = title.value.trim();
   const inputDescription = description.value.trim();
-
-  console.log(`date: ${inputDate}  length: ${inputDate.length}`);
-  console.log(`priority: ${inputPriority} length: ${inputPriority.length}`);
-  console.log(`title ${inputTitle} length: ${inputTitle.length}`);
-  console.log(
-    `description: ${inputDescription} length: ${inputDescription.length}`
-  );
 
   // good values: create todo
   if (inputDate && inputTitle && inputDescription) {
@@ -269,5 +330,6 @@ export {
   cancelInputProject,
   createInputToDo,
   validateInputToDo,
+  renderToDo,
   cancelInputToDo,
 };

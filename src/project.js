@@ -14,7 +14,7 @@ class Project {
   addToDo(title, description, dueDate, priority) {
     const todo = new ToDo(title, description, dueDate, priority);
     this.todos.push(todo);
-    // return todo.id;
+    return todo.id;
   }
 
   removeToDo(id) {

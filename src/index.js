@@ -8,6 +8,7 @@ import {
   cancelInputProject,
   createInputToDo,
   validateInputToDo,
+  renderToDo,
   cancelInputToDo,
 } from "./dom.js";
 import "./styles.css";
@@ -19,7 +20,6 @@ container.addEventListener("click", (event) => {
   // console.log(event.target.closest("button"));
   const element = event.target.closest("button");
   if(!element) {
-    console.log(element);
     return;
   }
   const id = element.id;
@@ -41,17 +41,15 @@ container.addEventListener("click", (event) => {
     case "btn-confirm-todo":
       const validation = validateInputToDo();
       if (validation.check) {
-        console.log("validation was successful");
         const title = validation.inputs.title;
         const description = validation.inputs.description;
         const dueDate = validation.inputs.dueDate;
         const priority = validation.inputs.priority;
         const project = projectManager.getActiveProject();
-        console.log(project);
-        project.addToDo(title, description, dueDate, priority, project);
-        console.log(projectManager.getActiveProject());
+        const idToDo = project.addToDo(title, description, dueDate, priority, project);
 
-        renderToDo(projectManager);
+        renderToDo(projectManager, idToDo);
+        createAddToDo(projectManager);
       }
       break;
     case "btn-cancel-todo":
@@ -61,14 +59,6 @@ container.addEventListener("click", (event) => {
       console.log("Something went wrong. switch statement, index.js");
   }
 });
-
-/*
-function addToDo(title, description, dueDate, priority) {
-  const project = projectManager.getActiveProject();
-  project.addToDo(title, description, dueDate, priority);
-  console.log(projectManager.getActiveProject());
-}
-  */
 
 const projectManager = new ProjectManager();
 initialSetup(projectManager);
