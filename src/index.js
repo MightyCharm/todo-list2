@@ -1,20 +1,11 @@
 import { ProjectManager } from "./project-manager.js";
-import {
-  initialSetup,
-  renderAddProjectButton,
-  renderAddToDoButton,
-  renderProjectForm,
-  renderToDoForm,
-  cancelProjectForm,
-  cancelToDoForm,
-  validateInputToDo,
-  createProject,
-  renderToDo,
-} from "./dom.js";
+import { DOMHandler } from "./dom.js";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 const container = document.getElementById("main-container");
+const domHandler = new DOMHandler();
+console.log(domHandler);
 
 container.addEventListener("click", (event) => {
   // console.log(event.target.closest("button"));
@@ -26,20 +17,20 @@ container.addEventListener("click", (event) => {
   console.log(id);
   switch (id) {
     case "btn-add-project":
-      renderProjectForm(projectManager);
+      domHandler.renderProjectForm(projectManager);
       break;
     case "btn-confirm-project":
-      createProject(projectManager);
-      renderAddProjectButton(projectManager);
+      domHandler.createProject(projectManager);
+      domHandler.renderAddProjectButton(projectManager);
       break;
     case "btn-cancel-project":
-      cancelProjectForm(projectManager);
+      domHandler.cancelProjectForm(projectManager);
       break;
     case "btn-add-todo":
-      renderToDoForm(projectManager);
+      domHandler.renderToDoForm(projectManager);
       break;
     case "btn-confirm-todo":
-      const validation = validateInputToDo();
+      const validation = domHandler.validateInputToDo();
       if (validation.check) {
         const title = validation.inputs.title;
         const description = validation.inputs.description;
@@ -54,12 +45,12 @@ container.addEventListener("click", (event) => {
           project
         );
 
-        renderToDo(projectManager, idToDo);
-        renderAddToDoButton(projectManager);
+        domHandler.renderToDo(projectManager, idToDo);
+        domHandler.renderAddToDoButton(projectManager);
       }
       break;
     case "btn-cancel-todo":
-      cancelToDoForm(projectManager);
+      domHandler.cancelToDoForm(projectManager);
       break;
     default:
       console.log("Something went wrong. switch statement, index.js");
@@ -67,6 +58,6 @@ container.addEventListener("click", (event) => {
 });
 
 const projectManager = new ProjectManager();
-initialSetup(projectManager);
-renderAddProjectButton(projectManager);
-renderAddToDoButton(projectManager);
+domHandler.initialSetup(projectManager);
+domHandler.renderAddProjectButton(projectManager);
+domHandler.renderAddToDoButton(projectManager);
