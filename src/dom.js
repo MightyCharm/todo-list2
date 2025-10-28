@@ -1,5 +1,3 @@
-
-
 const projectList = document.getElementById("project-list");
 const containerToDos = document.getElementById("container-todos");
 
@@ -8,7 +6,7 @@ function initialSetup(projectManager) {
 }
 
 // create button New + for project
-function createAddProject(projectManager) {
+function renderAddProjectButton(projectManager) {
   const listProjectName = document.getElementById("li-project-name");
   if (listProjectName) {
     listProjectName.remove();
@@ -31,8 +29,23 @@ function createAddProject(projectManager) {
   projectList.appendChild(list);
 }
 
+// creates button New + for todos
+function renderAddToDoButton(projectManager) {
+  const button = document.createElement("button");
+  const icon = document.createElement("i");
+
+  button.id = "btn-add-todo";
+  button.classList.add("btn-add-todo");
+  icon.classList.add("fas", "fa-plus-circle");
+
+  button.textContent = "New";
+
+  button.appendChild(icon);
+  containerToDos.appendChild(button);
+}
+
 // creates form so user can enter name for new project
-function createInputProject(projectManager) {
+function renderProjectForm(projectManager) {
   const listAddProject = document.getElementById("li-add-project");
   if (listAddProject) {
     listAddProject.remove();
@@ -67,23 +80,9 @@ function createInputProject(projectManager) {
   projectList.appendChild(list);
 }
 
-// creates button New + for todos
-function createAddToDo(projectManager) {
-  const button = document.createElement("button");
-  const icon = document.createElement("i");
-
-  button.id = "btn-add-todo";
-  button.classList.add("btn-add-todo");
-  icon.classList.add("fas", "fa-plus-circle");
-
-  button.textContent = "New";
-
-  button.appendChild(icon);
-  containerToDos.appendChild(button);
-}
 
 // creates form so user can enter data for a new todo
-function createInputToDo(projectManager) {
+function renderToDoForm(projectManager) {
   const btnAddToDo = document.getElementById("btn-add-todo");
   if (btnAddToDo) {
     btnAddToDo.remove();
@@ -177,7 +176,7 @@ function createInputToDo(projectManager) {
 // create a new todo
 function renderToDo(projectManager, idToDo) {
   const cardCreateToDo = document.getElementById("card-create-todo");
-  if(cardCreateToDo) {
+  if (cardCreateToDo) {
     cardCreateToDo.remove();
   }
   console.log(projectManager);
@@ -200,7 +199,7 @@ function renderToDo(projectManager, idToDo) {
   const btnTrash = document.createElement("button");
   const iconTrash = document.createElement("i");
 
-  article.id = todo.id; 
+  article.id = todo.id;
   article.classList.add("card", "card-todo");
   pDueDate.classList.add("todo-dueDate");
   pTitle.classList.add("todo-title");
@@ -213,7 +212,7 @@ function renderToDo(projectManager, idToDo) {
   selectPriority.classList.add("todo-priority");
   selectPriority.name = "priority";
   pDescription.classList.add("todo-description", "is-hidden");
-  btnTrash.id = `btn-todo-trash-${todo.id}`
+  btnTrash.id = `btn-todo-trash-${todo.id}`;
   btnTrash.classList.add("btn-todo-trash");
   iconTrash.classList.add("fas", "fa-trash");
 
@@ -226,7 +225,6 @@ function renderToDo(projectManager, idToDo) {
   optionHigh.value = "high";
   optionHigh.textContent = "HIGH";
   pDescription.textContent = todo.description;
-  
 
   selectPriority.appendChild(optionLow);
   selectPriority.appendChild(optionNormal);
@@ -243,22 +241,21 @@ function renderToDo(projectManager, idToDo) {
   containerToDos.appendChild(article);
 }
 
-function cancelInputProject(projectManager) {
-  // remove input
+function cancelProjectForm(projectManager) {
   const listProjectName = document.getElementById("li-project-name");
   if (listProjectName) {
     listProjectName.remove();
   }
   // add project button
-  createAddProject(projectManager);
+  renderAddProjectButton(projectManager);
 }
 
-function cancelInputToDo(projectManager) {
+function cancelToDoForm(projectManager) {
   const cardCreateToDo = document.getElementById("card-create-todo");
   if (cardCreateToDo) {
     cardCreateToDo.remove();
   }
-  createAddToDo(projectManager);
+  renderAddToDoButton(projectManager);
 }
 
 function validateInputToDo() {
@@ -288,7 +285,7 @@ function validateInputToDo() {
   return { check: false };
 }
 
-// gets/checks user input for new project and calls function to create new
+
 function createProject(projectManager) {
   const userInput = document.getElementById("input-project-name").value;
   const cleanedInput = userInput.trim();
@@ -301,7 +298,6 @@ function createProject(projectManager) {
   }
 }
 
-// create a new project
 function renderProject(projectManager) {
   const project = projectManager.getActiveProject();
   const listProjectName = document.getElementById("li-project-name");
@@ -323,13 +319,14 @@ function renderProject(projectManager) {
 
 export {
   initialSetup,
-  createAddProject,
-  createAddToDo,
-  createInputProject,
-  createProject,
-  cancelInputProject,
-  createInputToDo,
-  validateInputToDo,
+  renderAddProjectButton,
+  renderAddToDoButton,
+  renderProjectForm,
+  renderToDoForm,
   renderToDo,
-  cancelInputToDo,
+  createProject,
+  cancelToDoForm,
+  cancelProjectForm,
+  
+  validateInputToDo,
 };
