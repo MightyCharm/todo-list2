@@ -1,8 +1,11 @@
 class DOMHandler {
+  #isFormOpen = false;
+
   constructor(projectList, containerToDos, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
+    
   }
 
   initialSetup() {
@@ -297,6 +300,14 @@ class DOMHandler {
       element.remove();
       console.log(`element: ${element} was removed`);
     }
+  }
+
+  getIsFormOpen() {
+    return this.#isFormOpen;
+  }
+
+  setIsFormOpen() {
+    this.#isFormOpen = !this.#isFormOpen;
   }
 }
 

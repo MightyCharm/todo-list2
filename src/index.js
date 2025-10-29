@@ -9,8 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const containerToDos = document.getElementById("container-todos");
 
   const projectManager = new ProjectManager();
-  const domHandler = new DOMHandler(projectList, containerToDos, projectManager);
-
+  const domHandler = new DOMHandler(
+    projectList,
+    containerToDos,
+    projectManager
+  );
+  console.log("=>" + domHandler.isFormOpen);
   container.addEventListener("click", (event) => {
     const element = event.target.closest("button");
     if (!element) {
@@ -20,21 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(id);
     switch (id) {
       case "btn-add-project":
+        if (domHandler.getIsFormOpen()) return;
+        domHandler.setIsFormOpen();
         domHandler.renderProjectForm();
         break;
       case "btn-confirm-project":
+        domHandler.setIsFormOpen();
         domHandler.createProject();
         domHandler.renderAddProjectButton();
         break;
       case "btn-cancel-project":
+        domHandler.setIsFormOpen();
         domHandler.cancelProjectForm();
         break;
       case "btn-add-todo":
+        if (domHandler.getIsFormOpen()) return;
+        domHandler.setIsFormOpen();
         domHandler.renderToDoForm();
         break;
       case "btn-confirm-todo":
         const validation = domHandler.validateInputToDo();
         if (validation.check) {
+          domHandler.setIsFormOpen();
           const title = validation.inputs.title;
           const description = validation.inputs.description;
           const dueDate = validation.inputs.dueDate;
@@ -53,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
       case "btn-cancel-todo":
+        domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
         break;
       default:
