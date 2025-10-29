@@ -9,10 +9,7 @@ class DOMHandler {
   }
 
   renderAddProjectButton(projectManager) {
-    const listProjectName = document.getElementById("li-project-name");
-    if (listProjectName) {
-      listProjectName.remove();
-    }
+    this.removeElement("li-project-name");
 
     const list = document.createElement("li");
     const button = document.createElement("button");
@@ -46,10 +43,7 @@ class DOMHandler {
   }
 
   renderProjectForm(projectManager) {
-    const listAddProject = document.getElementById("li-add-project");
-    if (listAddProject) {
-      listAddProject.remove();
-    }
+    this.removeElement("li-add-project");
 
     const list = document.createElement("li");
     const input = document.createElement("input");
@@ -81,10 +75,7 @@ class DOMHandler {
   }
 
   renderToDoForm(projectManager) {
-    const btnAddToDo = document.getElementById("btn-add-todo");
-    if (btnAddToDo) {
-      btnAddToDo.remove();
-    }
+    this.removeElement("btn-add-todo");
 
     const article = document.createElement("article");
     const inputDate = document.createElement("input");
@@ -172,12 +163,8 @@ class DOMHandler {
   }
 
   renderToDo(projectManager, idToDo) {
-    const cardCreateToDo = document.getElementById("card-create-todo");
-    if (cardCreateToDo) {
-      cardCreateToDo.remove();
-    }
-    console.log(projectManager);
-    // here <---
+    this.removeElement("card-create-todo");
+    
     const project = projectManager.getActiveProject();
     const todo = project.getToDo(idToDo);
     console.log(todo);
@@ -239,19 +226,12 @@ class DOMHandler {
   }
 
   cancelProjectForm(projectManager) {
-    const listProjectName = document.getElementById("li-project-name");
-    if (listProjectName) {
-      listProjectName.remove();
-    }
-    // add project button
+    this.removeElement("li-project-name");
     this.renderAddProjectButton(projectManager);
   }
 
   cancelToDoForm(projectManager) {
-    const cardCreateToDo = document.getElementById("card-create-todo");
-    if (cardCreateToDo) {
-      cardCreateToDo.remove();
-    }
+    this.removeElement("card-create-todo");
     this.renderAddToDoButton(projectManager);
   }
 
@@ -296,11 +276,8 @@ class DOMHandler {
 
   renderProject(projectManager) {
     const project = projectManager.getActiveProject();
-    const listProjectName = document.getElementById("li-project-name");
-    // remove "li-project-name"
-    if (listProjectName) {
-      listProjectName.remove();
-    }
+    this.removeElement("li-project-name");
+
     const list = document.createElement("li");
     const button = document.createElement("button");
 
@@ -311,6 +288,14 @@ class DOMHandler {
 
     list.appendChild(button);
     this.projectList.appendChild(list);
+  }
+
+  removeElement(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.remove();
+      console.log(`element: ${element} was removed`);
+    }
   }
 }
 
