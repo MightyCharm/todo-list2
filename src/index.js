@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     containerToDos,
     projectManager
   );
-  console.log("=>" + domHandler.isFormOpen);
   container.addEventListener("click", (event) => {
     const element = event.target.closest("button");
     if (!element) {
@@ -29,9 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.renderProjectForm();
         break;
       case "btn-confirm-project":
-        domHandler.setIsFormOpen();
-        domHandler.createProject();
-        domHandler.renderAddProjectButton();
+        const validationProject = domHandler.validationInputProject();
+        if (validationProject.check) {
+          domHandler.setIsFormOpen();
+          domHandler.createProject();
+          domHandler.renderAddProjectButton();
+        }
         break;
       case "btn-cancel-project":
         domHandler.setIsFormOpen();
@@ -43,13 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.renderToDoForm();
         break;
       case "btn-confirm-todo":
-        const validation = domHandler.validateInputToDo();
-        if (validation.check) {
+        const validationToDo = domHandler.validateInputToDo();
+        if (validationToDo.check) {
           domHandler.setIsFormOpen();
-          const title = validation.inputs.title;
-          const description = validation.inputs.description;
-          const dueDate = validation.inputs.dueDate;
-          const priority = validation.inputs.priority;
+          const title = validationToDo.inputs.title;
+          const description = validationToDo.inputs.description;
+          const dueDate = validationToDo.inputs.dueDate;
+          const priority = validationToDo.inputs.priority;
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(
             title,

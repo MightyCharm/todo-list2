@@ -5,7 +5,6 @@ class DOMHandler {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
-    
   }
 
   initialSetup() {
@@ -168,12 +167,8 @@ class DOMHandler {
 
   renderToDo(idToDo) {
     this.removeElement("card-create-todo");
-    console.log("-----> idToDo" + idToDo)
     const project = this.projectManager.getActiveProject();
-    console.log(project);
     const todo = project.getToDo(idToDo);
-    console.log(todo);
-    console.log(todo.id)
 
     const article = document.createElement("article");
     const pDueDate = document.createElement("p");
@@ -239,6 +234,19 @@ class DOMHandler {
     this.renderAddToDoButton();
   }
 
+  validationInputProject() {
+    const name = document.getElementById("input-project-name");
+    const inputName = name.value.trim();
+    if (inputName.length > 0) {
+      return {
+        check: true,
+        name: inputName,
+      };
+    }
+    console.log("Input Form Project is missing something.");
+    return { check: false };
+  }
+
   validateInputToDo() {
     const date = document.getElementById("create-todo-date");
     const priority = document.getElementById("create-todo-priority");
@@ -251,7 +259,7 @@ class DOMHandler {
     const inputDescription = description.value.trim();
 
     // good values: create todo
-    if (inputDate && inputTitle && inputDescription) {
+    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
       return {
         check: true,
         inputs: {
