@@ -1,14 +1,15 @@
 class DOMHandler {
-  constructor(projectList, containerToDos) {
+  constructor(projectList, containerToDos, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
+    this.projectManager = projectManager;
   }
 
-  initialSetup(projectManager) {
-    this.renderProject(projectManager);
+  initialSetup() {
+    this.renderProject();
   }
 
-  renderAddProjectButton(projectManager) {
+  renderAddProjectButton() {
     this.removeElement("li-project-name");
 
     const list = document.createElement("li");
@@ -28,7 +29,7 @@ class DOMHandler {
     this.projectList.appendChild(list);
   }
 
-  renderAddToDoButton(projectManager) {
+  renderAddToDoButton() {
     const button = document.createElement("button");
     const icon = document.createElement("i");
 
@@ -42,7 +43,7 @@ class DOMHandler {
     this.containerToDos.appendChild(button);
   }
 
-  renderProjectForm(projectManager) {
+  renderProjectForm() {
     this.removeElement("li-add-project");
 
     const list = document.createElement("li");
@@ -74,7 +75,7 @@ class DOMHandler {
     this.projectList.appendChild(list);
   }
 
-  renderToDoForm(projectManager) {
+  renderToDoForm() {
     this.removeElement("btn-add-todo");
 
     const article = document.createElement("article");
@@ -162,14 +163,14 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
   }
 
-  renderToDo(projectManager, idToDo) {
+  renderToDo(idToDo) {
     this.removeElement("card-create-todo");
-    
-    const project = projectManager.getActiveProject();
+    console.log("-----> idToDo" + idToDo)
+    const project = this.projectManager.getActiveProject();
+    console.log(project);
     const todo = project.getToDo(idToDo);
     console.log(todo);
-    console.log(todo.id);
-    // create todo
+    console.log(todo.id)
 
     const article = document.createElement("article");
     const pDueDate = document.createElement("p");
@@ -225,14 +226,14 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
   }
 
-  cancelProjectForm(projectManager) {
+  cancelProjectForm() {
     this.removeElement("li-project-name");
-    this.renderAddProjectButton(projectManager);
+    this.renderAddProjectButton();
   }
 
-  cancelToDoForm(projectManager) {
+  cancelToDoForm() {
     this.removeElement("card-create-todo");
-    this.renderAddToDoButton(projectManager);
+    this.renderAddToDoButton();
   }
 
   validateInputToDo() {
@@ -262,20 +263,20 @@ class DOMHandler {
     return { check: false };
   }
 
-  createProject(projectManager) {
+  createProject() {
     const userInput = document.getElementById("input-project-name").value;
     const cleanedInput = userInput.trim();
     if (cleanedInput.length > 0) {
       // create project
-      projectManager.addProject(cleanedInput);
-      this.renderProject(projectManager);
+      this.projectManager.addProject(cleanedInput);
+      this.renderProject();
     } else {
       console.log("Please enter valid Project Name");
     }
   }
 
-  renderProject(projectManager) {
-    const project = projectManager.getActiveProject();
+  renderProject() {
+    const project = this.projectManager.getActiveProject();
     this.removeElement("li-project-name");
 
     const list = document.createElement("li");

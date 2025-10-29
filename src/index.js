@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectList = document.getElementById("project-list");
   const containerToDos = document.getElementById("container-todos");
 
-  const domHandler = new DOMHandler(projectList, containerToDos);
+  const projectManager = new ProjectManager();
+  const domHandler = new DOMHandler(projectList, containerToDos, projectManager);
 
   container.addEventListener("click", (event) => {
-    // console.log(event.target.closest("button"));
     const element = event.target.closest("button");
     if (!element) {
       return;
@@ -20,17 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(id);
     switch (id) {
       case "btn-add-project":
-        domHandler.renderProjectForm(projectManager);
+        domHandler.renderProjectForm();
         break;
       case "btn-confirm-project":
-        domHandler.createProject(projectManager);
-        domHandler.renderAddProjectButton(projectManager);
+        domHandler.createProject();
+        domHandler.renderAddProjectButton();
         break;
       case "btn-cancel-project":
-        domHandler.cancelProjectForm(projectManager);
+        domHandler.cancelProjectForm();
         break;
       case "btn-add-todo":
-        domHandler.renderToDoForm(projectManager);
+        domHandler.renderToDoForm();
         break;
       case "btn-confirm-todo":
         const validation = domHandler.validateInputToDo();
@@ -48,20 +48,19 @@ document.addEventListener("DOMContentLoaded", () => {
             project
           );
 
-          domHandler.renderToDo(projectManager, idToDo);
-          domHandler.renderAddToDoButton(projectManager);
+          domHandler.renderToDo(idToDo);
+          domHandler.renderAddToDoButton();
         }
         break;
       case "btn-cancel-todo":
-        domHandler.cancelToDoForm(projectManager);
+        domHandler.cancelToDoForm();
         break;
       default:
         console.log("Something went wrong. switch statement, index.js");
     }
   });
 
-  const projectManager = new ProjectManager();
-  domHandler.initialSetup(projectManager);
-  domHandler.renderAddProjectButton(projectManager);
-  domHandler.renderAddToDoButton(projectManager);
+  domHandler.initialSetup();
+  domHandler.renderAddProjectButton();
+  domHandler.renderAddToDoButton();
 });
