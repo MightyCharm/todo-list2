@@ -1,11 +1,11 @@
 class DOMHandler {
-  constructor() {
-    this.projectList = document.getElementById("project-list");
-    this.containerToDos = document.getElementById("container-todos");
+  constructor(projectList, containerToDos) {
+    this.projectList = projectList;
+    this.containerToDos = containerToDos;
   }
 
   initialSetup(projectManager) {
-    this.renderProjectForm(projectManager);
+    this.renderProject(projectManager);
   }
 
   renderAddProjectButton(projectManager) {
