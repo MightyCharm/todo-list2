@@ -14,14 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
     containerToDos,
     projectManager
   );
+  
+  domHandler.initialSetup();
+  domHandler.highlightActiveProject();
+  domHandler.renderAddProjectButton();
+  domHandler.renderAddToDoButton();
   container.addEventListener("click", (event) => {
     const element = event.target.closest("button");
     if (!element) {
       return;
     }
+    const role = element.dataset.role;
     const id = element.id;
-    console.log(id);
-    switch (id) {
+
+    switch (role) {
       case "btn-add-project":
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
@@ -32,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (validationProject.check) {
           domHandler.setIsFormOpen();
           domHandler.createProject();
+          domHandler.highlightActiveProject(); // <======
           domHandler.renderAddProjectButton();
         }
         break;
@@ -69,12 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
         break;
+      case "btn-project":
+        console.log("inside switch for button project");
+        projectManager.switchActiveProject(id);
+        domHandler.highlightActiveProject();
+        break;
       default:
         console.log("Something went wrong. switch statement, index.js");
     }
   });
-
-  domHandler.initialSetup();
-  domHandler.renderAddProjectButton();
-  domHandler.renderAddToDoButton();
 });

@@ -312,6 +312,12 @@ main {
   text-decoration: underline;
 }
 
+.activeProject {
+  font-weight: bold;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(215, 83%, 50%);
+}
+
 @media (max-width: 480px) {
   body {
     /* border: 1px solid red; */

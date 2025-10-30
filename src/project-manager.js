@@ -32,7 +32,7 @@ class ProjectManager {
       return;
     }
     this.activeProject = project;
-    console.log("switch project successful");
+    console.log(`switch to project ${project.getName()} successful`);
   }
 
   getProjects() {

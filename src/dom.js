@@ -4,7 +4,7 @@ class DOMHandler {
   constructor(projectList, containerToDos, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
-    this.projectManager = projectManager;
+    this.projectManager = projectManager; // <========
   }
 
   initialSetup() {
@@ -22,6 +22,7 @@ class DOMHandler {
     list.classList.add("li-project");
     button.id = "btn-add-project";
     button.classList.add("btn-add-project");
+    button.setAttribute("data-role", "btn-add-project");
     icon.classList.add("fas", "fa-plus-circle");
 
     button.textContent = "NEW";
@@ -37,6 +38,7 @@ class DOMHandler {
 
     button.id = "btn-add-todo";
     button.classList.add("btn-add-todo");
+    button.setAttribute("data-role", "btn-add-todo");
     icon.classList.add("fas", "fa-plus-circle");
 
     button.textContent = "New";
@@ -67,6 +69,9 @@ class DOMHandler {
     btnCancel.classList.add("btn-cancel-project");
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
+
+    btnConfirm.setAttribute("data-role", "btn-confirm-project");
+    btnCancel.setAttribute("data-role", "btn-cancel-project");
 
     btnConfirm.appendChild(iconConfirm);
     btnCancel.appendChild(iconCancel);
@@ -137,8 +142,14 @@ class DOMHandler {
     divButtons.classList.add("create-todo-buttons");
     buttonConfirm.id = "btn-confirm-todo";
     buttonConfirm.classList.add("btn-confirm-todo");
+
+    buttonConfirm.setAttribute("data-role", "btn-confirm-todo");
+
     buttonCancel.id = "btn-cancel-todo";
     buttonCancel.classList.add("btn-cancel-todo");
+
+    buttonCancel.setAttribute("data-role", "btn-cancel-todo");
+
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
@@ -163,6 +174,35 @@ class DOMHandler {
     article.appendChild(divButtons);
 
     this.containerToDos.appendChild(article);
+  }
+
+  createProject() {
+    const userInput = document.getElementById("input-project-name").value;
+    const cleanedInput = userInput.trim();
+    if (cleanedInput.length > 0) {
+      // create project
+      this.projectManager.addProject(cleanedInput);
+      this.renderProject();
+    } else {
+      console.log("Please enter valid Project Name");
+    }
+  }
+
+  renderProject() {
+    const project = this.projectManager.getActiveProject();
+    this.removeElement("li-project-name");
+
+    const list = document.createElement("li");
+    const button = document.createElement("button");
+
+    list.classList.add("li-project");
+    button.id = project.getId();
+    button.classList.add("btn-project");
+    button.setAttribute("data-role", "btn-project");
+    button.textContent = project.getName();
+
+    list.appendChild(button);
+    this.projectList.appendChild(list);
   }
 
   renderToDo(idToDo) {
@@ -274,34 +314,6 @@ class DOMHandler {
     return { check: false };
   }
 
-  createProject() {
-    const userInput = document.getElementById("input-project-name").value;
-    const cleanedInput = userInput.trim();
-    if (cleanedInput.length > 0) {
-      // create project
-      this.projectManager.addProject(cleanedInput);
-      this.renderProject();
-    } else {
-      console.log("Please enter valid Project Name");
-    }
-  }
-
-  renderProject() {
-    const project = this.projectManager.getActiveProject();
-    this.removeElement("li-project-name");
-
-    const list = document.createElement("li");
-    const button = document.createElement("button");
-
-    list.classList.add("li-project");
-    button.id = project.getId();
-    button.classList.add("btn-project");
-    button.textContent = project.getName();
-
-    list.appendChild(button);
-    this.projectList.appendChild(list);
-  }
-
   removeElement(id) {
     const element = document.getElementById(id);
     if (element) {
@@ -316,6 +328,17 @@ class DOMHandler {
 
   setIsFormOpen() {
     this.#isFormOpen = !this.#isFormOpen;
+  }
+
+  highlightActiveProject() {
+    // remove class for all buttons
+    const allButtonsProject = document.querySelectorAll(".btn-project");
+    allButtonsProject.forEach((btn) => {
+      btn.classList.remove("activeProject");
+    })
+    const id = this.projectManager.getActiveProject().getId();
+    const buttonProject = document.getElementById(id);  
+    buttonProject.classList.add("activeProject");
   }
 }
 
