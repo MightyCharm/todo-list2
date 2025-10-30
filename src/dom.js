@@ -186,14 +186,12 @@ class DOMHandler {
       };
     }
     console.log("Input Form Project is missing something.");
-    return { check: false, name: null }
+    return { check: false, name: null };
   }
 
-  createProject(projectName) {
-    console.log("create project")
-      // create project
-      this.projectManager.addProject(projectName);
-      this.renderProject();
+  createProject() {
+    console.log("create project");
+    this.renderProject();
   }
 
   renderProject() {
@@ -329,9 +327,9 @@ class DOMHandler {
     const allButtonsProject = document.querySelectorAll(".btn-project");
     allButtonsProject.forEach((btn) => {
       btn.classList.remove("activeProject");
-    })
+    });
     const id = this.projectManager.getActiveProject().getId();
-    const buttonProject = document.getElementById(id);  
+    const buttonProject = document.getElementById(id);
     buttonProject.classList.add("activeProject");
   }
 }

@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-project");
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
+          projectManager.addProject(validationProject.name);
           domHandler.setIsFormOpen();
-          domHandler.createProject(validationProject.name);
+          domHandler.createProject();
           domHandler.highlightActiveProject();
           domHandler.renderAddProjectButton();
         }
