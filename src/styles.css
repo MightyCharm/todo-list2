@@ -67,17 +67,29 @@ main,
   width: 100%;
 }
 
+/* ============================== */
 .li-project {
+  display: flex;
   width: 100%;
   height: 45px;
 }
 
 .btn-project {
+  flex: 5;
   width: 100%;
-  height: 100%;
   border: none;
   background-color: hsl(240, 2%, 82%);
 }
+
+.btn-project-trash {
+  flex: 1;
+  border:none;
+  background-color: hsl(0, 89%, 69%);
+}
+
+
+
+/* ================================= */
 
 .btn-add-project {
   font-weight: bold;

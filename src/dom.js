@@ -189,8 +189,34 @@ class DOMHandler {
     return { check: false, name: null };
   }
 
+  validateInputToDo() {
+    const date = document.getElementById("create-todo-date");
+    const priority = document.getElementById("create-todo-priority");
+    const title = document.getElementById("input-title");
+    const description = document.getElementById("textarea-description");
+
+    const inputDate = date.value;
+    const inputPriority = priority.value;
+    const inputTitle = title.value.trim();
+    const inputDescription = description.value.trim();
+
+    // good values: create todo
+    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
+      return {
+        check: true,
+        inputs: {
+          title: inputTitle,
+          description: inputDescription,
+          dueDate: inputDate,
+          priority: inputPriority,
+        },
+      };
+    }
+    console.log("Input is missing something, do nothing for now");
+    return { check: false };
+  }
+
   createProject() {
-    console.log("create project");
     this.renderProject();
   }
 
@@ -199,15 +225,25 @@ class DOMHandler {
     this.removeElement("li-project-name");
 
     const list = document.createElement("li");
-    const button = document.createElement("button");
+    const buttonProject = document.createElement("button");
+    const buttonTrash = document.createElement("button");
+    const icon = document.createElement("i");
 
     list.classList.add("li-project");
-    button.id = project.getId();
-    button.classList.add("btn-project");
-    button.setAttribute("data-role", "btn-project");
-    button.textContent = project.getName();
+    buttonProject.id = project.getId();
+    buttonProject.classList.add("btn-project");
+    buttonProject.setAttribute("data-role", "btn-project");
+    buttonProject.textContent = project.getName();
 
-    list.appendChild(button);
+    buttonTrash.id = project.getId();
+    buttonTrash.classList.add("btn-project-trash");
+    buttonTrash.setAttribute("data-role", "btn-trash-project");
+    icon.classList.add("fas", "fa-trash");
+
+    buttonTrash.appendChild(icon);
+
+    list.appendChild(buttonProject);
+    list.appendChild(buttonTrash);
     this.projectList.appendChild(list);
   }
 
@@ -278,33 +314,6 @@ class DOMHandler {
   cancelToDoForm() {
     this.removeElement("card-create-todo");
     this.renderAddToDoButton();
-  }
-
-  validateInputToDo() {
-    const date = document.getElementById("create-todo-date");
-    const priority = document.getElementById("create-todo-priority");
-    const title = document.getElementById("input-title");
-    const description = document.getElementById("textarea-description");
-
-    const inputDate = date.value;
-    const inputPriority = priority.value;
-    const inputTitle = title.value.trim();
-    const inputDescription = description.value.trim();
-
-    // good values: create todo
-    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
-      return {
-        check: true,
-        inputs: {
-          title: inputTitle,
-          description: inputDescription,
-          dueDate: inputDate,
-          priority: inputPriority,
-        },
-      };
-    }
-    console.log("Input is missing something, do nothing for now");
-    return { check: false };
   }
 
   removeElement(id) {

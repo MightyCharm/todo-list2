@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     containerToDos,
     projectManager
   );
-  
+
   domHandler.initialSetup();
   domHandler.highlightActiveProject();
   domHandler.renderAddProjectButton();
@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const role = element.dataset.role;
     const id = element.id;
-
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -34,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen();
         domHandler.renderProjectForm();
         break;
+
       case "btn-confirm-project":
         console.log("btn-confirm-project");
         const validationProject = domHandler.validationInputProject();
@@ -45,17 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.renderAddProjectButton();
         }
         break;
+
       case "btn-cancel-project":
         console.log("btn-cancel-project");
         domHandler.setIsFormOpen();
         domHandler.cancelProjectForm();
         break;
+
       case "btn-add-todo":
         console.log("btn-add-todo");
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
         domHandler.renderToDoForm();
         break;
+
       case "btn-confirm-todo":
         console.log("btn-confirm-todo");
         const validationToDo = domHandler.validateInputToDo();
@@ -78,15 +81,21 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.renderAddToDoButton();
         }
         break;
+
       case "btn-cancel-todo":
         console.log("btn-cancel-todo");
         domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
         break;
+
       case "btn-project":
         console.log("btn-project");
         projectManager.switchActiveProject(id);
         domHandler.highlightActiveProject();
+        break;
+
+      case "btn-trash-project":
+        console.log("trash button was clicked, to stuff !");
         break;
       default:
         console.log("Something went wrong. switch statement, index.js");
