@@ -95,7 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-trash-project":
-        console.log("trash button was clicked, to stuff !");
+        console.log("btn-trash-project");
+        const listProject = element.closest("li");
+        const removed = projectManager.removeProject(listProject.id);
+        if (removed) {
+          domHandler.removeElement(listProject.id);
+        }
+        console.log(projectManager.getProjects());
         break;
       default:
         console.log("Something went wrong. switch statement, index.js");

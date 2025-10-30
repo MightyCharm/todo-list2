@@ -229,13 +229,13 @@ class DOMHandler {
     const buttonTrash = document.createElement("button");
     const icon = document.createElement("i");
 
+    list.id = project.getId();
     list.classList.add("li-project");
-    buttonProject.id = project.getId();
     buttonProject.classList.add("btn-project");
     buttonProject.setAttribute("data-role", "btn-project");
     buttonProject.textContent = project.getName();
 
-    buttonTrash.id = project.getId();
+
     buttonTrash.classList.add("btn-project-trash");
     buttonTrash.setAttribute("data-role", "btn-trash-project");
     icon.classList.add("fas", "fa-trash");

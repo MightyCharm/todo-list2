@@ -18,17 +18,18 @@ class ProjectManager {
   removeProject(id) {
     if (id === this.default.id) {
       console.log("You cannot delete the default project.");
-      return;
+      return false;
     }
     this.projects = this.projects.filter((project) => project.id !== id);
     this.activeProject = this.default;
     console.log("Project was removed. Project default was set as active");
+    return true;
   }
 
   switchActiveProject(id) {
     const project = this.projects.find((project) => project.id === id);
     if (!project) {
-      console.log("Project was not found.");
+      console.log("Project couldn't be switched.");
       return;
     }
     this.activeProject = project;
