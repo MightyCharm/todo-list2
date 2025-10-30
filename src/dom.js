@@ -221,8 +221,12 @@ class DOMHandler {
   }
 
   renderProject() {
-    const project = this.projectManager.getActiveProject();
     this.removeElement("li-project-name");
+    const project = this.projectManager.getActiveProject();
+    const projectId = project.getId();
+    const defaultProjectId = this.projectManager.getDefaultProject().getId();
+    
+    
 
     const list = document.createElement("li");
     const buttonProject = document.createElement("button");
@@ -245,6 +249,10 @@ class DOMHandler {
     list.appendChild(buttonProject);
     list.appendChild(buttonTrash);
     this.projectList.appendChild(list);
+
+    if(projectId === defaultProjectId) {
+      buttonTrash.disabled = true;
+    }
   }
 
   renderToDo(idToDo) {
