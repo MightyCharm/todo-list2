@@ -29,29 +29,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switch (role) {
       case "btn-add-project":
+        console.log("btn-add-project");
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
         domHandler.renderProjectForm();
         break;
       case "btn-confirm-project":
+        console.log("btn-confirm-project");
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           domHandler.setIsFormOpen();
-          domHandler.createProject();
-          domHandler.highlightActiveProject(); // <======
+          domHandler.createProject(validationProject.name);
+          domHandler.highlightActiveProject();
           domHandler.renderAddProjectButton();
         }
         break;
       case "btn-cancel-project":
+        console.log("btn-cancel-project");
         domHandler.setIsFormOpen();
         domHandler.cancelProjectForm();
         break;
       case "btn-add-todo":
+        console.log("btn-add-todo");
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
         domHandler.renderToDoForm();
         break;
       case "btn-confirm-todo":
+        console.log("btn-confirm-todo");
         const validationToDo = domHandler.validateInputToDo();
         if (validationToDo.check) {
           domHandler.setIsFormOpen();
@@ -73,11 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
       case "btn-cancel-todo":
+        console.log("btn-cancel-todo");
         domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
         break;
       case "btn-project":
-        console.log("inside switch for button project");
+        console.log("btn-project");
         projectManager.switchActiveProject(id);
         domHandler.highlightActiveProject();
         break;

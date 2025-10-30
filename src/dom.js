@@ -176,16 +176,24 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
   }
 
-  createProject() {
-    const userInput = document.getElementById("input-project-name").value;
-    const cleanedInput = userInput.trim();
-    if (cleanedInput.length > 0) {
-      // create project
-      this.projectManager.addProject(cleanedInput);
-      this.renderProject();
-    } else {
-      console.log("Please enter valid Project Name");
+  validationInputProject() {
+    const name = document.getElementById("input-project-name");
+    const inputName = name.value.trim();
+    if (inputName.length > 0) {
+      return {
+        check: true,
+        name: inputName,
+      };
     }
+    console.log("Input Form Project is missing something.");
+    return { check: false, name: null }
+  }
+
+  createProject(projectName) {
+    console.log("create project")
+      // create project
+      this.projectManager.addProject(projectName);
+      this.renderProject();
   }
 
   renderProject() {
@@ -274,19 +282,6 @@ class DOMHandler {
     this.renderAddToDoButton();
   }
 
-  validationInputProject() {
-    const name = document.getElementById("input-project-name");
-    const inputName = name.value.trim();
-    if (inputName.length > 0) {
-      return {
-        check: true,
-        name: inputName,
-      };
-    }
-    console.log("Input Form Project is missing something.");
-    return { check: false };
-  }
-
   validateInputToDo() {
     const date = document.getElementById("create-todo-date");
     const priority = document.getElementById("create-todo-priority");
@@ -318,7 +313,6 @@ class DOMHandler {
     const element = document.getElementById(id);
     if (element) {
       element.remove();
-      console.log(`element: ${element} was removed`);
     }
   }
 
