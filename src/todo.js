@@ -11,6 +11,10 @@ class ToDo {
       this.id = id;
     }
   }
+
+  getId() {
+    return this.id;
+  }
 }
 
 export { ToDo };

@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-confirm-project":
-        console.log("btn-confirm-project");
+        console.log("btn-confirm-project -> 1.");
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           projectManager.addProject(validationProject.name);
@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.createProject();
           domHandler.highlightActiveProject();
           domHandler.renderAddProjectButton();
+          domHandler.removeToDos();
         }
         break;
 
@@ -93,27 +94,33 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-project":
-        console.log("btn-project");
+        console.log("btn-project -> 2.");
         list = event.target.closest("li");
         id = list.id;
         projectManager.switchActiveProject(id);
         domHandler.highlightActiveProject();
+        domHandler.removeElement("btn-add-todo");
+        domHandler.removeToDos();
+        domHandler.renderActiveProjectToDos();
+
+        domHandler.renderAddToDoButton();
         break;
 
       case "btn-trash-project":
-        console.log("btn-trash-project");
+        console.log("btn-trash-project -> 3");
         list = event.target.closest("li");
         id = list.id;
+        // removed prevents the deletion of default project
         const removed = projectManager.removeProject(list.id);
         if (removed) {
           domHandler.removeElement(list.id);
           domHandler.highlightActiveProject();
+          domHandler.removeToDos();
+          domHandler.renderActiveProjectToDos();
         }
-        console.log(projectManager.getProjects());
         break;
       default:
         console.log("Something went wrong. switch statement, index.js");
     }
-    console.log(projectManager.getActiveProject());
   });
 });

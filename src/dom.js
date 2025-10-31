@@ -4,7 +4,7 @@ class DOMHandler {
   constructor(projectList, containerToDos, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
-    this.projectManager = projectManager; // <========
+    this.projectManager = projectManager;
   }
 
   initialSetup() {
@@ -80,6 +80,11 @@ class DOMHandler {
     list.appendChild(btnCancel);
 
     this.projectList.appendChild(list);
+  }
+
+  cancelProjectForm() {
+    this.removeElement("li-project-name");
+    this.renderAddProjectButton();
   }
 
   renderToDoForm() {
@@ -176,6 +181,11 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
   }
 
+  cancelToDoForm() {
+    this.removeElement("card-create-todo");
+    this.renderAddToDoButton();
+  }
+
   validationInputProject() {
     const name = document.getElementById("input-project-name");
     const inputName = name.value.trim();
@@ -225,8 +235,6 @@ class DOMHandler {
     const project = this.projectManager.getActiveProject();
     const projectId = project.getId();
     const defaultProjectId = this.projectManager.getDefaultProject().getId();
-    
-    
 
     const list = document.createElement("li");
     const buttonProject = document.createElement("button");
@@ -239,7 +247,6 @@ class DOMHandler {
     buttonProject.setAttribute("data-role", "btn-project");
     buttonProject.textContent = project.getName();
 
-
     buttonTrash.classList.add("btn-project-trash");
     buttonTrash.setAttribute("data-role", "btn-trash-project");
     icon.classList.add("fas", "fa-trash");
@@ -250,7 +257,7 @@ class DOMHandler {
     list.appendChild(buttonTrash);
     this.projectList.appendChild(list);
 
-    if(projectId === defaultProjectId) {
+    if (projectId === defaultProjectId) {
       buttonTrash.disabled = true;
     }
   }
@@ -314,14 +321,18 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
   }
 
-  cancelProjectForm() {
-    this.removeElement("li-project-name");
-    this.renderAddProjectButton();
+  renderActiveProjectToDos() {
+    const project = this.projectManager.getActiveProject();
+    const activeProjectTodos = project.getToDos();
+    activeProjectTodos.forEach((todo) => {
+      console.log(todo);
+      const id = todo.getId();
+      this.renderToDo(id);
+    });
   }
 
-  cancelToDoForm() {
-    this.removeElement("card-create-todo");
-    this.renderAddToDoButton();
+  removeToDos() {
+    this.containerToDos.innerHTML = "";
   }
 
   removeElement(id) {
