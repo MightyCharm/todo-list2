@@ -340,13 +340,13 @@ class DOMHandler {
   }
 
   highlightActiveProject() {
-    // remove class for all buttons
     const allButtonsProject = document.querySelectorAll(".btn-project");
     allButtonsProject.forEach((btn) => {
       btn.classList.remove("activeProject");
     });
     const id = this.projectManager.getActiveProject().getId();
-    const buttonProject = document.getElementById(id);
+    const list = document.getElementById(id);
+    const buttonProject = list.querySelector("button[data-role='btn-project']");
     buttonProject.classList.add("activeProject");
   }
 }
