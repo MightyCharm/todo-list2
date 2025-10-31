@@ -19,13 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.highlightActiveProject();
   domHandler.renderAddProjectButton();
   domHandler.renderAddToDoButton();
+
   container.addEventListener("click", (event) => {
-    const element = event.target.closest("button");
-    if (!element) {
+    const button = event.target.closest("button");
+    let list;
+    let id;
+    if (!button) {
       return;
     }
-    const role = element.dataset.role;
-    const id = element.id;
+
+    const role = button.dataset.role;
+
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -90,16 +94,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-project":
         console.log("btn-project");
+        list = event.target.closest("li");
+        id = list.id;
         projectManager.switchActiveProject(id);
         domHandler.highlightActiveProject();
         break;
 
       case "btn-trash-project":
         console.log("btn-trash-project");
-        const listProject = element.closest("li");
-        const removed = projectManager.removeProject(listProject.id);
+        list = event.target.closest("li");
+        id = list.id;
+        const removed = projectManager.removeProject(list.id);
         if (removed) {
-          domHandler.removeElement(listProject.id);
+          domHandler.removeElement(list.id);
         }
         console.log(projectManager.getProjects());
         break;
