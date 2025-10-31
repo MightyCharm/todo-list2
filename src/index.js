@@ -107,11 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const removed = projectManager.removeProject(list.id);
         if (removed) {
           domHandler.removeElement(list.id);
+          domHandler.highlightActiveProject();
         }
         console.log(projectManager.getProjects());
         break;
       default:
         console.log("Something went wrong. switch statement, index.js");
     }
+    console.log(projectManager.getActiveProject());
   });
 });
