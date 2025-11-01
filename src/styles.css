@@ -141,6 +141,11 @@ main {
   padding: 1rem;
 }
 
+.container-add-todo-btn {
+  display: flex;
+  justify-content: center;
+}
+
 .btn-add-todo {
   display: flex;
   justify-content: center;

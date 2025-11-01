@@ -1,9 +1,10 @@
 class DOMHandler {
   #isFormOpen = false;
 
-  constructor(projectList, containerToDos, projectManager) {
+  constructor(projectList, containerToDos, containerAddToDoBtn, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
+    this.containerAddToDoBtn = containerAddToDoBtn;
     this.projectManager = projectManager;
   }
 
@@ -44,7 +45,7 @@ class DOMHandler {
     button.textContent = "New";
 
     button.appendChild(icon);
-    this.containerToDos.appendChild(button);
+    this.containerAddToDoBtn.appendChild(button);
   }
 
   renderProjectForm() {

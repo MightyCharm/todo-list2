@@ -7,11 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
   const containerToDos = document.getElementById("container-todos");
+  const containerAddToDoBtn = document.getElementById("container-add-todo-btn");
 
   const projectManager = new ProjectManager();
   const domHandler = new DOMHandler(
     projectList,
     containerToDos,
+    containerAddToDoBtn,
     projectManager
   );
 
@@ -99,11 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         id = list.id;
         projectManager.switchActiveProject(id);
         domHandler.highlightActiveProject();
-        domHandler.removeElement("btn-add-todo");
         domHandler.removeToDos();
         domHandler.renderActiveProjectToDos();
-
-        domHandler.renderAddToDoButton();
         break;
 
       case "btn-trash-project":
