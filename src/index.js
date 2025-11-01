@@ -25,16 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("CLICK EVENT:")
     const button = event.target.closest("button");
     let list; // to grab parent list element
-    let article; // to grab parent article element
     let id; // to grab id
     let project;
-    console.log("event click 1");
     if (!button) {
       return;
     }
-    console.log("event click 2");
     const role = button.dataset.role;
-    console.log(role);
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -76,19 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (validationToDo.check) {
           console.log(validationToDo.inputs);
           domHandler.setIsFormOpen();
-          const title = validationToDo.inputs.title;
-          const description = validationToDo.inputs.description;
-          const dueDate = validationToDo.inputs.dueDate;
-          const priority = validationToDo.inputs.priority;
           const project = projectManager.getActiveProject();
-          const idToDo = project.addToDo(
-            title,
-            description,
-            dueDate,
-            priority,
-            project
-          );
-          console.log(project);
+          const idToDo = project.addToDo(validationToDo.inputs);
+          // console.log(project);
           domHandler.renderToDo(idToDo);
           domHandler.displayBtnAddToDo();
         }
@@ -152,15 +138,5 @@ document.addEventListener("DOMContentLoaded", () => {
       default:
         console.log("default case change event.");
     }
-
-    /*
-      case "select-priority":       
-        project = projectManager.getActiveProject();
-        id = event.target.closest("article").id;
-        todo = project.getToDo(id);
-        todo.setPriority(selectPriority.value);
-        console.log(todo);
-        break;
-    */
   });
 });

@@ -11,7 +11,7 @@ class Project {
     this.todos = [];
   }
 
-  addToDo(title, description, dueDate, priority) {
+  addToDo({title, description, dueDate, priority}) {
     const todo = new ToDo(title, description, dueDate, priority);
     this.todos.push(todo);
     return todo.id;
