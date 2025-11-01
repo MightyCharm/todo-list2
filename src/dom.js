@@ -275,8 +275,9 @@ class DOMHandler {
     selectPriority.classList.add("todo-priority");
     selectPriority.name = "priority";
     pDescription.classList.add("todo-description", "is-hidden");
-    btnTrash.id = `btn-todo-trash-${todo.id}`;
+    // btnTrash.id = `btn-todo-trash-${todo.id}`; <=========================
     btnTrash.classList.add("btn-todo-trash");
+    btnTrash.setAttribute("data-role", "btn-trash-todo");
     iconTrash.classList.add("fas", "fa-trash");
 
     pDueDate.textContent = `Due: ${todo.dueDate}`;

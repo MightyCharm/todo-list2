@@ -23,8 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   container.addEventListener("click", (event) => {
     const button = event.target.closest("button");
-    let list;
-    let id;
+    let list; // to grab parent list element
+    let article; // to grab parent article element
+    let id; // to grab id
     if (!button) {
       return;
     }
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-confirm-project":
-        console.log("btn-confirm-project -> 1.");
+        console.log("btn-confirm-project");
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           projectManager.addProject(validationProject.name);
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-project":
-        console.log("btn-project -> 2.");
+        console.log("btn-project");
         list = event.target.closest("li");
         id = list.id;
         projectManager.switchActiveProject(id);
@@ -118,8 +119,18 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.renderActiveProjectToDos();
         }
         break;
+      case "btn-trash-todo":
+        console.log("remove single todo now");
+        const article = event.target.closest("article");
+        id = article.id;
+        // project.removeToDo(id);
+        const project = projectManager.getActiveProject();
+        project.removeToDo(id);
+        domHandler.removeElement(id);    
+        break;
       default:
         console.log("Something went wrong. switch statement, index.js");
     }
+    console.log(projectManager.getActiveProject().getToDos());
   });
 });
