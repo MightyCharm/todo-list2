@@ -1,11 +1,11 @@
 class DOMHandler {
   #isFormOpen = false;
 
-  constructor(projectList, containerToDos, containerAddToDoBtn, projectManager) {
+  constructor(projectList, containerToDos, btnAddToDo, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
-    this.containerAddToDoBtn = containerAddToDoBtn;
     this.projectManager = projectManager;
+    this.btnAddToDo = btnAddToDo;
   }
 
   initialSetup() {
@@ -31,21 +31,6 @@ class DOMHandler {
     button.appendChild(icon);
     list.appendChild(button);
     this.projectList.appendChild(list);
-  }
-
-  renderAddToDoButton() {
-    const button = document.createElement("button");
-    const icon = document.createElement("i");
-
-    button.id = "btn-add-todo";
-    button.classList.add("btn-add-todo");
-    button.setAttribute("data-role", "btn-add-todo");
-    icon.classList.add("fas", "fa-plus-circle");
-
-    button.textContent = "New";
-
-    button.appendChild(icon);
-    this.containerAddToDoBtn.appendChild(button);
   }
 
   renderProjectForm() {
@@ -89,8 +74,6 @@ class DOMHandler {
   }
 
   renderToDoForm() {
-    this.removeElement("btn-add-todo");
-
     const article = document.createElement("article");
     const inputDate = document.createElement("input");
 
@@ -184,7 +167,6 @@ class DOMHandler {
 
   cancelToDoForm() {
     this.removeElement("card-create-todo");
-    this.renderAddToDoButton();
   }
 
   validationInputProject() {
@@ -360,6 +342,14 @@ class DOMHandler {
     const list = document.getElementById(id);
     const buttonProject = list.querySelector("button[data-role='btn-project']");
     buttonProject.classList.add("activeProject");
+  }
+
+  hideBtnAddToDo() {
+    this.btnAddToDo.classList.add("is-hidden");
+  }
+
+  displayBtnAddToDo() {
+    this.btnAddToDo.classList.remove("is-hidden");
   }
 }
 

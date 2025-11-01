@@ -7,20 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
   const containerToDos = document.getElementById("container-todos");
-  const containerAddToDoBtn = document.getElementById("container-add-todo-btn");
+  const btnAddToDo = document.getElementById("btn-add-todo");
 
   const projectManager = new ProjectManager();
   const domHandler = new DOMHandler(
     projectList,
     containerToDos,
-    containerAddToDoBtn,
+    btnAddToDo,
     projectManager
   );
 
   domHandler.initialSetup();
   domHandler.highlightActiveProject();
   domHandler.renderAddProjectButton();
-  domHandler.renderAddToDoButton();
 
   container.addEventListener("click", (event) => {
     const button = event.target.closest("button");
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const role = button.dataset.role;
-
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -64,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
         domHandler.renderToDoForm();
+        domHandler.hideBtnAddToDo();
         break;
 
       case "btn-confirm-todo":
@@ -85,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
 
           domHandler.renderToDo(idToDo);
-          domHandler.renderAddToDoButton();
+          domHandler.displayBtnAddToDo();
         }
         break;
 
@@ -93,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-cancel-todo");
         domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
+        domHandler.displayBtnAddToDo();
         break;
 
       case "btn-project":
