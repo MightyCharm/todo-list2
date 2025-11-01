@@ -17,6 +17,7 @@ class ToDo {
   }
 
   setPriority(priority) {
+    if(this.priority === priority) return
     this.priority = priority;
   }
 

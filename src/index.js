@@ -22,15 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.renderAddProjectButton();
 
   container.addEventListener("click", (event) => {
+    console.log("CLICK EVENT:")
     const button = event.target.closest("button");
     let list; // to grab parent list element
     let article; // to grab parent article element
     let id; // to grab id
+    let project;
+    console.log("event click 1");
     if (!button) {
       return;
     }
-
+    console.log("event click 2");
     const role = button.dataset.role;
+    console.log(role);
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -70,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-todo");
         const validationToDo = domHandler.validateInputToDo();
         if (validationToDo.check) {
-          console.log(validationToDo.inputs)
+          console.log(validationToDo.inputs);
           domHandler.setIsFormOpen();
           const title = validationToDo.inputs.title;
           const description = validationToDo.inputs.description;
@@ -122,16 +126,41 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "btn-trash-todo":
         console.log("remove single todo now");
-        const article = event.target.closest("article");
-        id = article.id;
-        // project.removeToDo(id);
-        const project = projectManager.getActiveProject();
+        id = event.target.closest("article").id;
+        project = projectManager.getActiveProject();
         project.removeToDo(id);
-        domHandler.removeElement(id);    
+        domHandler.removeElement(id);
         break;
       default:
-        console.log("Something went wrong. switch statement, index.js");
+        console.log("default case click event.");
     }
-    console.log(projectManager.getActiveProject().getToDos());
+  });
+
+  container.addEventListener("change", (event) => {
+    const selectPriority = event.target.closest("select");
+    if(!selectPriority) return
+    let role = selectPriority.dataset.role;
+    console.log(role);
+    switch (role) {
+      case "select-priority":
+        console.log("Inside case priority");
+        const project = projectManager.getActiveProject();
+        const id = event.target.closest("article").id;      
+        const todo = project.getToDo(id);
+        todo.setPriority(selectPriority.value);
+        break;
+      default:
+        console.log("default case change event.");
+    }
+
+    /*
+      case "select-priority":       
+        project = projectManager.getActiveProject();
+        id = event.target.closest("article").id;
+        todo = project.getToDo(id);
+        todo.setPriority(selectPriority.value);
+        console.log(todo);
+        break;
+    */
   });
 });

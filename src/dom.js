@@ -275,6 +275,7 @@ class DOMHandler {
     selectPriority.id = `select-priority-${todo.id}`;
     selectPriority.classList.add("todo-priority");
     selectPriority.name = "priority";
+    selectPriority.setAttribute("data-role", "select-priority");
     pDescription.classList.add("todo-description", "is-hidden");
     // btnTrash.id = `btn-todo-trash-${todo.id}`; <=========================
     btnTrash.classList.add("btn-todo-trash");
