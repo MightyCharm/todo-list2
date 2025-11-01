@@ -12,6 +12,14 @@ class ToDo {
     }
   }
 
+  getPriority() {
+    return this.priority;
+  }
+
+  setPriority(priority) {
+    this.priority = priority;
+  }
+
   getId() {
     return this.id;
   }

@@ -249,6 +249,7 @@ class DOMHandler {
     this.removeElement("card-create-todo");
     const project = this.projectManager.getActiveProject();
     const todo = project.getToDo(idToDo);
+    console.log(todo);
 
     const article = document.createElement("article");
     const pDueDate = document.createElement("p");
@@ -301,6 +302,8 @@ class DOMHandler {
     article.appendChild(pTitle);
     article.appendChild(pDescription);
     article.appendChild(btnTrash);
+
+    selectPriority.value = todo.getPriority();
 
     this.containerToDos.appendChild(article);
   }

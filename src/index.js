@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-todo");
         const validationToDo = domHandler.validateInputToDo();
         if (validationToDo.check) {
+          console.log(validationToDo.inputs)
           domHandler.setIsFormOpen();
           const title = validationToDo.inputs.title;
           const description = validationToDo.inputs.description;
@@ -83,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             priority,
             project
           );
-
+          console.log(project);
           domHandler.renderToDo(idToDo);
           domHandler.displayBtnAddToDo();
         }
@@ -107,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-trash-project":
-        console.log("btn-trash-project -> 3");
+        console.log("btn-trash-project");
         list = event.target.closest("li");
         id = list.id;
         // removed prevents the deletion of default project
