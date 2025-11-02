@@ -249,7 +249,6 @@ class DOMHandler {
     this.removeElement("card-create-todo");
     const project = this.projectManager.getActiveProject();
     const todo = project.getToDo(idToDo);
-    console.log(todo);
 
     const article = document.createElement("article");
     const pDueDate = document.createElement("p");
@@ -265,10 +264,16 @@ class DOMHandler {
 
     article.id = todo.id;
     article.classList.add("card", "card-todo");
+    article.setAttribute("data-role", "expand-todo"); // <====================0
     pDueDate.classList.add("todo-dueDate");
+    pDueDate.setAttribute("data-role", "expand-todo"); // <=====================
+    pDueDate.textContent = `Due: ${todo.dueDate}`;
     pTitle.classList.add("todo-title");
+    pTitle.setAttribute("data-role", "expand-todo"); // <========================
+    pTitle.textContent = todo.title;
     checkDone.id = `checkbox-done-${todo.id}`;
     checkDone.classList.add("todo-done");
+    checkDone.setAttribute("data-role", "checkbox-todo");
     checkDone.type = "checkbox";
     checkDone.name = "done";
     checkDone.value = "done";
@@ -276,21 +281,17 @@ class DOMHandler {
     selectPriority.classList.add("todo-priority");
     selectPriority.name = "priority";
     selectPriority.setAttribute("data-role", "select-priority");
-    pDescription.classList.add("todo-description", "is-hidden");
-    // btnTrash.id = `btn-todo-trash-${todo.id}`; <=========================
-    btnTrash.classList.add("btn-todo-trash");
-    btnTrash.setAttribute("data-role", "btn-trash-todo");
-    iconTrash.classList.add("fas", "fa-trash");
-
-    pDueDate.textContent = `Due: ${todo.dueDate}`;
-    pTitle.textContent = todo.title;
     optionLow.value = "low";
     optionLow.textContent = "LOW";
     optionNormal.value = "normal";
     optionNormal.textContent = "NORMAL";
     optionHigh.value = "high";
     optionHigh.textContent = "HIGH";
+    pDescription.classList.add("todo-description", "is-hidden");
     pDescription.textContent = todo.description;
+    btnTrash.classList.add("btn-todo-trash");
+    btnTrash.setAttribute("data-role", "btn-trash-todo");
+    iconTrash.classList.add("fas", "fa-trash");
 
     selectPriority.appendChild(optionLow);
     selectPriority.appendChild(optionNormal);
@@ -313,7 +314,6 @@ class DOMHandler {
     const project = this.projectManager.getActiveProject();
     const activeProjectTodos = project.getToDos();
     activeProjectTodos.forEach((todo) => {
-      console.log(todo);
       const id = todo.getId();
       this.renderToDo(id);
     });
@@ -355,6 +355,10 @@ class DOMHandler {
 
   displayBtnAddToDo() {
     this.btnAddToDo.classList.remove("is-hidden");
+  }
+
+  toggleHideDisplay(element) {
+    element.classList.toggle("is-hidden");
   }
 }
 

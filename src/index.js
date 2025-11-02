@@ -22,15 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.renderAddProjectButton();
 
   container.addEventListener("click", (event) => {
-    console.log("CLICK EVENT:")
-    const button = event.target.closest("button");
+    console.log("CLICK EVENT <-------- ");
+    const role = event.target.closest("[data-role]")?.dataset.role;
     let list; // to grab parent list element
     let id; // to grab id
     let project;
-    if (!button) {
+    if (!role) {
       return;
     }
-    const role = button.dataset.role;
+    console.log("after check <-------")
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -70,11 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-todo");
         const validationToDo = domHandler.validateInputToDo();
         if (validationToDo.check) {
-          console.log(validationToDo.inputs);
           domHandler.setIsFormOpen();
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(validationToDo.inputs);
-          // console.log(project);
           domHandler.renderToDo(idToDo);
           domHandler.displayBtnAddToDo();
         }
@@ -111,12 +109,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
       case "btn-trash-todo":
-        console.log("remove single todo now");
+        console.log("btn-trash-todo");
         id = event.target.closest("article").id;
         project = projectManager.getActiveProject();
         project.removeToDo(id);
         domHandler.removeElement(id);
         break;
+
+      case "checkbox-todo":
+        console.log("checkbox was clicked, to something.");
+        break;
+
+      case "expand-todo":
+        console.log("expand-todo");
+        const article = event.target.closest("article");
+        console.log(article);
+        const description = article.querySelector(".todo-description");
+        console.log(description);
+        domHandler.toggleHideDisplay(description);
+        break;
+        
       default:
         console.log("default case click event.");
     }
@@ -126,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectPriority = event.target.closest("select");
     if(!selectPriority) return
     let role = selectPriority.dataset.role;
+    console.log("Change Event <---------")
     console.log(role);
     switch (role) {
       case "select-priority":
