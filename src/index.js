@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const domHandler = new DOMHandler(
     projectList,
     containerToDos,
-    btnAddToDo,
     projectManager
   );
 
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen();
         domHandler.renderToDoForm();
-        domHandler.hideBtnAddToDo();
+        domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
       case "btn-confirm-todo":
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(validationToDo.inputs);
           domHandler.renderToDo(idToDo);
-          domHandler.displayBtnAddToDo();
+          domHandler.toggleHideDisplay(btnAddToDo);
         }
         break;
 
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-cancel-todo");
         domHandler.setIsFormOpen();
         domHandler.cancelToDoForm();
-        domHandler.displayBtnAddToDo();
+        domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
       case "btn-project":
@@ -128,10 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(description);
         domHandler.toggleHideDisplay(description);
         break;
-        
+
       default:
         console.log("default case click event.");
     }
+    console.log(projectManager.getActiveProject().getToDos());
   });
 
   container.addEventListener("change", (event) => {
@@ -151,5 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
       default:
         console.log("default case change event.");
     }
+    console.log(projectManager.getActiveProject().getToDos());
   });
 });

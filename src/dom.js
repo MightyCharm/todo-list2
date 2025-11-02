@@ -1,11 +1,10 @@
 class DOMHandler {
   #isFormOpen = false;
 
-  constructor(projectList, containerToDos, btnAddToDo, projectManager) {
+  constructor(projectList, containerToDos, projectManager) {
     this.projectList = projectList;
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
-    this.btnAddToDo = btnAddToDo;
   }
 
   initialSetup() {
@@ -347,14 +346,6 @@ class DOMHandler {
     const list = document.getElementById(id);
     const buttonProject = list.querySelector("button[data-role='btn-project']");
     buttonProject.classList.add("activeProject");
-  }
-
-  hideBtnAddToDo() {
-    this.btnAddToDo.classList.add("is-hidden");
-  }
-
-  displayBtnAddToDo() {
-    this.btnAddToDo.classList.remove("is-hidden");
   }
 
   toggleHideDisplay(element) {
