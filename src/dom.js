@@ -351,6 +351,11 @@ class DOMHandler {
   toggleHideDisplay(element) {
     element.classList.toggle("is-hidden");
   }
+
+  toggleToDoLayout(article) {
+    article.classList.toggle("card-todo");
+    article.classList.toggle("card-todo-expanded");
+  }
 }
 
 export { DOMHandler };

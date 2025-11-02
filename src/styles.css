@@ -175,7 +175,7 @@ main {
   padding: 1rem;
 }
 
-.is-expanded {
+.card-todo-expanded {
   grid-template-areas:
     "todo-dueDate todo-priority todo-done"
     "todo-title todo-title todo-title"
@@ -187,10 +187,14 @@ main {
 
 .todo-dueDate {
   grid-area: todo-dueDate;
+
+  border: 1px solid red;
 }
 
 .todo-priority {
   grid-area: todo-priority;
+
+  border: 1px solid green;
 }
 
 .todo-done {
@@ -199,15 +203,20 @@ main {
   width: 20px;
   height: 20px;
   justify-self: end;
+
 }
 
 .todo-title {
   grid-area: todo-title;
   font-weight: bold;
+
+  border: 1px solid red;
 }
 
 .todo-description {
   grid-area: todo-description;
+
+  border: 1px solid green;
 }
 
 .btn-todo-trash {

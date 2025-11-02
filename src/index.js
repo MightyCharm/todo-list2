@@ -122,9 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
       case "expand-todo":
         console.log("expand-todo");
         const article = event.target.closest("article");
-        console.log(article);
-        const description = article.querySelector(".todo-description");
-        console.log(description);
+        const description = article.querySelector(".todo-description");   
+        domHandler.toggleToDoLayout(article);
         domHandler.toggleHideDisplay(description);
         break;
 
