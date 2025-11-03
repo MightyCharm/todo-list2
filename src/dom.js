@@ -253,6 +253,10 @@ class DOMHandler {
     const pDueDate = document.createElement("p");
     const pTitle = document.createElement("p");
     const checkDone = document.createElement("input");
+    const divKebab = document.createElement("div");
+    const btnKebab = document.createElement("button");
+    const iconKebab = document.createElement("i");
+    const ulKebab = document.createElement("ul");
     const selectPriority = document.createElement("select");
     const optionLow = document.createElement("option");
     const optionNormal = document.createElement("option");
@@ -263,19 +267,30 @@ class DOMHandler {
 
     article.id = todo.id;
     article.classList.add("card", "card-todo");
-    article.setAttribute("data-role", "expand-todo"); // <====================0
+    article.setAttribute("data-role", "expand-todo");
+
     pDueDate.classList.add("todo-dueDate");
-    pDueDate.setAttribute("data-role", "expand-todo"); // <=====================
+    pDueDate.setAttribute("data-role", "expand-todo");
     pDueDate.textContent = `Due: ${todo.dueDate}`;
+
     pTitle.classList.add("todo-title");
-    pTitle.setAttribute("data-role", "expand-todo"); // <========================
+    pTitle.setAttribute("data-role", "expand-todo");
     pTitle.textContent = todo.title;
+
     checkDone.id = `checkbox-done-${todo.id}`;
     checkDone.classList.add("todo-done");
     checkDone.setAttribute("data-role", "checkbox-todo");
     checkDone.type = "checkbox";
     checkDone.name = "done";
     checkDone.value = "done";
+
+    divKebab.classList.add("todo-div-kebab");
+    btnKebab.classList.add("btn-kebab-menu");
+    btnKebab.dataset.role = "btn-kebab-menu";
+    iconKebab.classList.add("fas", "fa-ellipsis-v");
+    ulKebab.id = "kebab-menu-list";
+    ulKebab.classList.add("kebab-menu-list", "is-hidden");
+
     selectPriority.id = `select-priority-${todo.id}`;
     selectPriority.classList.add("todo-priority");
     selectPriority.name = "priority";
@@ -286,20 +301,26 @@ class DOMHandler {
     optionNormal.textContent = "NORMAL";
     optionHigh.value = "high";
     optionHigh.textContent = "HIGH";
+
     pDescription.classList.add("todo-description", "is-hidden");
     pDescription.textContent = todo.description;
-    btnTrash.classList.add("btn-todo-trash");
+
+    btnTrash.classList.add("todo-btn-trash");
     btnTrash.setAttribute("data-role", "btn-trash-todo");
     iconTrash.classList.add("fas", "fa-trash");
 
     selectPriority.appendChild(optionLow);
     selectPriority.appendChild(optionNormal);
     selectPriority.appendChild(optionHigh);
+    btnKebab.appendChild(iconKebab);
+    divKebab.appendChild(btnKebab);
+    divKebab.appendChild(ulKebab);
     btnTrash.appendChild(iconTrash);
 
     article.appendChild(pDueDate);
     article.appendChild(selectPriority);
     article.appendChild(checkDone);
+    article.appendChild(divKebab);
     article.appendChild(pTitle);
     article.appendChild(pDescription);
     article.appendChild(btnTrash);

@@ -168,8 +168,8 @@ main {
 
 .card-todo {
   grid-template-areas:
-    "todo-dueDate todo-priority todo-done"
-    "todo-title todo-title btn-todo-trash";
+    "todo-dueDate todo-priority todo-done todo-div-kebab"
+    "todo-title todo-title todo-title todo-btn-trash";
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -177,9 +177,9 @@ main {
 
 .card-todo-expanded {
   grid-template-areas:
-    "todo-dueDate todo-priority todo-done"
-    "todo-title todo-title todo-title"
-    "todo-description todo-description btn-todo-trash";
+    "todo-dueDate todo-priority todo-done todo-div-kebab"
+    "todo-title todo-title todo-title todo-btn-trash"
+    "todo-description todo-description todo-description todo-description";
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -203,7 +203,23 @@ main {
   width: 20px;
   height: 20px;
   justify-self: end;
+}
 
+.todo-div-kebab {
+  grid-area: todo-div-kebab;
+
+  display: flex;
+  justify-content: end;
+  position: relative;
+
+  border: 1px solid red;
+}
+
+.kebab-menu-list{
+  background-color: red;
+  position: absolute;
+  top: 100%;
+  right: 0;
 }
 
 .todo-title {
@@ -219,14 +235,17 @@ main {
   border: 1px solid green;
 }
 
-.btn-todo-trash {
-  grid-area: btn-todo-trash;
+.todo-btn-trash {
+  grid-area: todo-btn-trash;
   justify-self: end;
   align-self: end;
   border: none;
   width: 20px;
   height: 20px;
+  border: 1px solid red;
 }
+
+
 
 .card-create-todo {
   grid-template-areas:
@@ -276,6 +295,7 @@ main {
   align-items: end;
   gap: 0.2rem;
 }
+
 
 .btn-confirm-todo {
   /* border: 5px solid red; */
