@@ -1,4 +1,4 @@
-import { Project} from "./project.js"
+import { Project } from "./project.js";
 class ProjectManager {
   constructor() {
     this.default = new Project("Default");
@@ -21,8 +21,11 @@ class ProjectManager {
       return false;
     }
     this.projects = this.projects.filter((project) => project.id !== id);
-    this.activeProject = this.default;
-    console.log("Project was removed. Project default was set as active");
+    if (this.activeProject.getId() === id) {
+       console.log("Project was removed. Project default was set as active");
+      this.activeProject = this.default;
+    }
+    console.log("Project was removed.")
     return true;
   }
 
