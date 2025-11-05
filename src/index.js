@@ -23,13 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     console.log("CLICK EVENT <-------- ");
     const role = event.target.closest("[data-role]")?.dataset.role;
+    console.log(role);
     let list; // to grab parent list element
     let id; // to grab id
     let project;
+    let article;
     if (!role) {
       return;
     }
-    console.log("after check <-------")
+    console.log("after check <-------");
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -108,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
       case "btn-trash-todo":
+      case "btn-kebab-delete":
         console.log("btn-trash-todo");
         id = event.target.closest("article").id;
         project = projectManager.getActiveProject();
@@ -119,10 +122,23 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("checkbox was clicked, to something.");
         break;
 
+      //==============================================================
+      case "btn-kebab-menu":
+        article = event.target.closest("article");
+        console.log(article);
+        const ulKebab = article.querySelector(".kebab-menu-list");
+        domHandler.toggleHideDisplay(ulKebab);
+        break;
+      case "btn-kebab-edit":
+        console.log("BtnKebabEdit -> do stuff");
+        break;
+
+      //==============================================================
+
       case "expand-todo":
         console.log("expand-todo");
-        const article = event.target.closest("article");
-        const description = article.querySelector(".todo-description");   
+        article = event.target.closest("article");
+        const description = article.querySelector(".todo-description");
         domHandler.toggleToDoLayout(article);
         domHandler.toggleHideDisplay(description);
         break;
@@ -135,15 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   container.addEventListener("change", (event) => {
     const selectPriority = event.target.closest("select");
-    if(!selectPriority) return
+    if (!selectPriority) return;
     let role = selectPriority.dataset.role;
-    console.log("Change Event <---------")
+    console.log("Change Event <---------");
     console.log(role);
     switch (role) {
       case "select-priority":
         console.log("Inside case priority");
         const project = projectManager.getActiveProject();
-        const id = event.target.closest("article").id;      
+        const id = event.target.closest("article").id;
         const todo = project.getToDo(id);
         todo.setPriority(selectPriority.value);
         break;

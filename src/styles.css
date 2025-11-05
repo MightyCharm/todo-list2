@@ -187,14 +187,10 @@ main {
 
 .todo-dueDate {
   grid-area: todo-dueDate;
-
-  border: 1px solid red;
 }
 
 .todo-priority {
   grid-area: todo-priority;
-
-  border: 1px solid green;
 }
 
 .todo-done {
@@ -216,22 +212,35 @@ main {
 }
 
 .kebab-menu-list{
-  background-color: red;
+  list-style-type: none;
   position: absolute;
   top: 100%;
   right: 0;
+  min-width: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(0, 1%, 82%);
+  border-radius: 4px;
 }
+
+.kebab-menu-list li {
+}
+
+.btn-kebab-edit,
+.btn-kebab-delete {
+ width: 100%;
+ padding: 0.1rem 0.2rem;
+}
+
+
 
 .todo-title {
   grid-area: todo-title;
   font-weight: bold;
-
-  border: 1px solid red;
 }
 
 .todo-description {
   grid-area: todo-description;
-
   border: 1px solid green;
 }
 
@@ -242,10 +251,7 @@ main {
   border: none;
   width: 20px;
   height: 20px;
-  border: 1px solid red;
 }
-
-
 
 .card-create-todo {
   grid-template-areas:

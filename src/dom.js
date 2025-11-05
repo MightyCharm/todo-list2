@@ -253,10 +253,16 @@ class DOMHandler {
     const pDueDate = document.createElement("p");
     const pTitle = document.createElement("p");
     const checkDone = document.createElement("input");
+
     const divKebab = document.createElement("div");
     const btnKebab = document.createElement("button");
     const iconKebab = document.createElement("i");
     const ulKebab = document.createElement("ul");
+    const liKebabEdit = document.createElement("li");
+    const liKebabDelete = document.createElement("li");
+    const btnKebabEdit = document.createElement("button");
+    const btnKebabDelete = document.createElement("button");
+
     const selectPriority = document.createElement("select");
     const optionLow = document.createElement("option");
     const optionNormal = document.createElement("option");
@@ -288,8 +294,13 @@ class DOMHandler {
     btnKebab.classList.add("btn-kebab-menu");
     btnKebab.dataset.role = "btn-kebab-menu";
     iconKebab.classList.add("fas", "fa-ellipsis-v");
-    ulKebab.id = "kebab-menu-list";
     ulKebab.classList.add("kebab-menu-list", "is-hidden");
+    btnKebabEdit.classList.add("btn-kebab-edit");
+    btnKebabEdit.setAttribute("data-role", "btn-kebab-edit")
+    btnKebabEdit.textContent = "Edit";
+    btnKebabDelete.classList.add("btn-kebab-delete");
+    btnKebabDelete.textContent = "Delete";
+    btnKebabDelete.setAttribute("data-role", "btn-kebab-delete");
 
     selectPriority.id = `select-priority-${todo.id}`;
     selectPriority.classList.add("todo-priority");
@@ -312,9 +323,16 @@ class DOMHandler {
     selectPriority.appendChild(optionLow);
     selectPriority.appendChild(optionNormal);
     selectPriority.appendChild(optionHigh);
+
+
+    liKebabEdit.appendChild(btnKebabEdit);
+    liKebabDelete.appendChild(btnKebabDelete);
+    ulKebab.appendChild(liKebabEdit);
+    ulKebab.appendChild(liKebabDelete);
     btnKebab.appendChild(iconKebab);
     divKebab.appendChild(btnKebab);
     divKebab.appendChild(ulKebab);
+
     btnTrash.appendChild(iconTrash);
 
     article.appendChild(pDueDate);
