@@ -12,17 +12,44 @@ class ToDo {
     }
   }
 
+  getId() {
+    return this.id;
+  }
+
+  getTitle() {
+    return this.title;
+  }
+
+  setTitle(updatedTitle) {
+    this.title = updatedTitle;
+  }
+
+  getDescription() {
+    return this.description;
+  }
+
+  setDescription(updatedDescription) {
+    this.description = updatedDescription;
+  }
+
   getPriority() {
     return this.priority;
   }
 
   setPriority(priority) {
-    if(this.priority === priority) return
     this.priority = priority;
   }
 
-  getId() {
-    return this.id;
+  getDueDate() {
+    return this.dueDate;
+  }
+
+  setDueDate(updatedDueDate) {
+    this.dueDate = updatedDueDate;
+  }
+
+  getDone() {
+    return this.done;
   }
 }
 

@@ -72,7 +72,7 @@ class DOMHandler {
     this.renderAddProjectButton();
   }
 
-  renderToDoForm() {
+  renderToDoForm(todo = null) {
     const article = document.createElement("article");
     const inputDate = document.createElement("input");
 
@@ -162,6 +162,19 @@ class DOMHandler {
     article.appendChild(divButtons);
 
     this.containerToDos.appendChild(article);
+
+    if (todo) {
+      //=================================================================
+      article.dataset.currentToDoId = todo.id;
+      inputDate.value = todo.getDueDate();
+      inputTitle.value = todo.getTitle();
+      selectPriority.value = todo.getPriority();
+      textareaDescription.value = todo.getDescription();
+      buttonConfirm.setAttribute("data-role", "btn-confirm-edit-todo");
+      return;
+      //=================================================================
+    }
+    buttonConfirm.setAttribute("data-role", "btn-confirm-create-todo");
   }
 
   cancelToDoForm() {
@@ -296,7 +309,7 @@ class DOMHandler {
     iconKebab.classList.add("fas", "fa-ellipsis-v");
     ulKebab.classList.add("kebab-menu-list", "is-hidden");
     btnKebabEdit.classList.add("btn-kebab-edit");
-    btnKebabEdit.setAttribute("data-role", "btn-kebab-edit")
+    btnKebabEdit.setAttribute("data-role", "btn-kebab-edit");
     btnKebabEdit.textContent = "Edit";
     btnKebabDelete.classList.add("btn-kebab-delete");
     btnKebabDelete.textContent = "Delete";
@@ -323,7 +336,6 @@ class DOMHandler {
     selectPriority.appendChild(optionLow);
     selectPriority.appendChild(optionNormal);
     selectPriority.appendChild(optionHigh);
-
 
     liKebabEdit.appendChild(btnKebabEdit);
     liKebabDelete.appendChild(btnKebabDelete);

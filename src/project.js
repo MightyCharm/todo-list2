@@ -35,7 +35,22 @@ class Project {
     todo.done = !todo.done;
   }
 
-  updateToDo(id) {
+
+  updateToDo(id, inputs) {
+    const todo = this.todos.find((todo) => todo.id === id);
+    if(!todo) {
+      console.log("todo not found.");
+      return undefined;
+    }
+    todo.setDueDate(inputs.dueDate);
+    todo.setPriority(inputs.priority);
+    todo.setTitle(inputs.title);
+    todo.setDescription(inputs.description);
+  }
+
+
+  updateToDo2(id) {
+    console.log("here you are id: " + id);
     const todo = this.todos.find((todo) => todo.id === id);
     if (!todo) {
       return undefined;

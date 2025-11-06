@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let list; // to grab parent list element
     let id; // to grab id
     let project;
+    let todo;
     let article;
     if (!role) {
       return;
@@ -67,14 +68,30 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
-      case "btn-confirm-todo":
+      case "btn-confirm-create-todo":
         console.log("btn-confirm-todo");
-        const validationToDo = domHandler.validateInputToDo();
-        if (validationToDo.check) {
+        const validationCreateToDoForm = domHandler.validateInputToDo();
+        if (validationCreateToDoForm.check) {
           domHandler.setIsFormOpen();
           const project = projectManager.getActiveProject();
-          const idToDo = project.addToDo(validationToDo.inputs);
+          const idToDo = project.addToDo(validationCreateToDoForm.inputs);
           domHandler.renderToDo(idToDo);
+          domHandler.toggleHideDisplay(btnAddToDo);
+        }
+        break;
+
+      case "btn-confirm-edit-todo":
+        console.log("update new values to todo edited");
+        const validationEditToDoForm = domHandler.validateInputToDo();
+        if (validationEditToDoForm.check) {
+          console.log("input was good ma boi, do something");
+          domHandler.setIsFormOpen();
+          article = event.target.closest("article");
+          id = article.dataset.currentToDoId;
+          const project = projectManager.getActiveProject();
+          project.updateToDo(id, validationEditToDoForm.inputs);
+          domHandler.removeElement(id);
+          domHandler.renderToDo(id);
           domHandler.toggleHideDisplay(btnAddToDo);
         }
         break;
@@ -130,7 +147,11 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.toggleHideDisplay(ulKebab);
         break;
       case "btn-kebab-edit":
-        console.log("BtnKebabEdit -> do stuff");
+        id = event.target.closest("article").id;
+        project = projectManager.getActiveProject();
+        todo = project.getToDo(id);
+        domHandler.renderToDoForm(todo);
+        domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
       //==============================================================
