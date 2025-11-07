@@ -164,7 +164,6 @@ class DOMHandler {
     this.containerToDos.appendChild(article);
 
     if (todo) {
-      //=================================================================
       article.dataset.currentToDoId = todo.id;
       inputDate.value = todo.getDueDate();
       inputTitle.value = todo.getTitle();
@@ -172,7 +171,6 @@ class DOMHandler {
       textareaDescription.value = todo.getDescription();
       buttonConfirm.setAttribute("data-role", "btn-confirm-edit-todo");
       return;
-      //=================================================================
     }
     buttonConfirm.setAttribute("data-role", "btn-confirm-create-todo");
   }
@@ -384,8 +382,9 @@ class DOMHandler {
     return this.#isFormOpen;
   }
 
-  setIsFormOpen() {
-    this.#isFormOpen = !this.#isFormOpen;
+  setIsFormOpen(state) {
+    this.#isFormOpen = state;
+    console.log("form is open: " + this.#isFormOpen);
   }
 
   highlightActiveProject() {
@@ -406,6 +405,13 @@ class DOMHandler {
   toggleToDoLayout(article) {
     article.classList.toggle("card-todo");
     article.classList.toggle("card-todo-expanded");
+  }
+
+  hideAllKebabMenus() {
+    const kebabMenuLists = document.querySelectorAll(".kebab-menu-list");
+    kebabMenuLists.forEach((menu) => {
+      menu.classList.add("is-hidden");
+    });
   }
 }
 

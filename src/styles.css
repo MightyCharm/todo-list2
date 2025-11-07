@@ -207,8 +207,6 @@ main {
   display: flex;
   justify-content: end;
   position: relative;
-
-  border: 1px solid red;
 }
 
 .kebab-menu-list{
@@ -241,7 +239,6 @@ main {
 
 .todo-description {
   grid-area: todo-description;
-  border: 1px solid green;
 }
 
 .todo-btn-trash {

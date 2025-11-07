@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "btn-add-project":
         console.log("btn-add-project");
         if (domHandler.getIsFormOpen()) return;
-        domHandler.setIsFormOpen();
+        domHandler.setIsFormOpen(true); // <----------- form project opens
         domHandler.renderProjectForm();
         break;
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           projectManager.addProject(validationProject.name);
-          domHandler.setIsFormOpen();
+          domHandler.setIsFormOpen(false); // <----- project form closes again
           domHandler.createProject();
           domHandler.highlightActiveProject();
           domHandler.renderAddProjectButton();
@@ -56,14 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-cancel-project":
         console.log("btn-cancel-project");
-        domHandler.setIsFormOpen();
+        domHandler.setIsFormOpen(false); // <--------------- project form closes again
         domHandler.cancelProjectForm();
         break;
 
       case "btn-add-todo":
         console.log("btn-add-todo");
         if (domHandler.getIsFormOpen()) return;
-        domHandler.setIsFormOpen();
+        domHandler.setIsFormOpen(true); // <--------------------- todo form opens again
         domHandler.renderToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-todo");
         const validationCreateToDoForm = domHandler.validateInputToDo();
         if (validationCreateToDoForm.check) {
-          domHandler.setIsFormOpen();
+          domHandler.setIsFormOpen(false); // <---- todo form closes again
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(validationCreateToDoForm.inputs);
           domHandler.renderToDo(idToDo);
@@ -82,10 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-edit-todo":
         console.log("update new values to todo edited");
+
         const validationEditToDoForm = domHandler.validateInputToDo();
         if (validationEditToDoForm.check) {
           console.log("input was good ma boi, do something");
-          domHandler.setIsFormOpen();
+          domHandler.setIsFormOpen(false); // <-------- edit form closes gain
           article = event.target.closest("article");
           id = article.dataset.currentToDoId;
           const project = projectManager.getActiveProject();
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-cancel-todo":
         console.log("btn-cancel-todo");
-        domHandler.setIsFormOpen();
+        domHandler.setIsFormOpen(false); // <------ todo form closes again
         domHandler.cancelToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
@@ -139,22 +140,27 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("checkbox was clicked, to something.");
         break;
 
-      //==============================================================
       case "btn-kebab-menu":
+        if(domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
-        console.log(article);
         const ulKebab = article.querySelector(".kebab-menu-list");
-        domHandler.toggleHideDisplay(ulKebab);
+        if (!ulKebab.classList.contains("is-hidden")) {
+          domHandler.toggleHideDisplay(ulKebab);
+        } else {
+          domHandler.hideAllKebabMenus();
+          domHandler.toggleHideDisplay(ulKebab);
+        }
         break;
       case "btn-kebab-edit":
+        if (domHandler.getIsFormOpen()) return;
+        domHandler.setIsFormOpen(true); // <-------- form edit opens
         id = event.target.closest("article").id;
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         domHandler.renderToDoForm(todo);
         domHandler.toggleHideDisplay(btnAddToDo);
+        domHandler.hideAllKebabMenus();
         break;
-
-      //==============================================================
 
       case "expand-todo":
         console.log("expand-todo");
