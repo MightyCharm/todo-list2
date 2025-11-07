@@ -6,19 +6,22 @@ import "@fortawesome/fontawesome-free/css/all.css";
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
+  const containerProjectBtn = document.getElementById("container-add-project-btn");
   const containerToDos = document.getElementById("container-todos");
+  const btnAddProject = document.getElementById("btn-add-project");
   const btnAddToDo = document.getElementById("btn-add-todo");
+  
 
   const projectManager = new ProjectManager();
   const domHandler = new DOMHandler(
     projectList,
+    containerProjectBtn,
     containerToDos,
     projectManager
   );
 
   domHandler.initialSetup();
   domHandler.highlightActiveProject();
-  domHandler.renderAddProjectButton();
 
   container.addEventListener("click", (event) => {
     console.log("CLICK EVENT <-------- ");
@@ -37,8 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
       case "btn-add-project":
         console.log("btn-add-project");
         if (domHandler.getIsFormOpen()) return;
-        domHandler.setIsFormOpen(true); // <----------- form project opens
+        domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
+        domHandler.toggleHideDisplay(btnAddProject)
         break;
 
       case "btn-confirm-project":
@@ -46,24 +50,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           projectManager.addProject(validationProject.name);
-          domHandler.setIsFormOpen(false); // <----- project form closes again
+          domHandler.setIsFormOpen(false);
           domHandler.createProject();
           domHandler.highlightActiveProject();
-          domHandler.renderAddProjectButton();
+          domHandler.toggleHideDisplay(btnAddProject);
           domHandler.removeToDos();
         }
         break;
 
       case "btn-cancel-project":
         console.log("btn-cancel-project");
-        domHandler.setIsFormOpen(false); // <--------------- project form closes again
+        domHandler.setIsFormOpen(false);
         domHandler.cancelProjectForm();
+        domHandler.toggleHideDisplay(btnAddProject);
         break;
 
       case "btn-add-todo":
         console.log("btn-add-todo");
         if (domHandler.getIsFormOpen()) return;
-        domHandler.setIsFormOpen(true); // <--------------------- todo form opens again
+        domHandler.setIsFormOpen(true);
         domHandler.renderToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
@@ -72,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-todo");
         const validationCreateToDoForm = domHandler.validateInputToDo();
         if (validationCreateToDoForm.check) {
-          domHandler.setIsFormOpen(false); // <---- todo form closes again
+          domHandler.setIsFormOpen(false);
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(validationCreateToDoForm.inputs);
           domHandler.renderToDo(idToDo);
@@ -86,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const validationEditToDoForm = domHandler.validateInputToDo();
         if (validationEditToDoForm.check) {
           console.log("input was good ma boi, do something");
-          domHandler.setIsFormOpen(false); // <-------- edit form closes gain
+          domHandler.setIsFormOpen(false);
           article = event.target.closest("article");
           id = article.dataset.currentToDoId;
           const project = projectManager.getActiveProject();
@@ -99,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-cancel-todo":
         console.log("btn-cancel-todo");
-        domHandler.setIsFormOpen(false); // <------ todo form closes again
+        domHandler.setIsFormOpen(false);
         domHandler.cancelToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
         break;

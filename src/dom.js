@@ -1,35 +1,15 @@
 class DOMHandler {
   #isFormOpen = false;
 
-  constructor(projectList, containerToDos, projectManager) {
+  constructor(projectList, containerProjectBtn, containerToDos, projectManager) {
     this.projectList = projectList;
+    this.containerProjectBtn = containerProjectBtn,
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
   }
 
   initialSetup() {
     this.renderProject();
-  }
-
-  renderAddProjectButton() {
-    this.removeElement("li-project-name");
-
-    const list = document.createElement("li");
-    const button = document.createElement("button");
-    const icon = document.createElement("i");
-
-    list.id = "li-add-project";
-    list.classList.add("li-project");
-    button.id = "btn-add-project";
-    button.classList.add("btn-add-project");
-    button.setAttribute("data-role", "btn-add-project");
-    icon.classList.add("fas", "fa-plus-circle");
-
-    button.textContent = "NEW";
-
-    button.appendChild(icon);
-    list.appendChild(button);
-    this.projectList.appendChild(list);
   }
 
   renderProjectForm() {
@@ -69,7 +49,6 @@ class DOMHandler {
 
   cancelProjectForm() {
     this.removeElement("li-project-name");
-    this.renderAddProjectButton();
   }
 
   renderToDoForm(todo = null) {

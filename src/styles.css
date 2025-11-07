@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --border-radius: 8px;
+}
+
 html,
 body {
   height: 100%;
@@ -52,7 +56,7 @@ main,
 
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.5rem;
   align-items: center;
 }
 
@@ -62,27 +66,32 @@ main,
 .project-list {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.3rem;
   list-style-type: none;
   width: 100%;
 }
 
 .li-project {
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  width: 80%;
   height: 45px;
+  border-radius: var(--border-radius);
 }
 
 .btn-project {
-  flex: 5;
   width: 100%;
   border: none;
   background-color: hsl(240, 2%, 82%);
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
 }
 
 .btn-project-trash {
-  flex: 1;
   border:none;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   background-color: hsl(0, 89%, 69%);
 }
 
@@ -131,21 +140,28 @@ main,
 
 main {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  /* border: 1px solid red; */
 }
 
 .container-todos {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   padding: 1rem;
 }
 
+.container-add-project-btn,
 .container-add-todo-btn {
   display: flex;
   justify-content: center;
 }
 
+.btn-add-project,
 .btn-add-todo {
   display: flex;
   justify-content: center;
@@ -161,8 +177,7 @@ main {
 
 .card {
   display: grid;
-  width: 90%;
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   background-color: hsla(232, 23%, 87%, 1);
 }
 
