@@ -89,7 +89,7 @@ main,
 }
 
 .btn-project-trash {
-  border:none;
+  border: none;
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
   background-color: hsl(0, 89%, 69%);
@@ -214,6 +214,32 @@ main {
   width: 20px;
   height: 20px;
   justify-self: end;
+
+  border: 1px solid hsl(0, 0%, 41%);
+  border-radius: 4px;
+  background-color: white;
+
+  position: relative;
+  appearance: none;
+  transition: all 1.3s;
+}
+
+.todo-done:checked {
+  border-color: hsl(207, 71%, 46%);
+  background-color: hsl(215, 79%, 56%);
+}
+
+.todo-done:checked:after {
+  content: "✔";
+  position: absolute;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  color: hsl(0, 0%, 100%);
+  transform: translate(-50%, -50%);
 }
 
 .todo-div-kebab {
@@ -224,7 +250,7 @@ main {
   position: relative;
 }
 
-.kebab-menu-list{
+.kebab-menu-list {
   list-style-type: none;
   position: absolute;
   top: 100%;
@@ -241,11 +267,9 @@ main {
 
 .btn-kebab-edit,
 .btn-kebab-delete {
- width: 100%;
- padding: 0.1rem 0.2rem;
+  width: 100%;
+  padding: 0.1rem 0.2rem;
 }
-
-
 
 .todo-title {
   grid-area: todo-title;
@@ -270,6 +294,15 @@ main {
     "create-todo-date create-todo-priority"
     "create-todo-title create-todo-title"
     "create-todo-description create-todo-buttons";
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card-edit-todo {
+  grid-template-areas:
+    "create-todo-date create-todo-priority edit-todo-checkbox"
+    "create-todo-title create-todo-title create-todo-title"
+    "create-todo-description create-todo-description create-todo-buttons";
   gap: 1rem;
   padding: 1rem;
 }
@@ -314,13 +347,45 @@ main {
   gap: 0.2rem;
 }
 
-
 .btn-confirm-todo {
   /* border: 5px solid red; */
 }
 
 .btn-cancel-todo {
   /* border: 5px solid red; */
+}
+
+.edit-todo-checkbox {
+  grid-area: edit-todo-checkbox;
+  justify-self: end;
+  width: 20px;
+  height: 20px;
+
+  appearance: none;
+  position: relative;
+
+  border-radius: 4px;
+  border: 1px solid hsl(0, 0%, 41%);
+  background-color: white;
+  transition: all 1.3s;
+}
+
+.edit-todo-checkbox:checked {
+  border-color: hsl(207, 71%, 46%);
+  background-color: hsl(215, 79%, 56%);
+}
+
+.edit-todo-checkbox:checked:after {
+  content: "✔";
+  position: absolute;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: hsl(0, 0%, 100%);
 }
 
 .is-hidden {

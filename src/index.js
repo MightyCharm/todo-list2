@@ -6,11 +6,12 @@ import "@fortawesome/fontawesome-free/css/all.css";
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
-  const containerProjectBtn = document.getElementById("container-add-project-btn");
+  const containerProjectBtn = document.getElementById(
+    "container-add-project-btn"
+  );
   const containerToDos = document.getElementById("container-todos");
   const btnAddProject = document.getElementById("btn-add-project");
   const btnAddToDo = document.getElementById("btn-add-todo");
-  
 
   const projectManager = new ProjectManager();
   const domHandler = new DOMHandler(
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
-        domHandler.toggleHideDisplay(btnAddProject)
+        domHandler.toggleHideDisplay(btnAddProject);
         break;
 
       case "btn-confirm-project":
@@ -90,12 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const validationEditToDoForm = domHandler.validateInputToDo();
         if (validationEditToDoForm.check) {
-          console.log("input was good ma boi, do something");
+          console.log(validationEditToDoForm.inputs);
           domHandler.setIsFormOpen(false);
           article = event.target.closest("article");
           id = article.dataset.currentToDoId;
           const project = projectManager.getActiveProject();
           project.updateToDo(id, validationEditToDoForm.inputs);
+
+
           domHandler.removeElement(id);
           domHandler.renderToDo(id);
           domHandler.toggleHideDisplay(btnAddToDo);
@@ -142,11 +145,25 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "checkbox-todo":
-        console.log("checkbox was clicked, to something.");
+        console.log("checkbox-todo");
+        id = event.target.closest("article").id;
+        project = projectManager.getActiveProject();
+        todo = project.getToDo(id)
+        todo.setDone(event.target.checked);
+        console.log(todo);
+        break;
+
+      case "checkbox-edit-todo":
+        console.log("checkbox-edit-todo");
+         article = event.target.closest("article");
+         id = article.dataset.currentToDoId;
+         project = projectManager.getActiveProject();
+         todo = project.getToDo(id);
+         todo.setDone(event.target.checked);
         break;
 
       case "btn-kebab-menu":
-        if(domHandler.getIsFormOpen()) return;
+        if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         const ulKebab = article.querySelector(".kebab-menu-list");
         if (!ulKebab.classList.contains("is-hidden")) {

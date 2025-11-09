@@ -48,6 +48,10 @@ class ToDo {
     this.dueDate = updatedDueDate;
   }
 
+  setDone(value) {
+    this.done = value;
+  }
+
   getDone() {
     return this.done;
   }

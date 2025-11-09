@@ -1,10 +1,15 @@
 class DOMHandler {
   #isFormOpen = false;
 
-  constructor(projectList, containerProjectBtn, containerToDos, projectManager) {
+  constructor(
+    projectList,
+    containerProjectBtn,
+    containerToDos,
+    projectManager
+  ) {
     this.projectList = projectList;
-    this.containerProjectBtn = containerProjectBtn,
-    this.containerToDos = containerToDos;
+    (this.containerProjectBtn = containerProjectBtn),
+      (this.containerToDos = containerToDos);
     this.projectManager = projectManager;
   }
 
@@ -60,6 +65,8 @@ class DOMHandler {
     const optionNormal = document.createElement("option");
     const optionHigh = document.createElement("option");
 
+    const checkboxDone = document.createElement("input");
+
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
@@ -75,7 +82,12 @@ class DOMHandler {
     const iconCancel = document.createElement("i");
 
     article.id = "card-create-todo";
-    article.classList.add("card", "card-create-todo");
+    article.classList.add("card");
+    if (todo) {
+      article.classList.add("card-edit-todo");
+    } else {
+      article.classList.add("card-create-todo");
+    }
 
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
@@ -90,6 +102,11 @@ class DOMHandler {
     optionNormal.textContent = "Normal";
     optionHigh.value = "high";
     optionHigh.textContent = "High";
+
+    checkboxDone.type = "checkbox";
+    checkboxDone.id = "edit-todo-checkbox";
+    checkboxDone.classList.add("edit-todo-checkbox");
+    checkboxDone.setAttribute("data-role", "checkbox-edit-todo");
 
     divTitle.classList.add("create-todo-title");
     labelTitle.htmlFor = "input-title";
@@ -136,6 +153,9 @@ class DOMHandler {
     divButtons.appendChild(buttonCancel);
     article.appendChild(inputDate);
     article.appendChild(selectPriority);
+    if (todo) {
+      article.appendChild(checkboxDone);
+    }
     article.appendChild(divTitle);
     article.appendChild(divDescription);
     article.appendChild(divButtons);
@@ -146,7 +166,9 @@ class DOMHandler {
       article.dataset.currentToDoId = todo.id;
       inputDate.value = todo.getDueDate();
       inputTitle.value = todo.getTitle();
+      checkboxDone.checked = todo.getDone();
       selectPriority.value = todo.getPriority();
+
       textareaDescription.value = todo.getDescription();
       buttonConfirm.setAttribute("data-role", "btn-confirm-edit-todo");
       return;
@@ -174,11 +196,13 @@ class DOMHandler {
   validateInputToDo() {
     const date = document.getElementById("create-todo-date");
     const priority = document.getElementById("create-todo-priority");
+    const done = document.getElementById("edit-todo-checkbox");
     const title = document.getElementById("input-title");
     const description = document.getElementById("textarea-description");
 
     const inputDate = date.value;
     const inputPriority = priority.value;
+    const inputDone = done?.checked || false;
     const inputTitle = title.value.trim();
     const inputDescription = description.value.trim();
 
@@ -191,6 +215,7 @@ class DOMHandler {
           description: inputDescription,
           dueDate: inputDate,
           priority: inputPriority,
+          done: inputDone,
         },
       };
     }
@@ -236,6 +261,7 @@ class DOMHandler {
 
   renderToDo(idToDo) {
     this.removeElement("card-create-todo");
+
     const project = this.projectManager.getActiveProject();
     const todo = project.getToDo(idToDo);
 
@@ -279,6 +305,7 @@ class DOMHandler {
     checkDone.type = "checkbox";
     checkDone.name = "done";
     checkDone.value = "done";
+    checkDone.checked = todo.done;
 
     divKebab.classList.add("todo-div-kebab");
     btnKebab.classList.add("btn-kebab-menu");

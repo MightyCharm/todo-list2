@@ -35,7 +35,6 @@ class Project {
     todo.done = !todo.done;
   }
 
-
   updateToDo(id, inputs) {
     const todo = this.todos.find((todo) => todo.id === id);
     if(!todo) {
@@ -44,36 +43,9 @@ class Project {
     }
     todo.setDueDate(inputs.dueDate);
     todo.setPriority(inputs.priority);
+    todo.setDone(inputs.done);
     todo.setTitle(inputs.title);
     todo.setDescription(inputs.description);
-  }
-
-
-  updateToDo2(id) {
-    console.log("here you are id: " + id);
-    const todo = this.todos.find((todo) => todo.id === id);
-    if (!todo) {
-      return undefined;
-    }
-    const properties = ["title", "description", "dueDate", "priority"];
-
-    properties.forEach((property) => {
-      const answer = prompt(`Enter new ${property}`);
-      if (answer !== null) {
-        const trimmedAnswer = answer.trim();
-        if (trimmedAnswer.length > 0) {
-          if (property === "priority") {
-            if (answer === "low" || answer === "normal" || answer === "high") {
-              todo[property] = trimmedAnswer;
-              console.log(`${property} was updated.`);
-            }
-          } else {
-            todo[property] = trimmedAnswer;
-            console.log(`${property} was updated.`);
-          }
-        }
-      }
-    });
   }
 
   getName() {
@@ -85,7 +57,6 @@ class Project {
   }
 
   getToDo(id) {
-    // should return todo
     const todo = this.todos.find((todo) => todo.id === id);
     if (!todo) {
       return undefined;
