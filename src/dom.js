@@ -8,8 +8,8 @@ class DOMHandler {
     projectManager
   ) {
     this.projectList = projectList;
-    (this.containerProjectBtn = containerProjectBtn),
-      (this.containerToDos = containerToDos);
+    this.containerProjectBtn = containerProjectBtn;
+    this.containerToDos = containerToDos;
     this.projectManager = projectManager;
   }
 
@@ -56,7 +56,7 @@ class DOMHandler {
     this.removeElement("li-project-name");
   }
 
-  renderToDoForm(todo = null) {
+  renderToDoForm() {
     const article = document.createElement("article");
     const inputDate = document.createElement("input");
 
@@ -83,11 +83,7 @@ class DOMHandler {
 
     article.id = "card-create-todo";
     article.classList.add("card");
-    if (todo) {
-      article.classList.add("card-edit-todo");
-    } else {
-      article.classList.add("card-create-todo");
-    }
+    article.classList.add("card-create-todo");
 
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
@@ -126,14 +122,10 @@ class DOMHandler {
     divButtons.classList.add("create-todo-buttons");
     buttonConfirm.id = "btn-confirm-todo";
     buttonConfirm.classList.add("btn-confirm-todo");
-
     buttonConfirm.setAttribute("data-role", "btn-confirm-todo");
-
     buttonCancel.id = "btn-cancel-todo";
     buttonCancel.classList.add("btn-cancel-todo");
-
     buttonCancel.setAttribute("data-role", "btn-cancel-todo");
-
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
@@ -153,26 +145,11 @@ class DOMHandler {
     divButtons.appendChild(buttonCancel);
     article.appendChild(inputDate);
     article.appendChild(selectPriority);
-    if (todo) {
-      article.appendChild(checkboxDone);
-    }
     article.appendChild(divTitle);
     article.appendChild(divDescription);
     article.appendChild(divButtons);
 
     this.containerToDos.appendChild(article);
-
-    if (todo) {
-      article.dataset.currentToDoId = todo.id;
-      inputDate.value = todo.getDueDate();
-      inputTitle.value = todo.getTitle();
-      checkboxDone.checked = todo.getDone();
-      selectPriority.value = todo.getPriority();
-
-      textareaDescription.value = todo.getDescription();
-      buttonConfirm.setAttribute("data-role", "btn-confirm-edit-todo");
-      return;
-    }
     buttonConfirm.setAttribute("data-role", "btn-confirm-create-todo");
   }
 
@@ -223,8 +200,116 @@ class DOMHandler {
     return { check: false };
   }
 
+  validateInputEditToDo(article) {
+    const date = article.querySelector(".edit-input-dueDate");
+    const priority = article.querySelector(".todo-priority");
+    const checkboxDone = article.querySelector(".todo-done");
+    const title = article.querySelector(".input-title-edit");
+    const description = article.querySelector(".textarea-edit-todo");
+
+    const inputDate = date.value;
+    const inputPriority = priority.value;
+    const inputCheckboxDone = checkboxDone?.checked || false;
+    const inputTitle = title.value.trim();
+    const inputDescription = description.value.trim();
+
+    console.log(
+      `dueDate:${inputDate} priority:${inputPriority} done:${inputCheckboxDone} title:${inputTitle} description:${inputDescription}`
+    );
+    // good values: create todo
+    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
+      return {
+        check: true,
+        inputs: {
+          title: inputTitle,
+          description: inputDescription,
+          dueDate: inputDate,
+          priority: inputPriority,
+          done: inputCheckboxDone,
+        },
+      };
+    }
+    console.log("Input is missing something, do nothing for now");
+    return { check: false };
+  }
+
   createProject() {
     this.renderProject();
+  }
+
+  editToDo(article, todo) {
+    article.classList.remove("card-todo", "card-todo-expanded");
+    article.classList.add("card-todo-editing");
+    const trashButton = article.querySelector(".todo-btn-trash");
+    trashButton.remove();
+    console.log(todo);
+
+    const pDate = article.querySelector(".todo-dueDate");
+    const pTitle = article.querySelector(".todo-title");
+    const pDescription = article.querySelector(".todo-description");
+
+    const inputDate = document.createElement("input");
+
+    const divTitle = document.createElement("div");
+    const labelTitle = document.createElement("label");
+    const inputTitle = document.createElement("input");
+
+    const divDescription = document.createElement("div");
+    const labelDescription = document.createElement("label");
+    const textareaDescription = document.createElement("textarea");
+
+    const divButtons = document.createElement("div");
+    const buttonConfirm = document.createElement("button");
+    const buttonCancel = document.createElement("button");
+    const iconConfirm = document.createElement("i");
+    const iconCancel = document.createElement("i");
+
+    inputDate.classList.add("edit-input-dueDate");
+    inputDate.name = "input-dueDate-edit";
+
+    divTitle.classList.add("edit-div-title");
+    labelTitle.htmlFor = `${article.id}-input-title-edit`;
+    labelTitle.textContent = "Title";
+    inputTitle.id = `${article.id}-input-title-edit`;
+    inputTitle.classList.add("input-title-edit");
+
+    divDescription.classList.add("edit-div-description");
+    labelDescription.htmlFor = `${article.id}-textarea-description-edit`;
+    labelDescription.textContent = "Description";
+    textareaDescription.id = `${article.id}-textarea-description-edit`;
+    textareaDescription.classList.add("textarea-edit-todo");
+
+    inputDate.type = "date";
+    inputTitle.type = "text";
+
+    divButtons.classList.add("todo-div-edit-btns");
+    buttonConfirm.classList.add("btn-confirm-edit-todo");
+    buttonConfirm.setAttribute("data-role", "btn-confirm-edit-todo");
+    buttonCancel.classList.add("btn-cancel-edit-todo");
+    buttonCancel.setAttribute("data-role", "btn-cancel-edit-todo");
+    iconConfirm.classList.add("fas", "fa-check", "fa-lg");
+    iconCancel.classList.add("fas", "fa-times", "fa-lg");
+
+    inputDate.value = todo.getDueDate();
+    inputTitle.value = todo.getTitle();
+    textareaDescription.value = todo.getDescription();
+
+    divTitle.appendChild(labelTitle);
+    divTitle.appendChild(inputTitle);
+
+    divDescription.appendChild(labelDescription);
+    divDescription.appendChild(textareaDescription);
+
+    pDate.replaceWith(inputDate);
+    pTitle.replaceWith(divTitle);
+    pDescription.replaceWith(divDescription);
+
+    buttonConfirm.appendChild(iconConfirm);
+    buttonCancel.appendChild(iconCancel);
+    divButtons.appendChild(buttonConfirm);
+    divButtons.appendChild(buttonCancel);
+
+    article.appendChild(divButtons);
   }
 
   renderProject() {
@@ -259,8 +344,11 @@ class DOMHandler {
     }
   }
 
-  renderToDo(idToDo) {
-    this.removeElement("card-create-todo");
+  renderToDo(idToDo, nextSibling = null) {
+    console.log("renderToDo")
+    if (!nextSibling) {
+      this.removeElement("card-create-todo");
+    }
 
     const project = this.projectManager.getActiveProject();
     const todo = project.getToDo(idToDo);
@@ -361,7 +449,7 @@ class DOMHandler {
 
     selectPriority.value = todo.getPriority();
 
-    this.containerToDos.appendChild(article);
+    this.containerToDos.insertBefore(article, nextSibling);
   }
 
   renderActiveProjectToDos() {
@@ -390,7 +478,6 @@ class DOMHandler {
 
   setIsFormOpen(state) {
     this.#isFormOpen = state;
-    console.log("form is open: " + this.#isFormOpen);
   }
 
   highlightActiveProject() {

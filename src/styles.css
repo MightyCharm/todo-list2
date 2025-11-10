@@ -200,10 +200,24 @@ main {
   padding: 1rem;
 }
 
+/* =========================================== */
+.card-todo-editing {
+  grid-template-areas:
+    "input-dueDate-edit todo-priority todo-done todo-div-kebab"
+    "edit-div-title edit-div-title  edit-div-title edit-div-title"
+    "edit-div-description edit-div-description edit-div-description todo-div-edit-btns";
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+
+  border: 1px solid red;
+}
+
 .todo-dueDate {
   grid-area: todo-dueDate;
 }
 
+/* =========================================== */
 .todo-priority {
   grid-area: todo-priority;
 }
@@ -277,7 +291,6 @@ main {
 }
 
 .todo-description {
-  grid-area: todo-description;
 }
 
 .todo-btn-trash {
@@ -288,6 +301,49 @@ main {
   width: 20px;
   height: 20px;
 }
+
+/* classes for items in edit mode */
+.edit-input-dueDate {
+}
+
+.edit-div-title {
+  grid-area: edit-div-title;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-title-edit {
+  padding: 0.2rem;
+}
+
+.edit-div-description {
+  grid-area: edit-div-description;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-edit-todo {
+  resize: none;
+  padding: 0.4rem 0.2rem;
+}
+
+.todo-div-edit-btns {
+  grid-area: todo-div-edit-btns;
+  align-self: end;
+  
+  display: flex;
+  gap: 0.5rem;
+  /* display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 0.2rem; */
+  
+  
+  border: 1px solid rgb(9, 85, 171);
+}
+
+/* ============================================================= */
 
 .card-create-todo {
   grid-template-areas:
@@ -353,39 +409,6 @@ main {
 
 .btn-cancel-todo {
   /* border: 5px solid red; */
-}
-
-.edit-todo-checkbox {
-  grid-area: edit-todo-checkbox;
-  justify-self: end;
-  width: 20px;
-  height: 20px;
-
-  appearance: none;
-  position: relative;
-
-  border-radius: 4px;
-  border: 1px solid hsl(0, 0%, 41%);
-  background-color: white;
-  transition: all 1.3s;
-}
-
-.edit-todo-checkbox:checked {
-  border-color: hsl(207, 71%, 46%);
-  background-color: hsl(215, 79%, 56%);
-}
-
-.edit-todo-checkbox:checked:after {
-  content: "✔";
-  position: absolute;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: hsl(0, 0%, 100%);
 }
 
 .is-hidden {

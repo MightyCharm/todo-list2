@@ -25,9 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.highlightActiveProject();
 
   container.addEventListener("click", (event) => {
-    console.log("CLICK EVENT <-------- ");
     const role = event.target.closest("[data-role]")?.dataset.role;
-    console.log(role);
+    // console.log(role);
     let list; // to grab parent list element
     let id; // to grab id
     let project;
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!role) {
       return;
     }
-    console.log("after check <-------");
     switch (role) {
       case "btn-add-project":
         console.log("btn-add-project");
@@ -86,30 +84,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
 
-      case "btn-confirm-edit-todo":
-        console.log("update new values to todo edited");
-
-        const validationEditToDoForm = domHandler.validateInputToDo();
-        if (validationEditToDoForm.check) {
-          console.log(validationEditToDoForm.inputs);
-          domHandler.setIsFormOpen(false);
-          article = event.target.closest("article");
-          id = article.dataset.currentToDoId;
-          const project = projectManager.getActiveProject();
-          project.updateToDo(id, validationEditToDoForm.inputs);
-
-
-          domHandler.removeElement(id);
-          domHandler.renderToDo(id);
-          domHandler.toggleHideDisplay(btnAddToDo);
-        }
-        break;
-
       case "btn-cancel-todo":
         console.log("btn-cancel-todo");
         domHandler.setIsFormOpen(false);
         domHandler.cancelToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
+        break;
+
+      case "btn-confirm-edit-todo":
+        console.log("btn-confirm-edit-todo");
+        domHandler.setIsFormOpen(false);
+        article = event.target.closest("article");
+        const validateEditToDoInput = domHandler.validateInputEditToDo(article);
+        if (validateEditToDoInput.check) {
+          id = article.id;
+          project = projectManager.getActiveProject();
+          project.updateToDo(id, validateEditToDoInput.inputs);
+          // grab sibling so newly render todo can be inserted in same spot as before
+          const nextSibling = article.nextSibling;
+          domHandler.removeElement(id);
+          domHandler.renderToDo(id, nextSibling);
+        }
+        break;
+
+      case "btn-cancel-edit-todo":
+        console.log("btn-cancel-edit-todo");
+        domHandler.setIsFormOpen(false);
+        article = event.target.closest("article");
+        id = article.id;
+        project = projectManager.getActiveProject();
+        todo = project.getToDo(id);
+        domHandler.removeElement(id);
+        domHandler.renderToDo(id);
         break;
 
       case "btn-project":
@@ -144,25 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.removeElement(id);
         break;
 
-      case "checkbox-todo":
-        console.log("checkbox-todo");
-        id = event.target.closest("article").id;
-        project = projectManager.getActiveProject();
-        todo = project.getToDo(id)
-        todo.setDone(event.target.checked);
-        console.log(todo);
-        break;
-
-      case "checkbox-edit-todo":
-        console.log("checkbox-edit-todo");
-         article = event.target.closest("article");
-         id = article.dataset.currentToDoId;
-         project = projectManager.getActiveProject();
-         todo = project.getToDo(id);
-         todo.setDone(event.target.checked);
-        break;
-
       case "btn-kebab-menu":
+        console.log("btn-kebab-menu");
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         const ulKebab = article.querySelector(".kebab-menu-list");
@@ -173,23 +162,48 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.toggleHideDisplay(ulKebab);
         }
         break;
+
       case "btn-kebab-edit":
+        console.log("btn-kebab-edit");
         if (domHandler.getIsFormOpen()) return;
-        domHandler.setIsFormOpen(true); // <-------- form edit opens
+        domHandler.setIsFormOpen(true);
+        article = event.target.closest("article");
+        id = article.id;
+        console.log(id);
+        project = projectManager.getActiveProject();
+        todo = project.getToDo(id);
+        domHandler.editToDo(article, todo);
+        // domHandler.toggleHideDisplay(btnAddToDo);
+        // domHandler.hideAllKebabMenus();
+        break;
+
+      case "checkbox-todo":
+        console.log("checkbox-todo");
         id = event.target.closest("article").id;
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
-        domHandler.renderToDoForm(todo);
-        domHandler.toggleHideDisplay(btnAddToDo);
-        domHandler.hideAllKebabMenus();
+        todo.setDone(event.target.checked);
+        // console.log(todo);
+        break;
+
+      case "checkbox-edit-todo":
+        console.log("checkbox-edit-todo");
+        article = event.target.closest("article");
+        id = article.dataset.currentToDoId;
+        project = projectManager.getActiveProject();
+        todo = project.getToDo(id);
+        todo.setDone(event.target.checked);
         break;
 
       case "expand-todo":
         console.log("expand-todo");
         article = event.target.closest("article");
         const description = article.querySelector(".todo-description");
-        domHandler.toggleToDoLayout(article);
-        domHandler.toggleHideDisplay(description);
+        if (description) {
+          // if todo is in edit mode, description is not there anymore
+          domHandler.toggleToDoLayout(article);
+          domHandler.toggleHideDisplay(description);
+        }
         break;
 
       default:
@@ -202,8 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectPriority = event.target.closest("select");
     if (!selectPriority) return;
     let role = selectPriority.dataset.role;
-    console.log("Change Event <---------");
-    console.log(role);
     switch (role) {
       case "select-priority":
         console.log("Inside case priority");
