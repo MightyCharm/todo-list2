@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.highlightActiveProject();
 
   container.addEventListener("click", (event) => {
-    const role = event.target.closest("[data-role]")?.dataset.role;
-    // console.log(role);
+    domHandler.handleOutsideClick(event.target);
+    const role = event.target.closest("[data-role]")?.dataset.role; 
     let list; // to grab parent list element
     let id; // to grab id
     let project;
@@ -148,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getActiveProject();
         project.removeToDo(id);
         domHandler.removeElement(id);
+        domHandler.closeKebabMenu();
         break;
 
       case "btn-kebab-menu":
@@ -155,12 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         const ulKebab = article.querySelector(".kebab-menu-list");
-        if (!ulKebab.classList.contains("is-hidden")) {
-          domHandler.toggleHideDisplay(ulKebab);
-        } else {
-          domHandler.hideAllKebabMenus();
-          domHandler.toggleHideDisplay(ulKebab);
-        }
+        domHandler.handleKebabClick(ulKebab);
         break;
 
       case "btn-kebab-edit":
@@ -173,8 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         domHandler.editToDo(article, todo);
-        // domHandler.toggleHideDisplay(btnAddToDo);
-        // domHandler.hideAllKebabMenus();
+
+        domHandler.closeKebabMenu(); // <-------------------------------------
         break;
 
       case "checkbox-todo":
@@ -183,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         todo.setDone(event.target.checked);
-        // console.log(todo);
         break;
 
       case "checkbox-edit-todo":
@@ -209,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
       default:
         console.log("default case click event.");
     }
-    console.log(projectManager.getActiveProject().getToDos());
   });
 
   container.addEventListener("change", (event) => {

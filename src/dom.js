@@ -1,5 +1,6 @@
 class DOMHandler {
   #isFormOpen = false;
+  #activeKebab = null;
 
   constructor(
     projectList,
@@ -345,7 +346,7 @@ class DOMHandler {
   }
 
   renderToDo(idToDo, nextSibling = null) {
-    console.log("renderToDo")
+    console.log("renderToDo");
     if (!nextSibling) {
       this.removeElement("card-create-todo");
     }
@@ -500,12 +501,36 @@ class DOMHandler {
     article.classList.toggle("card-todo-expanded");
   }
 
-  hideAllKebabMenus() {
-    const kebabMenuLists = document.querySelectorAll(".kebab-menu-list");
-    kebabMenuLists.forEach((menu) => {
-      menu.classList.add("is-hidden");
-    });
+  handleKebabClick(ulKebab) {
+    if (this.#activeKebab === ulKebab) {
+      this.toggleHideDisplay(this.#activeKebab);
+      this.#activeKebab = null;
+      return;
+    }
+    if (this.#activeKebab) {
+      this.toggleHideDisplay(this.#activeKebab);
+    }
+
+    this.#activeKebab = ulKebab;
+    this.toggleHideDisplay(this.#activeKebab);
   }
+
+  handleOutsideClick(target) {
+    const isKebabButton = target.closest(".btn-kebab-menu");
+    const isInsideKebab = target.closest(".todo-div-kebab");
+    if (isKebabButton || isInsideKebab) return;
+    if (this.#activeKebab) {
+      this.toggleHideDisplay(this.#activeKebab);
+      this.#activeKebab = null;
+    }
+  }
+
+  closeKebabMenu() {
+    if(this.#activeKebab) {
+      this.toggleHideDisplay(this.#activeKebab);
+      this.#activeKebab = null;
+    }
+  }  
 }
 
 export { DOMHandler };
