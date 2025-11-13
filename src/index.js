@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
 
-      case "btn-cancel-todo":
+      case "btn-cancel-create-todo":
         console.log("btn-cancel-todo");
         domHandler.setIsFormOpen(false);
         domHandler.cancelToDoForm();
