@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
     const role = event.target.closest("[data-role]")?.dataset.role; 
+    console.log(role);
     let list; // to grab parent list element
     let id; // to grab id
     let project;
@@ -36,8 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     switch (role) {
+      
       case "btn-add-project":
-        console.log("btn-add-project");
+        console.log(role);
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-confirm-create-todo":
-        console.log("btn-confirm-todo");
+        console.log("btn-confirm-create-todo");
         const validationCreateToDoForm = domHandler.validateInputToDo();
         if (validationCreateToDoForm.check) {
           domHandler.setIsFormOpen(false);
@@ -168,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(id);
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
-        domHandler.editToDo(article, todo);
+        domHandler.renderEditToDo(article, todo);
 
         domHandler.closeKebabMenu(); // <-------------------------------------
         break;

@@ -31,7 +31,8 @@ class DOMHandler {
     list.id = "li-project-name";
     input.id = "input-project-name";
     input.type = "text";
-    input.maxLength = "50";
+    input.maxLength = "40";
+    input.required = true;
     btnConfirm.id = "btn-confirm-project";
     btnCancel.id = "btn-cancel-project";
 
@@ -89,6 +90,7 @@ class DOMHandler {
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
     inputDate.type = "date";
+    inputDate.required = true;
 
     selectPriority.id = "create-todo-priority";
     selectPriority.classList.add("create-todo-priority");
@@ -100,8 +102,8 @@ class DOMHandler {
     optionHigh.value = "high";
     optionHigh.textContent = "High";
 
-    checkboxDone.type = "checkbox";
     checkboxDone.id = "edit-todo-checkbox";
+    checkboxDone.type = "checkbox";
     checkboxDone.classList.add("edit-todo-checkbox");
     checkboxDone.setAttribute("data-role", "checkbox-edit-todo");
 
@@ -111,6 +113,7 @@ class DOMHandler {
     inputTitle.id = "input-title";
     inputTitle.classList.add("input-title");
     inputTitle.type = "text";
+    inputTitle.required = true;
 
     divDescription.classList.add("create-todo-description");
     labelDescription.htmlFor = "textarea-description";
@@ -119,14 +122,13 @@ class DOMHandler {
     textareaDescription.classList.add("textarea-description");
     textareaDescription.rows = "3";
     textareaDescription.maxLength = "100";
+    textareaDescription.required = true;
 
     divButtons.classList.add("create-todo-buttons");
-    buttonConfirm.id = "btn-confirm-todo";
-    buttonConfirm.classList.add("btn-confirm-todo");
-    buttonConfirm.setAttribute("data-role", "btn-confirm-todo");
-    buttonCancel.id = "btn-cancel-todo";
-    buttonCancel.classList.add("btn-cancel-todo");
-    buttonCancel.setAttribute("data-role", "btn-cancel-todo");
+    buttonConfirm.classList.add("btn-confirm-create-todo");
+    buttonConfirm.setAttribute("data-role", "btn-confirm-create-todo");
+    buttonCancel.classList.add("btn-cancel-create-todo");
+    buttonCancel.setAttribute("data-role", "btn-cancel-create-todo");
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
@@ -151,7 +153,8 @@ class DOMHandler {
     article.appendChild(divButtons);
 
     this.containerToDos.appendChild(article);
-    buttonConfirm.setAttribute("data-role", "btn-confirm-create-todo");
+    selectPriority.value = "normal";
+
   }
 
   cancelToDoForm() {
@@ -238,26 +241,28 @@ class DOMHandler {
     this.renderProject();
   }
 
-  editToDo(article, todo) {
+  renderEditToDo(article, todo) {
     article.classList.remove("card-todo", "card-todo-expanded");
     article.classList.add("card-todo-editing");
     const trashButton = article.querySelector(".todo-btn-trash");
     trashButton.remove();
-    console.log(todo);
 
     const pDate = article.querySelector(".todo-dueDate");
     const pTitle = article.querySelector(".todo-title");
     const pDescription = article.querySelector(".todo-description");
 
     const inputDate = document.createElement("input");
+    inputDate.required = true;
 
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
+    inputTitle.required = true;
 
     const divDescription = document.createElement("div");
     const labelDescription = document.createElement("label");
     const textareaDescription = document.createElement("textarea");
+    textareaDescription.required = true;
 
     const divButtons = document.createElement("div");
     const buttonConfirm = document.createElement("button");
@@ -530,7 +535,7 @@ class DOMHandler {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;
     }
-  }  
+  }
 }
 
 export { DOMHandler };

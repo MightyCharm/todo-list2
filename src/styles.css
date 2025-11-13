@@ -10,6 +10,36 @@
   --border-radius: 8px;
 }
 
+/* Fallback: older browsers */
+input {
+  border-radius: 2px;
+  border: 1px solid black;
+}
+
+/* Modern: only after interaction */
+@supports (selector(:user-invalid)) {
+  input:user-invalid,
+  textarea:user-invalid {
+    border-color: red;
+  }
+  input:user-valid,
+  textarea:user-valid {
+    border-color: green;
+  }
+}
+
+/* Fallback: older browsers */
+@supports not (selector(user-invalid)) {
+  input:invalid,
+  textarea:invalid {
+    border-color: red;
+  }
+  input:valid,
+  textarea:valid {
+    border-color: green;
+  }
+}
+
 html,
 body {
   height: 100%;
@@ -393,11 +423,11 @@ main {
   gap: 0.2rem;
 }
 
-.btn-confirm-todo {
+.btn-confirm-create-todo {
   /* border: 5px solid red; */
 }
 
-.btn-cancel-todo {
+.btn-cancel-create-todo {
   /* border: 5px solid red; */
 }
 
