@@ -132,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
           const nextSibling = article.nextSibling;
           domHandler.removeElement(id);
           domHandler.renderToDo(id, nextSibling);
+
+          projectManager.setLocalStorage();
         }
         break;
 
