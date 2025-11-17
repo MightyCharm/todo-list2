@@ -325,6 +325,5 @@ export {
   createProject,
   cancelToDoForm,
   cancelProjectForm,
-  
   validateInputToDo,
 };

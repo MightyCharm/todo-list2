@@ -11,7 +11,7 @@ class Project {
     this.todos = [];
   }
 
-  addToDo({title, description, dueDate, priority}) {
+  addToDo({ title, description, dueDate, priority }) {
     const todo = new ToDo(title, description, dueDate, priority);
     this.todos.push(todo);
     return todo.id;
@@ -37,7 +37,7 @@ class Project {
 
   updateToDo(id, inputs) {
     const todo = this.todos.find((todo) => todo.id === id);
-    if(!todo) {
+    if (!todo) {
       console.log("todo not found.");
       return undefined;
     }

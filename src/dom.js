@@ -6,16 +6,12 @@ class DOMHandler {
     projectList,
     containerProjectBtn,
     containerToDos,
-    projectManager
+    projectManager,
   ) {
     this.projectList = projectList;
     this.containerProjectBtn = containerProjectBtn;
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
-  }
-
-  initialSetup() {
-    this.renderProject();
   }
 
   renderProjectForm() {
@@ -154,7 +150,6 @@ class DOMHandler {
 
     this.containerToDos.appendChild(article);
     selectPriority.value = "normal";
-
   }
 
   cancelToDoForm() {
@@ -218,7 +213,7 @@ class DOMHandler {
     const inputDescription = description.value.trim();
 
     console.log(
-      `dueDate:${inputDate} priority:${inputPriority} done:${inputCheckboxDone} title:${inputTitle} description:${inputDescription}`
+      `dueDate:${inputDate} priority:${inputPriority} done:${inputCheckboxDone} title:${inputTitle} description:${inputDescription}`,
     );
     // good values: create todo
     if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
@@ -235,10 +230,6 @@ class DOMHandler {
     }
     console.log("Input is missing something, do nothing for now");
     return { check: false };
-  }
-
-  createProject() {
-    this.renderProject();
   }
 
   renderEditToDo(article, todo) {
@@ -318,10 +309,20 @@ class DOMHandler {
     article.appendChild(divButtons);
   }
 
-  renderProject() {
+  createProject(activeProject) {
+    this.renderProject(activeProject);
+  }
+
+  renderAllProjects(projects) {
+    projects.forEach((project) => {
+      this.renderProject(project);
+    });
+  }
+
+  renderProject(project) {
     this.removeElement("li-project-name");
-    const project = this.projectManager.getActiveProject();
-    const projectId = project.getId();
+    // const project = this.projectManager.getActiveProject();
+    const projectId = project.id;
     const defaultProjectId = this.projectManager.getDefaultProject().getId();
 
     const list = document.createElement("li");
@@ -531,7 +532,7 @@ class DOMHandler {
   }
 
   closeKebabMenu() {
-    if(this.#activeKebab) {
+    if (this.#activeKebab) {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;
     }

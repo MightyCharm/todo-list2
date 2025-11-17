@@ -1,10 +1,11 @@
 import { Project } from "./project.js";
+
+const DEFAULT_PROJECT_ID = "default-project-DP";
+
 class ProjectManager {
   constructor() {
-    this.default = new Project("Default");
-    this.activeProject = this.default;
+    this.activeProject;
     this.projects = [];
-    this.projects.push(this.default);
   }
 
   addProject(name) {
@@ -15,6 +16,18 @@ class ProjectManager {
     return project;
   }
 
+  reconstructProjects(data) {
+    data.forEach((item) => {
+      const project = new Project(item.name, item.id);
+      this.projects.push(project);
+      if (project.getId() === DEFAULT_PROJECT_ID) {
+        this.activeProject = project;
+        this.default = project;
+      }
+      // console.log(`Project "${item.name}" was reconstructed from data.`);
+    });
+  }
+
   removeProject(id) {
     if (id === this.default.id) {
       console.log("You cannot delete the default project.");
@@ -22,14 +35,15 @@ class ProjectManager {
     }
     this.projects = this.projects.filter((project) => project.id !== id);
     if (this.activeProject.getId() === id) {
-       console.log("Project was removed. Project default was set as active");
+      console.log("Project was removed. Project default was set as active");
       this.activeProject = this.default;
     }
-    console.log("Project was removed.")
+    console.log("Project was removed.");
     return true;
   }
 
   switchActiveProject(id) {
+    console.log(this.projects);
     const project = this.projects.find((project) => project.id === id);
     if (!project) {
       console.log("Project couldn't be switched.");
@@ -50,6 +64,28 @@ class ProjectManager {
   getDefaultProject() {
     return this.default;
   }
+
+  setLocalStorage() {
+    console.log("setLocalStorage");
+    const data = this.getProjects();
+    localStorage.setItem("projects", JSON.stringify(data));
+  }
+
+  getLocalStorage() {
+    console.log("getLocalStorage");
+    const data = localStorage.getItem("projects");
+    if (data) {
+      return JSON.parse(data);
+    }
+    return []; // before: return this.project;
+  }
+
+  createDefaultProject() {
+    console.log("createDefaultProject");
+    this.default = new Project("Default", DEFAULT_PROJECT_ID);
+    this.activeProject = this.default;
+    this.projects.push(this.default);
+  }
 }
 
-export { ProjectManager };
+export { ProjectManager, DEFAULT_PROJECT_ID };

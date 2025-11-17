@@ -1,4 +1,4 @@
-import { ProjectManager } from "./project-manager.js";
+import { ProjectManager, DEFAULT_PROJECT_ID } from "./project-manager.js";
 import { DOMHandler } from "./dom.js";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
   const containerProjectBtn = document.getElementById(
-    "container-add-project-btn"
+    "container-add-project-btn",
   );
   const containerToDos = document.getElementById("container-todos");
   const btnAddProject = document.getElementById("btn-add-project");
@@ -18,18 +18,40 @@ document.addEventListener("DOMContentLoaded", () => {
     projectList,
     containerProjectBtn,
     containerToDos,
-    projectManager
+    projectManager,
   );
 
-  domHandler.initialSetup();
+  // load data
+  const data = projectManager.getLocalStorage();
+  console.log(data);
+  // check if default projects is present
+  const checkForDefault = data.some(
+    (project) => project.id === DEFAULT_PROJECT_ID,
+  );
+  console.log(`checkForDefault: ${checkForDefault}`);
+  // if no default project was present
+  if (!checkForDefault) {
+    console.log("here is here");
+    projectManager.createDefaultProject();
+    projectManager.setLocalStorage();
+  }
+
+  projectManager.reconstructProjects(data);
+  domHandler.renderAllProjects(projectManager.getProjects());
   domHandler.highlightActiveProject();
 
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
-    const role = event.target.closest("[data-role]")?.dataset.role; 
+    const role = event.target.closest("[data-role]")?.dataset.role;
     console.log(role);
-    let list; // to grab parent list element
-    let id; // to grab id
+    let validationProject;
+    let validationCreateToDoForm;
+    let validateEditToDoInput;
+    let removedProject;
+    let ulKebab;
+    let description;
+    let list;
+    let id;
     let project;
     let todo;
     let article;
@@ -37,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     switch (role) {
-      
       case "btn-add-project":
         console.log(role);
         if (domHandler.getIsFormOpen()) return;
@@ -48,14 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-project":
         console.log("btn-confirm-project");
-        const validationProject = domHandler.validationInputProject();
+        validationProject = domHandler.validationInputProject();
         if (validationProject.check) {
           projectManager.addProject(validationProject.name);
           domHandler.setIsFormOpen(false);
-          domHandler.createProject();
+          domHandler.createProject(projectManager.getActiveProject());
           domHandler.highlightActiveProject();
           domHandler.toggleHideDisplay(btnAddProject);
           domHandler.removeToDos();
+
+          projectManager.setLocalStorage();
         }
         break;
 
@@ -76,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-create-todo":
         console.log("btn-confirm-create-todo");
-        const validationCreateToDoForm = domHandler.validateInputToDo();
+        validationCreateToDoForm = domHandler.validateInputToDo();
         if (validationCreateToDoForm.check) {
           domHandler.setIsFormOpen(false);
           const project = projectManager.getActiveProject();
@@ -97,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-edit-todo");
         domHandler.setIsFormOpen(false);
         article = event.target.closest("article");
-        const validateEditToDoInput = domHandler.validateInputEditToDo(article);
+        validateEditToDoInput = domHandler.validateInputEditToDo(article);
         if (validateEditToDoInput.check) {
           id = article.id;
           project = projectManager.getActiveProject();
@@ -135,12 +158,14 @@ document.addEventListener("DOMContentLoaded", () => {
         list = event.target.closest("li");
         id = list.id;
         // removed prevents the deletion of default project
-        const removed = projectManager.removeProject(list.id);
-        if (removed) {
+        removedProject = projectManager.removeProject(list.id);
+        if (removedProject) {
           domHandler.removeElement(list.id);
           domHandler.highlightActiveProject();
           domHandler.removeToDos();
           domHandler.renderActiveProjectToDos();
+
+          projectManager.setLocalStorage();
         }
         break;
       case "btn-trash-todo":
@@ -157,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-kebab-menu");
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
-        const ulKebab = article.querySelector(".kebab-menu-list");
+        ulKebab = article.querySelector(".kebab-menu-list");
         domHandler.handleKebabClick(ulKebab);
         break;
 
@@ -172,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         todo = project.getToDo(id);
         domHandler.renderEditToDo(article, todo);
 
-        domHandler.closeKebabMenu(); // <-------------------------------------
+        domHandler.closeKebabMenu();
         break;
 
       case "checkbox-todo":
@@ -195,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "expand-todo":
         console.log("expand-todo");
         article = event.target.closest("article");
-        const description = article.querySelector(".todo-description");
+        description = article.querySelector(".todo-description");
         if (description) {
           // if todo is in edit mode, description is not there anymore
           domHandler.toggleToDoLayout(article);
@@ -209,15 +234,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   container.addEventListener("change", (event) => {
+    let project;
+    let id;
+    let todo;
     const selectPriority = event.target.closest("select");
+
     if (!selectPriority) return;
     let role = selectPriority.dataset.role;
     switch (role) {
       case "select-priority":
         console.log("Inside case priority");
-        const project = projectManager.getActiveProject();
-        const id = event.target.closest("article").id;
-        const todo = project.getToDo(id);
+        project = projectManager.getActiveProject();
+        id = event.target.closest("article").id;
+        todo = project.getToDo(id);
         todo.setPriority(selectPriority.value);
         break;
       default:
