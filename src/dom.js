@@ -460,7 +460,9 @@ class DOMHandler {
   }
 
   renderActiveProjectToDos() {
+    console.log("renderActiveProjectToDos()");
     const project = this.projectManager.getActiveProject();
+    console.log(project);
     const activeProjectTodos = project.getToDos();
     activeProjectTodos.forEach((todo) => {
       const id = todo.getId();

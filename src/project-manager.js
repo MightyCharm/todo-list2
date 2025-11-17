@@ -19,6 +19,13 @@ class ProjectManager {
   reconstructProjects(data) {
     data.forEach((item) => {
       const project = new Project(item.name, item.id);
+      // reconstruct todos
+      console.log("wisdom lies beyond me");
+      // console.log(item.todos);
+      item.todos.forEach((todoData) => {
+        console.log(todoData);
+        project.addToDo(todoData);
+      });
       this.projects.push(project);
       if (project.getId() === DEFAULT_PROJECT_ID) {
         this.activeProject = project;

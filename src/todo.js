@@ -1,10 +1,10 @@
 class ToDo {
-  constructor(title, description, dueDate, priority, id) {
+  constructor(title, description, dueDate, priority, done = false, id) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.done = false;
+    this.done = done;
     if (id === undefined) {
       this.id = self.crypto.randomUUID();
     } else {

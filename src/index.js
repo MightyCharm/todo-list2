@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     projectManager,
   );
 
+  // New implemented block, does check and load data inside localStorage
   // load data
   const data = projectManager.getLocalStorage();
-  console.log(data);
   // check if default projects is present
   const checkForDefault = data.some(
     (project) => project.id === DEFAULT_PROJECT_ID,
@@ -35,10 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
     projectManager.createDefaultProject();
     projectManager.setLocalStorage();
   }
-
   projectManager.reconstructProjects(data);
   domHandler.renderAllProjects(projectManager.getProjects());
   domHandler.highlightActiveProject();
+  domHandler.renderActiveProjectToDos();
+  //===================================================================
 
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
@@ -106,6 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
           const idToDo = project.addToDo(validationCreateToDoForm.inputs);
           domHandler.renderToDo(idToDo);
           domHandler.toggleHideDisplay(btnAddToDo);
+
+          projectManager.setLocalStorage();
         }
         break;
 
@@ -176,6 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
         project.removeToDo(id);
         domHandler.removeElement(id);
         domHandler.closeKebabMenu();
+
+        projectManager.setLocalStorage();
         break;
 
       case "btn-kebab-menu":
