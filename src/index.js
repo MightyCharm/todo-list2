@@ -213,6 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         todo.setDone(event.target.checked);
+
+        projectManager.setLocalStorage();
         break;
 
       case "checkbox-edit-todo":
@@ -255,6 +257,8 @@ document.addEventListener("DOMContentLoaded", () => {
         id = event.target.closest("article").id;
         todo = project.getToDo(id);
         todo.setPriority(selectPriority.value);
+
+        projectManager.setLocalStorage();
         break;
       default:
         console.log("default case change event.");
