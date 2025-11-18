@@ -456,6 +456,10 @@ class DOMHandler {
 
     selectPriority.value = todo.getPriority();
 
+    //====================
+    this.updateLineThrough(pTitle, todo.done);
+    //====================
+
     this.containerToDos.insertBefore(article, nextSibling);
   }
 
@@ -538,6 +542,14 @@ class DOMHandler {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;
     }
+  }
+
+  updateLineThrough(title, isChecked) {
+    if (isChecked) {
+      title.classList.add("checked");
+      return;
+    }
+    title.classList.remove("checked");
   }
 }
 

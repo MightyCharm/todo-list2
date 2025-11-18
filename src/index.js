@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let project;
     let todo;
     let article;
+    let title;
     if (!role) {
       return;
     }
@@ -208,8 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "checkbox-todo":
+        //==============================================
         console.log("checkbox-todo");
-        id = event.target.closest("article").id;
+        article = event.target.closest("article");
+        title = article.querySelector(".todo-title");
+        domHandler.updateLineThrough(title, event.target.checked);
+        //==============================================
+        id = article.id;
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         todo.setDone(event.target.checked);

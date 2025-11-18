@@ -489,6 +489,11 @@ main {
   background-color: hsl(215, 83%, 50%);
 }
 
+.checked {
+  text-decoration: line-through;
+  color: grey;
+}
+
 @media (max-width: 480px) {
   body {
     /* border: 1px solid red; */
