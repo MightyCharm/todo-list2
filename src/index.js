@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(`checkForDefault: ${checkForDefault}`);
   // if no default project was present
   if (!checkForDefault) {
-    console.log("here is here");
     projectManager.createDefaultProject();
     projectManager.setLocalStorage();
   }
@@ -99,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
+      //=============================================================================================
       case "btn-confirm-create-todo":
         console.log("btn-confirm-create-todo");
         validationCreateToDoForm = domHandler.validateInputToDo();
@@ -110,8 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.toggleHideDisplay(btnAddToDo);
 
           projectManager.setLocalStorage();
+        } else {
+          article = event.target.closest("article");
+          domHandler.showValidationErrors(article, validationCreateToDoForm);
         }
         break;
+      //============================================================================================
 
       case "btn-cancel-create-todo":
         console.log("btn-cancel-todo");

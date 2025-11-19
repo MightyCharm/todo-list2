@@ -20,8 +20,6 @@ class ProjectManager {
     data.forEach((item) => {
       const project = new Project(item.name, item.id);
       // reconstruct todos
-      console.log("wisdom lies beyond me");
-      // console.log(item.todos);
       item.todos.forEach((todoData) => {
         console.log(todoData);
         project.addToDo(todoData);

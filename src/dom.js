@@ -56,22 +56,25 @@ class DOMHandler {
 
   renderToDoForm() {
     const article = document.createElement("article");
+
+    const divDate = document.createElement("div"); // <-----------------------------------
     const inputDate = document.createElement("input");
+    const spanDate = document.createElement("span"); // <-----------------------------------
 
     const selectPriority = document.createElement("select");
     const optionLow = document.createElement("option");
     const optionNormal = document.createElement("option");
     const optionHigh = document.createElement("option");
 
-    const checkboxDone = document.createElement("input");
-
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
+    const spanTitle = document.createElement("span"); // <-----------------------------------
 
     const divDescription = document.createElement("div");
     const labelDescription = document.createElement("label");
     const textareaDescription = document.createElement("textarea");
+    const spanDescription = document.createElement("span"); // <-----------------------------------
 
     const divButtons = document.createElement("div");
     const buttonConfirm = document.createElement("button");
@@ -83,10 +86,18 @@ class DOMHandler {
     article.classList.add("card");
     article.classList.add("card-create-todo");
 
+    divDate.classList.add("create-todo-div-date"); // <-----------------------------------
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
     inputDate.type = "date";
     inputDate.required = true;
+    spanDate.id = "create-todo-date-span"; // <-------------------------------------
+    spanDate.classList.add(
+      "create-todo-date-span",
+      "invalid",
+      "is-not-visible",
+    ); // <-----------------------------------
+    spanDate.textContent = "Invalid"; // <-----------------------------------
 
     selectPriority.id = "create-todo-priority";
     selectPriority.classList.add("create-todo-priority");
@@ -98,11 +109,6 @@ class DOMHandler {
     optionHigh.value = "high";
     optionHigh.textContent = "High";
 
-    checkboxDone.id = "edit-todo-checkbox";
-    checkboxDone.type = "checkbox";
-    checkboxDone.classList.add("edit-todo-checkbox");
-    checkboxDone.setAttribute("data-role", "checkbox-edit-todo");
-
     divTitle.classList.add("create-todo-title");
     labelTitle.htmlFor = "input-title";
     labelTitle.textContent = "Title";
@@ -110,6 +116,13 @@ class DOMHandler {
     inputTitle.classList.add("input-title");
     inputTitle.type = "text";
     inputTitle.required = true;
+    spanTitle.id = "create-todo-title-span"; // <-----------------------------------------------
+    spanTitle.classList.add(
+      "create-todo-title-span",
+      "invalid",
+      "is-not-visible",
+    ); // <-----------------------------------
+    spanTitle.textContent = "Invalid"; // <-----------------------------------
 
     divDescription.classList.add("create-todo-description");
     labelDescription.htmlFor = "textarea-description";
@@ -119,6 +132,13 @@ class DOMHandler {
     textareaDescription.rows = "3";
     textareaDescription.maxLength = "100";
     textareaDescription.required = true;
+    spanDescription.id = "create-todo-description-span"; // <------------------------------------------
+    spanDescription.classList.add(
+      "create-todo-description-span",
+      "invalid",
+      "is-not-visible",
+    ); // <-----------------------------------
+    spanDescription.textContent = "Invalid"; // <-----------------------------------
 
     divButtons.classList.add("create-todo-buttons");
     buttonConfirm.classList.add("btn-confirm-create-todo");
@@ -128,21 +148,26 @@ class DOMHandler {
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
 
+    divDate.appendChild(inputDate);
+    divDate.appendChild(spanDate);
+
     selectPriority.appendChild(optionLow);
     selectPriority.appendChild(optionNormal);
     selectPriority.appendChild(optionHigh);
 
     divTitle.appendChild(labelTitle);
     divTitle.appendChild(inputTitle);
+    divTitle.appendChild(spanTitle);
 
     divDescription.appendChild(labelDescription);
     divDescription.appendChild(textareaDescription);
+    divDescription.appendChild(spanDescription); // <-----------------------------------
 
     buttonConfirm.appendChild(iconConfirm);
     buttonCancel.appendChild(iconCancel);
     divButtons.appendChild(buttonConfirm);
     divButtons.appendChild(buttonCancel);
-    article.appendChild(inputDate);
+    article.appendChild(divDate);
     article.appendChild(selectPriority);
     article.appendChild(divTitle);
     article.appendChild(divDescription);
@@ -196,7 +221,14 @@ class DOMHandler {
       };
     }
     console.log("Input is missing something, do nothing for now");
-    return { check: false };
+    return {
+      check: false,
+      errors: {
+        date: !inputDate,
+        title: !inputTitle,
+        description: !inputDescription,
+      },
+    };
   }
 
   validateInputEditToDo(article) {
@@ -550,6 +582,50 @@ class DOMHandler {
       return;
     }
     title.classList.remove("checked");
+  }
+
+  showValidationErrors(article, validationCreateToDoForm) {
+    console.log("showValidationErrors");
+    console.log(article);
+    console.log(validationCreateToDoForm);
+    // check if article is the window for todo creation
+    if (article.id === "card-create-todo") {
+      console.log("article element is the form to create todos");
+      const spanInvalidDate = article.querySelector(".create-todo-date-span");
+      const spanInvalidTitle = article.querySelector(".create-todo-title-span");
+      const spanInvalidDescription = article.querySelector(
+        ".create-todo-description-span",
+      );
+
+      console.log(spanInvalidDate);
+      console.log(spanInvalidTitle);
+      console.log(spanInvalidDescription);
+      console.log(validationCreateToDoForm.errors);
+      if (
+        !validationCreateToDoForm.errors ||
+        !spanInvalidDate ||
+        !spanInvalidTitle ||
+        !spanInvalidDescription
+      )
+        return;
+
+      spanInvalidDate.classList.remove("is-visible");
+      spanInvalidTitle.classList.remove("is-visible");
+      spanInvalidDescription.classList.remove("is-visible");
+
+      if (validationCreateToDoForm.errors.date) {
+        console.log("missing Date...show span");
+        spanInvalidDate.classList.add("is-visible");
+      }
+      if (validationCreateToDoForm.errors.title) {
+        console.log("missing Title...show span");
+        spanInvalidTitle.classList.add("is-visible");
+      }
+      if (validationCreateToDoForm.errors.description) {
+        console.log("missing Description...show span");
+        spanInvalidDescription.classList.add("is-visible");
+      }
+    }
   }
 }
 
