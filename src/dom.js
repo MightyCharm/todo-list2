@@ -57,9 +57,9 @@ class DOMHandler {
   renderToDoForm() {
     const article = document.createElement("article");
 
-    const divDate = document.createElement("div"); // <-----------------------------------
+    const divDate = document.createElement("div");
     const inputDate = document.createElement("input");
-    const spanDate = document.createElement("span"); // <-----------------------------------
+    const spanDate = document.createElement("span");
 
     const selectPriority = document.createElement("select");
     const optionLow = document.createElement("option");
@@ -69,12 +69,12 @@ class DOMHandler {
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
-    const spanTitle = document.createElement("span"); // <-----------------------------------
+    const spanTitle = document.createElement("span");
 
     const divDescription = document.createElement("div");
     const labelDescription = document.createElement("label");
     const textareaDescription = document.createElement("textarea");
-    const spanDescription = document.createElement("span"); // <-----------------------------------
+    const spanDescription = document.createElement("span");
 
     const divButtons = document.createElement("div");
     const buttonConfirm = document.createElement("button");
@@ -86,18 +86,16 @@ class DOMHandler {
     article.classList.add("card");
     article.classList.add("card-create-todo");
 
-    divDate.classList.add("create-todo-div-date"); // <-----------------------------------
+    divDate.classList.add("create-todo-div-date");
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
     inputDate.type = "date";
     inputDate.required = true;
-    spanDate.id = "create-todo-date-span"; // <-------------------------------------
-    spanDate.classList.add(
-      "create-todo-date-span",
-      "invalid",
-      "is-not-visible",
-    ); // <-----------------------------------
-    spanDate.textContent = "Invalid"; // <-----------------------------------
+    inputDate.setAttribute("data-role", "create-todo-input-date"); // <---------------------------------------------------------
+    spanDate.id = "create-todo-date-span";
+    spanDate.classList.add("create-todo-date-span", "invalid");
+    spanDate.textContent = "Invalid";
+    spanDate.setAttribute("data-role", "create-todo-input-date-span"); // <------------------------------------------------------
 
     selectPriority.id = "create-todo-priority";
     selectPriority.classList.add("create-todo-priority");
@@ -116,13 +114,11 @@ class DOMHandler {
     inputTitle.classList.add("input-title");
     inputTitle.type = "text";
     inputTitle.required = true;
-    spanTitle.id = "create-todo-title-span"; // <-----------------------------------------------
-    spanTitle.classList.add(
-      "create-todo-title-span",
-      "invalid",
-      "is-not-visible",
-    ); // <-----------------------------------
-    spanTitle.textContent = "Invalid"; // <-----------------------------------
+    inputTitle.setAttribute("data-role", "create-todo-input-title"); // <----------------------------------------------------------------
+    spanTitle.id = "create-todo-title-span";
+    spanTitle.classList.add("create-todo-title-span", "invalid");
+    spanTitle.textContent = "Invalid";
+    spanTitle.setAttribute("data-role", "create-todo-input-title-span"); // <----------------------------------------------------
 
     divDescription.classList.add("create-todo-description");
     labelDescription.htmlFor = "textarea-description";
@@ -132,13 +128,17 @@ class DOMHandler {
     textareaDescription.rows = "3";
     textareaDescription.maxLength = "100";
     textareaDescription.required = true;
-    spanDescription.id = "create-todo-description-span"; // <------------------------------------------
-    spanDescription.classList.add(
-      "create-todo-description-span",
-      "invalid",
-      "is-not-visible",
-    ); // <-----------------------------------
-    spanDescription.textContent = "Invalid"; // <-----------------------------------
+    textareaDescription.setAttribute(
+      "data-role",
+      "create-todo-input-description",
+    ); // <------------------------------------------------------------------------------------------------
+    spanDescription.id = "create-todo-description-span";
+    spanDescription.classList.add("create-todo-description-span", "invalid");
+    spanDescription.textContent = "Invalid";
+    spanDescription.setAttribute(
+      "data-role",
+      "create-todo-input-description-span",
+    ); // <-------------------------------
 
     divButtons.classList.add("create-todo-buttons");
     buttonConfirm.classList.add("btn-confirm-create-todo");
@@ -161,7 +161,7 @@ class DOMHandler {
 
     divDescription.appendChild(labelDescription);
     divDescription.appendChild(textareaDescription);
-    divDescription.appendChild(spanDescription); // <-----------------------------------
+    divDescription.appendChild(spanDescription);
 
     buttonConfirm.appendChild(iconConfirm);
     buttonCancel.appendChild(iconCancel);
@@ -584,6 +584,7 @@ class DOMHandler {
     title.classList.remove("checked");
   }
 
+  // show and hide span error elements if button confirm is clicked
   showValidationErrors(article, validationCreateToDoForm) {
     console.log("showValidationErrors");
     console.log(article);
@@ -626,6 +627,12 @@ class DOMHandler {
         spanInvalidDescription.classList.add("is-visible");
       }
     }
+  }
+
+  // hides span error element of user enter something into input field
+  hideSpanValidationError(article, role) {
+    let spanInvalid = article.querySelector(`[data-role="${role}-span"]`);
+    spanInvalid.classList.remove("is-visible");
   }
 }
 

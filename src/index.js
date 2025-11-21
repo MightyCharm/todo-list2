@@ -273,6 +273,22 @@ document.addEventListener("DOMContentLoaded", () => {
       default:
         console.log("default case change event.");
     }
-    console.log(projectManager.getActiveProject().getToDos());
+    // console.log(projectManager.getActiveProject().getToDos());
+  });
+
+  container.addEventListener("input", (event) => {
+    let article;
+    const role = event.target.dataset.role;
+    console.log(role);
+    switch (role) {
+      // hide span invalid if user enters something into input field
+      case "create-todo-input-date":
+      case "create-todo-input-title":
+      case "create-todo-input-description":
+        console.log("case: input-date|title|description");
+        article = event.target.closest("article");
+        domHandler.hideSpanValidationError(article, role);
+        break;
+    }
   });
 });
