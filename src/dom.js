@@ -29,6 +29,7 @@ class DOMHandler {
     input.type = "text";
     input.maxLength = "40";
     input.required = true;
+    input.setAttribute("data-role", "input-add-project"); // <----------------------------------------
     btnConfirm.id = "btn-confirm-project";
     btnCancel.id = "btn-cancel-project";
 
@@ -114,11 +115,11 @@ class DOMHandler {
     inputTitle.classList.add("input-title");
     inputTitle.type = "text";
     inputTitle.required = true;
-    inputTitle.setAttribute("data-role", "create-todo-input-title"); // <----------------------------------------------------------------
+    inputTitle.setAttribute("data-role", "create-todo-input-title");
     spanTitle.id = "create-todo-title-span";
     spanTitle.classList.add("create-todo-title-span", "invalid");
     spanTitle.textContent = "Invalid";
-    spanTitle.setAttribute("data-role", "create-todo-input-title-span"); // <----------------------------------------------------
+    spanTitle.setAttribute("data-role", "create-todo-input-title-span");
 
     divDescription.classList.add("create-todo-description");
     labelDescription.htmlFor = "textarea-description";
@@ -131,7 +132,7 @@ class DOMHandler {
     textareaDescription.setAttribute(
       "data-role",
       "create-todo-input-description",
-    ); // <------------------------------------------------------------------------------------------------
+    );
     spanDescription.id = "create-todo-description-span";
     spanDescription.classList.add("create-todo-description-span", "invalid");
     spanDescription.textContent = "Invalid";
@@ -181,89 +182,6 @@ class DOMHandler {
     this.removeElement("card-create-todo");
   }
 
-  validationInputProject() {
-    const name = document.getElementById("input-project-name");
-    const inputName = name.value.trim();
-    if (inputName.length > 0) {
-      return {
-        check: true,
-        name: inputName,
-      };
-    }
-    console.log("Input Form Project is missing something.");
-    return { check: false, name: null };
-  }
-
-  validateInputToDo() {
-    const date = document.getElementById("create-todo-date");
-    const priority = document.getElementById("create-todo-priority");
-    const done = document.getElementById("edit-todo-checkbox");
-    const title = document.getElementById("input-title");
-    const description = document.getElementById("textarea-description");
-
-    const inputDate = date.value;
-    const inputPriority = priority.value;
-    const inputDone = done?.checked || false;
-    const inputTitle = title.value.trim();
-    const inputDescription = description.value.trim();
-
-    // good values: create todo
-    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
-      return {
-        check: true,
-        inputs: {
-          title: inputTitle,
-          description: inputDescription,
-          dueDate: inputDate,
-          priority: inputPriority,
-          done: inputDone,
-        },
-      };
-    }
-    console.log("Input is missing something, do nothing for now");
-    return {
-      check: false,
-      errors: {
-        date: !inputDate,
-        title: !inputTitle,
-        description: !inputDescription,
-      },
-    };
-  }
-
-  validateInputEditToDo(article) {
-    const date = article.querySelector(".edit-input-dueDate");
-    const priority = article.querySelector(".todo-priority");
-    const checkboxDone = article.querySelector(".todo-done");
-    const title = article.querySelector(".input-title-edit");
-    const description = article.querySelector(".textarea-edit-todo");
-
-    const inputDate = date.value;
-    const inputPriority = priority.value;
-    const inputCheckboxDone = checkboxDone?.checked || false;
-    const inputTitle = title.value.trim();
-    const inputDescription = description.value.trim();
-
-    console.log(
-      `dueDate:${inputDate} priority:${inputPriority} done:${inputCheckboxDone} title:${inputTitle} description:${inputDescription}`,
-    );
-    // good values: create todo
-    if (inputDate && inputTitle.length > 0 && inputDescription.length > 0) {
-      return {
-        check: true,
-        inputs: {
-          title: inputTitle,
-          description: inputDescription,
-          dueDate: inputDate,
-          priority: inputPriority,
-          done: inputCheckboxDone,
-        },
-      };
-    }
-    console.log("Input is missing something, do nothing for now");
-    return { check: false };
-  }
-
   renderEditToDo(article, todo) {
     article.classList.remove("card-todo", "card-todo-expanded");
     article.classList.add("card-todo-editing");
@@ -295,18 +213,24 @@ class DOMHandler {
 
     inputDate.classList.add("edit-input-dueDate");
     inputDate.name = "input-dueDate-edit";
+    inputDate.setAttribute("data-role", "edit-todo-input-date"); // <--------------------------
 
     divTitle.classList.add("edit-div-title");
     labelTitle.htmlFor = `${article.id}-input-title-edit`;
     labelTitle.textContent = "Title";
     inputTitle.id = `${article.id}-input-title-edit`;
     inputTitle.classList.add("input-title-edit");
+    inputTitle.setAttribute("data-role", "edit-todo-input-title"); // <----------------------------
 
     divDescription.classList.add("edit-div-description");
     labelDescription.htmlFor = `${article.id}-textarea-description-edit`;
     labelDescription.textContent = "Description";
     textareaDescription.id = `${article.id}-textarea-description-edit`;
     textareaDescription.classList.add("textarea-edit-todo");
+    textareaDescription.setAttribute(
+      "data-role",
+      "edit-todo-input-description",
+    ); // <----------------------------------------------------------------------------------------
 
     inputDate.type = "date";
     inputTitle.type = "text";
@@ -576,7 +500,9 @@ class DOMHandler {
     }
   }
 
+  // can be called from normal mode or edit mode, in edit mode there is no title p element, instead input element
   updateLineThrough(title, isChecked) {
+    if (!title) return;
     if (isChecked) {
       title.classList.add("checked");
       return;
@@ -584,24 +510,158 @@ class DOMHandler {
     title.classList.remove("checked");
   }
 
+  //===========================================================================
+  validationInputProject() {
+    const name = document.getElementById("input-project-name");
+    // const inputName = name.value.trim();
+    console.log("==========");
+    const checkName = this.validateInput(name);
+    console.log(checkName);
+    console.log("==========");
+    if (checkName.result) {
+      return {
+        check: true,
+        name: checkName.value,
+      };
+    }
+    console.log("Input Form Project is missing something.");
+    return {
+      check: false,
+      errors: {
+        name: !checkName.result,
+      },
+    };
+  }
+
+  validateInputToDo() {
+    console.log("validateInputToDo()");
+    const date = document.getElementById("create-todo-date");
+    const priority = document.getElementById("create-todo-priority");
+    // const done = document.getElementById("edit-todo-checkbox");
+    const title = document.getElementById("input-title");
+    const description = document.getElementById("textarea-description");
+
+    const checkDate = this.validateInput(date);
+    const checkTitle = this.validateInput(title);
+    const checkDescription = this.validateInput(description);
+    const doneValue = false;
+    const priorityValue = priority.value;
+
+    if (checkDate.result && checkTitle.result && checkDescription.result) {
+      return {
+        check: true,
+        inputs: {
+          title: checkTitle.value,
+          description: checkDescription.value,
+          dueDate: checkDate.value,
+          priority: priorityValue,
+          done: doneValue,
+        },
+      };
+    }
+    console.log("Input is missing something, do nothing for now");
+    return {
+      check: false,
+      errors: {
+        date: !checkDate.result,
+        title: !checkTitle.result,
+        description: !checkDescription.result,
+      },
+    };
+  }
+
+  validateInputEditToDo(article) {
+    console.log("validateInputEditToDo()");
+    const date = article.querySelector(".edit-input-dueDate");
+    const priority = article.querySelector(".todo-priority");
+    const checkboxDone = article.querySelector(".todo-done");
+    const title = article.querySelector(".input-title-edit");
+    const description = article.querySelector(".textarea-edit-todo");
+
+    const checkDate = this.validateInput(date);
+    const priorityValue = priority.value;
+    const doneValue = checkboxDone?.checked || false;
+    const checkTitle = this.validateInput(title);
+    const checkDescription = this.validateInput(description);
+
+    console.log(checkDate);
+    console.log(checkTitle);
+    console.log(checkDescription);
+    console.log(doneValue);
+    console.log(priorityValue);
+
+    if (checkDate.result && checkTitle.result && checkDescription.result) {
+      return {
+        check: true,
+        inputs: {
+          title: checkTitle.value,
+          description: checkDescription.value,
+          dueDate: checkDate.value,
+          priority: priorityValue,
+          done: doneValue,
+        },
+      };
+    }
+    console.log("Input is missing something, do nothing for now");
+    return {
+      check: false,
+      errors: {
+        date: !checkDate.result,
+        title: !checkTitle.result,
+        description: !checkDescription.result,
+      },
+    };
+  }
+
+  validateInput(element) {
+    // console.log("validateInput");
+    // console.log(element);
+    const role = element.dataset.role;
+    let input;
+    console.log("============");
+    console.log(role);
+    console.log("============");
+    let obj = { result: "", value: "" };
+    switch (role) {
+      case "input-add-project":
+        input = element.value.trim();
+        obj.result = input === "" ? false : true;
+        obj.value = input;
+        break;
+      case "create-todo-input-date":
+      case "edit-todo-input-date":
+        input = element.value;
+        obj.result = input === "" ? false : true;
+        obj.value = input;
+        break;
+      case "create-todo-input-title":
+      case "edit-todo-input-title":
+        input = element.value.trim();
+        obj.result = input === "" ? false : true;
+        obj.value = input;
+        break;
+      case "create-todo-input-description":
+      case "edit-todo-input-description":
+        input = element.value.trim();
+        obj.result = input === "" ? false : true;
+        obj.value = input;
+        break;
+    }
+    return obj;
+  }
+
   // show and hide span error elements if button confirm is clicked
   showValidationErrors(article, validationCreateToDoForm) {
     console.log("showValidationErrors");
-    console.log(article);
-    console.log(validationCreateToDoForm);
     // check if article is the window for todo creation
     if (article.id === "card-create-todo") {
-      console.log("article element is the form to create todos");
       const spanInvalidDate = article.querySelector(".create-todo-date-span");
       const spanInvalidTitle = article.querySelector(".create-todo-title-span");
       const spanInvalidDescription = article.querySelector(
         ".create-todo-description-span",
       );
 
-      console.log(spanInvalidDate);
-      console.log(spanInvalidTitle);
-      console.log(spanInvalidDescription);
-      console.log(validationCreateToDoForm.errors);
+      // safety guard, if something is missing
       if (
         !validationCreateToDoForm.errors ||
         !spanInvalidDate ||
@@ -615,15 +675,12 @@ class DOMHandler {
       spanInvalidDescription.classList.remove("is-visible");
 
       if (validationCreateToDoForm.errors.date) {
-        console.log("missing Date...show span");
         spanInvalidDate.classList.add("is-visible");
       }
       if (validationCreateToDoForm.errors.title) {
-        console.log("missing Title...show span");
         spanInvalidTitle.classList.add("is-visible");
       }
       if (validationCreateToDoForm.errors.description) {
-        console.log("missing Description...show span");
         spanInvalidDescription.classList.add("is-visible");
       }
     }

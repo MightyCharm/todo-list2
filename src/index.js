@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
     const role = event.target.closest("[data-role]")?.dataset.role;
-    console.log(role);
+    // console.log(role);
     let validationProject;
     let validationCreateToDoForm;
     let validateEditToDoInput;
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     switch (role) {
       case "btn-add-project":
-        console.log(role);
+        console.log("btn-add-project");
         if (domHandler.getIsFormOpen()) return;
         domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
@@ -267,7 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
         id = event.target.closest("article").id;
         todo = project.getToDo(id);
         todo.setPriority(selectPriority.value);
-
         projectManager.setLocalStorage();
         break;
       default:
@@ -279,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("input", (event) => {
     let article;
     const role = event.target.dataset.role;
-    console.log(role);
+    // console.log(role);
     switch (role) {
       // hide span invalid if user enters something into input field
       case "create-todo-input-date":
@@ -291,4 +290,40 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
     }
   });
+
+  container.addEventListener("focusout", (event) => {
+    console.log("blur event");
+    let article;
+    const role = event.target.dataset.role;
+    console.log(role);
+    switch (role) {
+      case "create-todo-input-date":
+      case "create-todo-input-title":
+      case "create-todo-input-description":
+        console.log("here we are");
+        break;
+    }
+  });
+
+  /*
+    case "btn-confirm-create-todo":
+        console.log("btn-confirm-create-todo");
+        validationCreateToDoForm = domHandler.validateInputToDo();
+        if (validationCreateToDoForm.check) {
+          domHandler.setIsFormOpen(false);
+          const project = projectManager.getActiveProject();
+          const idToDo = project.addToDo(validationCreateToDoForm.inputs);
+          domHandler.renderToDo(idToDo);
+          domHandler.toggleHideDisplay(btnAddToDo);
+
+          projectManager.setLocalStorage();
+        } else {
+          article = event.target.closest("article");
+          domHandler.showValidationErrors(article, validationCreateToDoForm);
+        }
+        break;
+  */
+  // add new eventlistner for blur event
+  // need functionality for hide/show span invalids if user looses focus
+  // feat(ui): re-show validation error on blur for todo creation
 });
