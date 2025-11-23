@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkForDefault = data.some(
     (project) => project.id === DEFAULT_PROJECT_ID,
   );
-  console.log(`checkForDefault: ${checkForDefault}`);
   // if no default project was present
   if (!checkForDefault) {
     projectManager.createDefaultProject();
@@ -38,12 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.renderAllProjects(projectManager.getProjects());
   domHandler.highlightActiveProject();
   domHandler.renderActiveProjectToDos();
-  //===================================================================
 
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
     const role = event.target.closest("[data-role]")?.dataset.role;
-    // console.log(role);
     let validationProject;
     let validationCreateToDoForm;
     let validateEditToDoInput;
@@ -70,9 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-project":
         console.log("btn-confirm-project");
-        validationProject = domHandler.validationInputProject();
+        // validationProject = domHandler.validationInputProject();
+        list = event.target.closest("li");
+        validationProject = domHandler.validateForms(list);
         if (validationProject.check) {
-          projectManager.addProject(validationProject.name);
+          projectManager.addProject(validationProject.inputs.name);
           domHandler.setIsFormOpen(false);
           domHandler.createProject(projectManager.getActiveProject());
           domHandler.highlightActiveProject();
@@ -98,24 +97,23 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.toggleHideDisplay(btnAddToDo);
         break;
 
-      //=============================================================================================
       case "btn-confirm-create-todo":
         console.log("btn-confirm-create-todo");
-        validationCreateToDoForm = domHandler.validateInputToDo();
+        article = event.target.closest("article");
+        validationCreateToDoForm = domHandler.validateForms(article);
+
         if (validationCreateToDoForm.check) {
           domHandler.setIsFormOpen(false);
           const project = projectManager.getActiveProject();
           const idToDo = project.addToDo(validationCreateToDoForm.inputs);
           domHandler.renderToDo(idToDo);
           domHandler.toggleHideDisplay(btnAddToDo);
-
           projectManager.setLocalStorage();
         } else {
           article = event.target.closest("article");
           domHandler.showValidationErrors(article, validationCreateToDoForm);
         }
         break;
-      //============================================================================================
 
       case "btn-cancel-create-todo":
         console.log("btn-cancel-todo");
@@ -128,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("btn-confirm-edit-todo");
         domHandler.setIsFormOpen(false);
         article = event.target.closest("article");
-        validateEditToDoInput = domHandler.validateInputEditToDo(article);
+        validateEditToDoInput = domHandler.validateForms(article);
         if (validateEditToDoInput.check) {
           id = article.id;
           project = projectManager.getActiveProject();
@@ -204,7 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         article = event.target.closest("article");
         id = article.id;
-        console.log(id);
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         domHandler.renderEditToDo(article, todo);
@@ -278,13 +275,11 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("input", (event) => {
     let article;
     const role = event.target.dataset.role;
-    // console.log(role);
     switch (role) {
       // hide span invalid if user enters something into input field
       case "create-todo-input-date":
       case "create-todo-input-title":
       case "create-todo-input-description":
-        console.log("case: input-date|title|description");
         article = event.target.closest("article");
         domHandler.hideSpanValidationError(article, role);
         break;

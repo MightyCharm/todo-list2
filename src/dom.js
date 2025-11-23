@@ -25,11 +25,12 @@ class DOMHandler {
     const iconCancel = document.createElement("i");
 
     list.id = "li-project-name";
+    list.setAttribute("data-form", "create-project-container");
     input.id = "input-project-name";
     input.type = "text";
     input.maxLength = "40";
     input.required = true;
-    input.setAttribute("data-role", "input-add-project"); // <----------------------------------------
+    input.setAttribute("data-role", "input-create-project");
     btnConfirm.id = "btn-confirm-project";
     btnCancel.id = "btn-cancel-project";
 
@@ -86,17 +87,18 @@ class DOMHandler {
     article.id = "card-create-todo";
     article.classList.add("card");
     article.classList.add("card-create-todo");
+    article.setAttribute("data-form", "create-todo-container");
 
     divDate.classList.add("create-todo-div-date");
     inputDate.id = "create-todo-date";
     inputDate.classList.add("create-todo-date");
     inputDate.type = "date";
     inputDate.required = true;
-    inputDate.setAttribute("data-role", "create-todo-input-date"); // <---------------------------------------------------------
+    inputDate.setAttribute("data-role", "create-todo-input-date");
     spanDate.id = "create-todo-date-span";
     spanDate.classList.add("create-todo-date-span", "invalid");
     spanDate.textContent = "Invalid";
-    spanDate.setAttribute("data-role", "create-todo-input-date-span"); // <------------------------------------------------------
+    spanDate.setAttribute("data-role", "create-todo-input-date-span");
 
     selectPriority.id = "create-todo-priority";
     selectPriority.classList.add("create-todo-priority");
@@ -139,7 +141,7 @@ class DOMHandler {
     spanDescription.setAttribute(
       "data-role",
       "create-todo-input-description-span",
-    ); // <-------------------------------
+    );
 
     divButtons.classList.add("create-todo-buttons");
     buttonConfirm.classList.add("btn-confirm-create-todo");
@@ -185,6 +187,7 @@ class DOMHandler {
   renderEditToDo(article, todo) {
     article.classList.remove("card-todo", "card-todo-expanded");
     article.classList.add("card-todo-editing");
+    article.setAttribute("data-form", "edit-todo-container");
     const trashButton = article.querySelector(".todo-btn-trash");
     trashButton.remove();
 
@@ -213,14 +216,13 @@ class DOMHandler {
 
     inputDate.classList.add("edit-input-dueDate");
     inputDate.name = "input-dueDate-edit";
-    inputDate.setAttribute("data-role", "edit-todo-input-date"); // <--------------------------
-
+    inputDate.setAttribute("data-role", "edit-todo-input-date");
     divTitle.classList.add("edit-div-title");
     labelTitle.htmlFor = `${article.id}-input-title-edit`;
     labelTitle.textContent = "Title";
     inputTitle.id = `${article.id}-input-title-edit`;
     inputTitle.classList.add("input-title-edit");
-    inputTitle.setAttribute("data-role", "edit-todo-input-title"); // <----------------------------
+    inputTitle.setAttribute("data-role", "edit-todo-input-title");
 
     divDescription.classList.add("edit-div-description");
     labelDescription.htmlFor = `${article.id}-textarea-description-edit`;
@@ -230,7 +232,7 @@ class DOMHandler {
     textareaDescription.setAttribute(
       "data-role",
       "edit-todo-input-description",
-    ); // <----------------------------------------------------------------------------------------
+    );
 
     inputDate.type = "date";
     inputTitle.type = "text";
@@ -277,7 +279,6 @@ class DOMHandler {
 
   renderProject(project) {
     this.removeElement("li-project-name");
-    // const project = this.projectManager.getActiveProject();
     const projectId = project.id;
     const defaultProjectId = this.projectManager.getDefaultProject().getId();
 
@@ -412,10 +413,7 @@ class DOMHandler {
 
     selectPriority.value = todo.getPriority();
 
-    //====================
     this.updateLineThrough(pTitle, todo.done);
-    //====================
-
     this.containerToDos.insertBefore(article, nextSibling);
   }
 
@@ -510,85 +508,50 @@ class DOMHandler {
     title.classList.remove("checked");
   }
 
-  //===========================================================================
-  validationInputProject() {
-    const name = document.getElementById("input-project-name");
-    // const inputName = name.value.trim();
-    console.log("==========");
-    const checkName = this.validateInput(name);
-    console.log(checkName);
-    console.log("==========");
-    if (checkName.result) {
+  validateForms(parent) {
+    console.log("validateForms()");
+    const role = parent.dataset.form;
+    let name;
+    let date;
+    let priority;
+    let checkboxDone;
+    let title;
+    let description;
+
+    if (role === "create-todo-container") {
+      date = parent.querySelector("#create-todo-date");
+      priority = parent.querySelector("#create-todo-priority");
+      title = parent.querySelector("#input-title");
+      description = parent.querySelector("#textarea-description");
+    } else if (role === "edit-todo-container") {
+      date = parent.querySelector(".edit-input-dueDate");
+      priority = parent.querySelector(".todo-priority");
+      checkboxDone = parent.querySelector(".todo-done");
+      title = parent.querySelector(".input-title-edit");
+      description = parent.querySelector(".textarea-edit-todo");
+    } else if (role === "create-project-container") {
+      name = parent.querySelector("#input-project-name");
+      const checkName = this.validateInput(name);
+      if (checkName.result) {
+        return {
+          check: true,
+          inputs: {
+            name: checkName.value,
+          },
+        };
+      }
       return {
-        check: true,
-        name: checkName.value,
-      };
-    }
-    console.log("Input Form Project is missing something.");
-    return {
-      check: false,
-      errors: {
-        name: !checkName.result,
-      },
-    };
-  }
-
-  validateInputToDo() {
-    console.log("validateInputToDo()");
-    const date = document.getElementById("create-todo-date");
-    const priority = document.getElementById("create-todo-priority");
-    // const done = document.getElementById("edit-todo-checkbox");
-    const title = document.getElementById("input-title");
-    const description = document.getElementById("textarea-description");
-
-    const checkDate = this.validateInput(date);
-    const checkTitle = this.validateInput(title);
-    const checkDescription = this.validateInput(description);
-    const doneValue = false;
-    const priorityValue = priority.value;
-
-    if (checkDate.result && checkTitle.result && checkDescription.result) {
-      return {
-        check: true,
+        check: false,
         inputs: {
-          title: checkTitle.value,
-          description: checkDescription.value,
-          dueDate: checkDate.value,
-          priority: priorityValue,
-          done: doneValue,
+          name: checkName.value,
         },
       };
     }
-    console.log("Input is missing something, do nothing for now");
-    return {
-      check: false,
-      errors: {
-        date: !checkDate.result,
-        title: !checkTitle.result,
-        description: !checkDescription.result,
-      },
-    };
-  }
-
-  validateInputEditToDo(article) {
-    console.log("validateInputEditToDo()");
-    const date = article.querySelector(".edit-input-dueDate");
-    const priority = article.querySelector(".todo-priority");
-    const checkboxDone = article.querySelector(".todo-done");
-    const title = article.querySelector(".input-title-edit");
-    const description = article.querySelector(".textarea-edit-todo");
-
     const checkDate = this.validateInput(date);
     const priorityValue = priority.value;
     const doneValue = checkboxDone?.checked || false;
     const checkTitle = this.validateInput(title);
     const checkDescription = this.validateInput(description);
-
-    console.log(checkDate);
-    console.log(checkTitle);
-    console.log(checkDescription);
-    console.log(doneValue);
-    console.log(priorityValue);
 
     if (checkDate.result && checkTitle.result && checkDescription.result) {
       return {
@@ -614,13 +577,11 @@ class DOMHandler {
   }
 
   validateInput(element) {
-    // console.log("validateInput");
-    // console.log(element);
+    console.log("validateInput()");
+    console.log(element);
     const role = element.dataset.role;
-    let input;
-    console.log("============");
     console.log(role);
-    console.log("============");
+    let input;
     let obj = { result: "", value: "" };
     switch (role) {
       case "input-add-project":
@@ -646,13 +607,21 @@ class DOMHandler {
         obj.result = input === "" ? false : true;
         obj.value = input;
         break;
+      case "input-create-project":
+        input = element.value.trim();
+        obj.result = input === "" ? false : true;
+        obj.value = input;
+        break;
+      default:
+        console.log("Something went wrong. validateInput() (dom.js)");
+        break;
     }
     return obj;
   }
 
   // show and hide span error elements if button confirm is clicked
   showValidationErrors(article, validationCreateToDoForm) {
-    console.log("showValidationErrors");
+    console.log("showValidationErrors()");
     // check if article is the window for todo creation
     if (article.id === "card-create-todo") {
       const spanInvalidDate = article.querySelector(".create-todo-date-span");
@@ -688,6 +657,7 @@ class DOMHandler {
 
   // hides span error element of user enter something into input field
   hideSpanValidationError(article, role) {
+    console.log("hideSpanValidationError");
     let spanInvalid = article.querySelector(`[data-role="${role}-span"]`);
     spanInvalid.classList.remove("is-visible");
   }
