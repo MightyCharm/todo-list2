@@ -661,6 +661,20 @@ class DOMHandler {
     let spanInvalid = article.querySelector(`[data-role="${role}-span"]`);
     spanInvalid.classList.remove("is-visible");
   }
+
+  showSingleValidationError(article, inputElement, inputValidation) {
+    console.log("showSingleValidationError()");
+    console.log(inputElement);
+    console.log(inputValidation);
+    const role = `${inputElement.dataset.role}-span`;
+    const span = article.querySelector(`[data-role="${role}"]`);
+    if (span) {
+      span.classList.remove("is-visible");
+      if (!inputValidation.result) {
+        span.classList.add("is-visible");
+      }
+    }
+  }
 }
 
 export { DOMHandler };

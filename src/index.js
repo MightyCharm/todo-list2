@@ -210,12 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "checkbox-todo":
-        //==============================================
         console.log("checkbox-todo");
         article = event.target.closest("article");
         title = article.querySelector(".todo-title");
         domHandler.updateLineThrough(title, event.target.checked);
-        //==============================================
         id = article.id;
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
@@ -286,39 +284,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // if user loses focus on input field
   container.addEventListener("focusout", (event) => {
     console.log("blur event");
-    let article;
     const role = event.target.dataset.role;
+    let validationInput;
+    let article;
+    let inputElement;
     console.log(role);
     switch (role) {
       case "create-todo-input-date":
       case "create-todo-input-title":
       case "create-todo-input-description":
-        console.log("here we are");
+        inputElement = event.target;
+        article = inputElement.closest("article");
+        validationInput = domHandler.validateInput(inputElement);
+
+        domHandler.showSingleValidationError(
+          article,
+          inputElement,
+          validationInput,
+        );
         break;
     }
   });
-
-  /*
-    case "btn-confirm-create-todo":
-        console.log("btn-confirm-create-todo");
-        validationCreateToDoForm = domHandler.validateInputToDo();
-        if (validationCreateToDoForm.check) {
-          domHandler.setIsFormOpen(false);
-          const project = projectManager.getActiveProject();
-          const idToDo = project.addToDo(validationCreateToDoForm.inputs);
-          domHandler.renderToDo(idToDo);
-          domHandler.toggleHideDisplay(btnAddToDo);
-
-          projectManager.setLocalStorage();
-        } else {
-          article = event.target.closest("article");
-          domHandler.showValidationErrors(article, validationCreateToDoForm);
-        }
-        break;
-  */
-  // add new eventlistner for blur event
-  // need functionality for hide/show span invalids if user looses focus
-  // feat(ui): re-show validation error on blur for todo creation
 });
