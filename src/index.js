@@ -104,13 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (validationCreateToDoForm.check) {
           domHandler.setIsFormOpen(false);
-          const project = projectManager.getActiveProject();
-          const idToDo = project.addToDo(validationCreateToDoForm.inputs);
-          domHandler.renderToDo(idToDo);
+          project = projectManager.getActiveProject();
+          id = project.addToDo(validationCreateToDoForm.inputs);
+          domHandler.renderToDo(id);
           domHandler.toggleHideDisplay(btnAddToDo);
           projectManager.setLocalStorage();
         } else {
-          article = event.target.closest("article");
           domHandler.showValidationErrors(article, validationCreateToDoForm);
         }
         break;
@@ -127,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(false);
         article = event.target.closest("article");
         validateEditToDoInput = domHandler.validateForms(article);
+
         if (validateEditToDoInput.check) {
           id = article.id;
           project = projectManager.getActiveProject();
@@ -137,6 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.renderToDo(id, nextSibling);
 
           projectManager.setLocalStorage();
+        } else {
+          domHandler.showValidationErrors(article, validateEditToDoInput);
         }
         break;
 

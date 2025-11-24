@@ -95,7 +95,7 @@ class DOMHandler {
     inputDate.type = "date";
     inputDate.required = true;
     inputDate.setAttribute("data-role", "create-todo-input-date");
-    spanDate.id = "create-todo-date-span";
+    // spanDate.id = "create-todo-date-span";
     spanDate.classList.add("create-todo-date-span", "invalid");
     spanDate.textContent = "Invalid";
     spanDate.setAttribute("data-role", "create-todo-input-date-span");
@@ -118,7 +118,7 @@ class DOMHandler {
     inputTitle.type = "text";
     inputTitle.required = true;
     inputTitle.setAttribute("data-role", "create-todo-input-title");
-    spanTitle.id = "create-todo-title-span";
+    // spanTitle.id = "create-todo-title-span";
     spanTitle.classList.add("create-todo-title-span", "invalid");
     spanTitle.textContent = "Invalid";
     spanTitle.setAttribute("data-role", "create-todo-input-title-span");
@@ -135,7 +135,7 @@ class DOMHandler {
       "data-role",
       "create-todo-input-description",
     );
-    spanDescription.id = "create-todo-description-span";
+    // spanDescription.id = "create-todo-description-span";
     spanDescription.classList.add("create-todo-description-span", "invalid");
     spanDescription.textContent = "Invalid";
     spanDescription.setAttribute(
@@ -184,6 +184,8 @@ class DOMHandler {
     this.removeElement("card-create-todo");
   }
 
+  // i implemented html, next i have to update css and the layout,
+  // after that, i have to add functionality
   renderEditToDo(article, todo) {
     article.classList.remove("card-todo", "card-todo-expanded");
     article.classList.add("card-todo-editing");
@@ -195,18 +197,19 @@ class DOMHandler {
     const pTitle = article.querySelector(".todo-title");
     const pDescription = article.querySelector(".todo-description");
 
+    const divDate = document.createElement("div"); // <-----------------------------------------
     const inputDate = document.createElement("input");
-    inputDate.required = true;
+    const spanDate = document.createElement("span"); // <----------------------------------------
 
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
-    inputTitle.required = true;
+    const spanTitle = document.createElement("span"); // <---------------------------------------
 
     const divDescription = document.createElement("div");
     const labelDescription = document.createElement("label");
     const textareaDescription = document.createElement("textarea");
-    textareaDescription.required = true;
+    const spanDescription = document.createElement("span"); // <-------------------------
 
     const divButtons = document.createElement("div");
     const buttonConfirm = document.createElement("button");
@@ -214,15 +217,25 @@ class DOMHandler {
     const iconConfirm = document.createElement("i");
     const iconCancel = document.createElement("i");
 
+    divDate.classList.add("edit-todo-div-date");
     inputDate.classList.add("edit-input-dueDate");
     inputDate.name = "input-dueDate-edit";
     inputDate.setAttribute("data-role", "edit-todo-input-date");
+    inputDate.required = true;
+    spanDate.classList.add("edit-todo-date-span", "invalid"); // <-----------------------------------------------
+    spanDate.textContent = "Invalid"; // <------------------------------------------------------------------------
+    spanDate.setAttribute("data-role", "edit-todo-input-date-span"); // <--------------------------------------------------------------
+
     divTitle.classList.add("edit-div-title");
     labelTitle.htmlFor = `${article.id}-input-title-edit`;
     labelTitle.textContent = "Title";
     inputTitle.id = `${article.id}-input-title-edit`;
     inputTitle.classList.add("input-title-edit");
     inputTitle.setAttribute("data-role", "edit-todo-input-title");
+    inputTitle.required = true;
+    spanTitle.classList.add("edit-todo-title-span", "invalid"); // <------------------------------------------
+    spanTitle.textContent = "Invalid"; // <---------------------------------------------------------------------
+    spanTitle.setAttribute("data-role", "edit-todo-input-title-span"); // <---------------------------------------
 
     divDescription.classList.add("edit-div-description");
     labelDescription.htmlFor = `${article.id}-textarea-description-edit`;
@@ -233,6 +246,13 @@ class DOMHandler {
       "data-role",
       "edit-todo-input-description",
     );
+    textareaDescription.required = true;
+    spanDescription.classList.add("edit-todo-description-span", "invalid"); // <-----------------------------------------------
+    spanDescription.textContent = "Invalid";
+    spanDescription.setAttribute(
+      "data-role",
+      "edit-todo-input-description-span",
+    ); // <----------------------------
 
     inputDate.type = "date";
     inputTitle.type = "text";
@@ -249,13 +269,19 @@ class DOMHandler {
     inputTitle.value = todo.getTitle();
     textareaDescription.value = todo.getDescription();
 
+    divDate.appendChild(inputDate); // <---------------------------------------------------
+    divDate.appendChild(spanDate); // <----------------------------------------------------
+
     divTitle.appendChild(labelTitle);
     divTitle.appendChild(inputTitle);
+    divTitle.appendChild(spanTitle); // <--------------------------------------------------
 
     divDescription.appendChild(labelDescription);
     divDescription.appendChild(textareaDescription);
+    divDescription.appendChild(spanDescription); // <----------------------------------------
 
-    pDate.replaceWith(inputDate);
+    // pDate.replaceWith(inputDate);
+    pDate.replaceWith(divDate);
     pTitle.replaceWith(divTitle);
     pDescription.replaceWith(divDescription);
 
@@ -265,6 +291,11 @@ class DOMHandler {
     divButtons.appendChild(buttonCancel);
 
     article.appendChild(divButtons);
+
+    // remove later
+    // spanDate.classList.add("is-visible");
+    // spanTitle.classList.add("is-visible");
+    // spanDescription.classList.add("is-visible");
   }
 
   createProject(activeProject) {
@@ -620,38 +651,51 @@ class DOMHandler {
   }
 
   // show and hide span error elements if button confirm is clicked
-  showValidationErrors(article, validationCreateToDoForm) {
+  showValidationErrors(article, validationForm) {
     console.log("showValidationErrors()");
+    let dataForm = article.dataset.form;
+    let spanInvalidDate;
+    let spanInvalidTitle;
+    let spanInvalidDescription;
+
     // check if article is the window for todo creation
-    if (article.id === "card-create-todo") {
-      const spanInvalidDate = article.querySelector(".create-todo-date-span");
-      const spanInvalidTitle = article.querySelector(".create-todo-title-span");
-      const spanInvalidDescription = article.querySelector(
+    if (dataForm === "create-todo-container") {
+      spanInvalidDate = article.querySelector(".create-todo-date-span");
+      spanInvalidTitle = article.querySelector(".create-todo-title-span");
+      spanInvalidDescription = article.querySelector(
         ".create-todo-description-span",
       );
+    } else if (dataForm === "edit-todo-container") {
+      spanInvalidDate = article.querySelector(".edit-todo-date-span");
+      spanInvalidTitle = article.querySelector(".edit-todo-title-span");
+      spanInvalidDescription = article.querySelector(
+        ".edit-todo-description-span",
+      );
+    }
 
-      // safety guard, if something is missing
-      if (
-        !validationCreateToDoForm.errors ||
-        !spanInvalidDate ||
-        !spanInvalidTitle ||
-        !spanInvalidDescription
-      )
-        return;
+    // safety guard, if something is missing
+    if (
+      !validationForm.errors ||
+      !spanInvalidDate ||
+      !spanInvalidTitle ||
+      !spanInvalidDescription
+    )
+      return;
 
-      spanInvalidDate.classList.remove("is-visible");
-      spanInvalidTitle.classList.remove("is-visible");
-      spanInvalidDescription.classList.remove("is-visible");
+    spanInvalidDate.classList.remove("is-visible");
+    spanInvalidTitle.classList.remove("is-visible");
+    spanInvalidDescription.classList.remove("is-visible");
 
-      if (validationCreateToDoForm.errors.date) {
-        spanInvalidDate.classList.add("is-visible");
-      }
-      if (validationCreateToDoForm.errors.title) {
-        spanInvalidTitle.classList.add("is-visible");
-      }
-      if (validationCreateToDoForm.errors.description) {
-        spanInvalidDescription.classList.add("is-visible");
-      }
+    console.log(validationForm);
+
+    if (validationForm.errors.date) {
+      spanInvalidDate.classList.add("is-visible");
+    }
+    if (validationForm.errors.title) {
+      spanInvalidTitle.classList.add("is-visible");
+    }
+    if (validationForm.errors.description) {
+      spanInvalidDescription.classList.add("is-visible");
     }
   }
 
@@ -659,7 +703,9 @@ class DOMHandler {
   hideSpanValidationError(article, role) {
     console.log("hideSpanValidationError");
     let spanInvalid = article.querySelector(`[data-role="${role}-span"]`);
-    spanInvalid.classList.remove("is-visible");
+    if (spanInvalid) {
+      spanInvalid.classList.remove("is-visible");
+    }
   }
 
   showSingleValidationError(article, inputElement, inputValidation) {

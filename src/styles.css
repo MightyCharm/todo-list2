@@ -236,7 +236,8 @@ main {
     "edit-div-title edit-div-title  edit-div-title edit-div-title"
     "edit-div-description edit-div-description edit-div-description todo-div-edit-btns";
   align-items: center;
-  gap: 0.5rem;
+  /* gap: 0.5rem; */
+  column-gap: 0.5rem;
   padding: 1rem;
 }
 
@@ -244,16 +245,20 @@ main {
   grid-area: todo-dueDate;
 }
 
+/* used in normal and edit mode */
 .todo-priority {
   grid-area: todo-priority;
+  align-self: start;
 }
 
+/* used in normal and edit mode */
 .todo-done {
   grid-area: todo-done;
 
   width: 20px;
   height: 20px;
   justify-self: end;
+  align-self: start;
 
   border: 1px solid hsl(0, 0%, 41%);
   border-radius: 4px;
@@ -282,12 +287,16 @@ main {
   transform: translate(-50%, -50%);
 }
 
+/* used in normal and edit mode */
 .todo-div-kebab {
   grid-area: todo-div-kebab;
 
   display: flex;
   justify-content: end;
   position: relative;
+  align-self: start;
+
+  /* border: 1px solid red; */
 }
 
 .kebab-menu-list {
@@ -332,13 +341,24 @@ main {
 }
 
 /* classes for items in edit mode */
+.edit-todo-div-date {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  /* border: 1px solid red; */
+}
+
 .edit-input-dueDate {
+  /* border: 2px solid red; */
 }
 
 .edit-div-title {
   grid-area: edit-div-title;
   display: flex;
   flex-direction: column;
+
+  /* border: 1px solid red; */
 }
 
 .input-title-edit {
@@ -350,6 +370,8 @@ main {
 
   display: flex;
   flex-direction: column;
+
+  /* border: 1px solid red; */
 }
 
 .textarea-edit-todo {
