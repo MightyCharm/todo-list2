@@ -656,10 +656,9 @@ class DOMHandler {
   }
 
   // show and hide span error elements if button confirm is clicked
-  showValidationErrors(article, validationForm) {
+  showValidationErrors(element, validationForm) {
     console.log("showValidationErrors()");
-    let dataForm = article.dataset.form;
-    console.log(dataForm);
+    let dataForm = element.dataset.form;
     let spanInvalidDate;
     let spanInvalidTitle;
     let spanInvalidDescription;
@@ -667,19 +666,19 @@ class DOMHandler {
 
     // check if article is the window for todo creation
     if (dataForm === "create-todo-container") {
-      spanInvalidDate = article.querySelector(".create-todo-date-span");
-      spanInvalidTitle = article.querySelector(".create-todo-title-span");
-      spanInvalidDescription = article.querySelector(
+      spanInvalidDate = element.querySelector(".create-todo-date-span");
+      spanInvalidTitle = element.querySelector(".create-todo-title-span");
+      spanInvalidDescription = element.querySelector(
         ".create-todo-description-span",
       );
     } else if (dataForm === "edit-todo-container") {
-      spanInvalidDate = article.querySelector(".edit-todo-date-span");
-      spanInvalidTitle = article.querySelector(".edit-todo-title-span");
-      spanInvalidDescription = article.querySelector(
+      spanInvalidDate = element.querySelector(".edit-todo-date-span");
+      spanInvalidTitle = element.querySelector(".edit-todo-title-span");
+      spanInvalidDescription = element.querySelector(
         ".edit-todo-description-span",
       );
     } else if (dataForm === "create-project-container") {
-      spanInvalidProjectName = article.querySelector(".create-project-span");
+      spanInvalidProjectName = element.querySelector(".create-project-span");
 
       spanInvalidProjectName.classList.remove("is-visible");
       if (validationForm.errors.name) {
@@ -716,9 +715,9 @@ class DOMHandler {
   }
 
   // hides span error element of user enter something into input field
-  hideSpanValidationError(article, role) {
+  hideSpanValidationError(element, role) {
     console.log("hideSpanValidationError");
-    let spanInvalid = article.querySelector(`[data-role="${role}-span"]`);
+    let spanInvalid = element.querySelector(`[data-role="${role}-span"]`);
     if (spanInvalid) {
       spanInvalid.classList.remove("is-visible");
     }

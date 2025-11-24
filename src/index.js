@@ -275,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   container.addEventListener("input", (event) => {
     let article;
+    let list;
     const role = event.target.dataset.role;
     switch (role) {
       // hide span invalid if user enters something into input field
@@ -286,6 +287,10 @@ document.addEventListener("DOMContentLoaded", () => {
       case "edit-todo-input-description":
         article = event.target.closest("article");
         domHandler.hideSpanValidationError(article, role);
+        break;
+      case "input-create-project":
+        list = event.target.closest("li");
+        domHandler.hideSpanValidationError(list, role);
         break;
     }
   });
