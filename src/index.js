@@ -299,8 +299,11 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(role);
     switch (role) {
       case "create-todo-input-date":
+      case "edit-todo-input-date":
       case "create-todo-input-title":
+      case "edit-todo-input-title":
       case "create-todo-input-description":
+      case "edit-todo-input-description":
         inputElement = event.target;
         article = inputElement.closest("article");
         validationInput = domHandler.validateInput(inputElement);
