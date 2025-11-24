@@ -197,19 +197,19 @@ class DOMHandler {
     const pTitle = article.querySelector(".todo-title");
     const pDescription = article.querySelector(".todo-description");
 
-    const divDate = document.createElement("div"); // <-----------------------------------------
+    const divDate = document.createElement("div");
     const inputDate = document.createElement("input");
-    const spanDate = document.createElement("span"); // <----------------------------------------
+    const spanDate = document.createElement("span");
 
     const divTitle = document.createElement("div");
     const labelTitle = document.createElement("label");
     const inputTitle = document.createElement("input");
-    const spanTitle = document.createElement("span"); // <---------------------------------------
+    const spanTitle = document.createElement("span");
 
     const divDescription = document.createElement("div");
     const labelDescription = document.createElement("label");
     const textareaDescription = document.createElement("textarea");
-    const spanDescription = document.createElement("span"); // <-------------------------
+    const spanDescription = document.createElement("span");
 
     const divButtons = document.createElement("div");
     const buttonConfirm = document.createElement("button");
@@ -222,9 +222,9 @@ class DOMHandler {
     inputDate.name = "input-dueDate-edit";
     inputDate.setAttribute("data-role", "edit-todo-input-date");
     inputDate.required = true;
-    spanDate.classList.add("edit-todo-date-span", "invalid"); // <-----------------------------------------------
-    spanDate.textContent = "Invalid"; // <------------------------------------------------------------------------
-    spanDate.setAttribute("data-role", "edit-todo-input-date-span"); // <--------------------------------------------------------------
+    spanDate.classList.add("edit-todo-date-span", "invalid");
+    spanDate.textContent = "Invalid";
+    spanDate.setAttribute("data-role", "edit-todo-input-date-span");
 
     divTitle.classList.add("edit-div-title");
     labelTitle.htmlFor = `${article.id}-input-title-edit`;
@@ -233,9 +233,9 @@ class DOMHandler {
     inputTitle.classList.add("input-title-edit");
     inputTitle.setAttribute("data-role", "edit-todo-input-title");
     inputTitle.required = true;
-    spanTitle.classList.add("edit-todo-title-span", "invalid"); // <------------------------------------------
-    spanTitle.textContent = "Invalid"; // <---------------------------------------------------------------------
-    spanTitle.setAttribute("data-role", "edit-todo-input-title-span"); // <---------------------------------------
+    spanTitle.classList.add("edit-todo-title-span", "invalid");
+    spanTitle.textContent = "Invalid";
+    spanTitle.setAttribute("data-role", "edit-todo-input-title-span");
 
     divDescription.classList.add("edit-div-description");
     labelDescription.htmlFor = `${article.id}-textarea-description-edit`;
@@ -247,12 +247,12 @@ class DOMHandler {
       "edit-todo-input-description",
     );
     textareaDescription.required = true;
-    spanDescription.classList.add("edit-todo-description-span", "invalid"); // <-----------------------------------------------
+    spanDescription.classList.add("edit-todo-description-span", "invalid");
     spanDescription.textContent = "Invalid";
     spanDescription.setAttribute(
       "data-role",
       "edit-todo-input-description-span",
-    ); // <----------------------------
+    );
 
     inputDate.type = "date";
     inputTitle.type = "text";
@@ -269,16 +269,16 @@ class DOMHandler {
     inputTitle.value = todo.getTitle();
     textareaDescription.value = todo.getDescription();
 
-    divDate.appendChild(inputDate); // <---------------------------------------------------
-    divDate.appendChild(spanDate); // <----------------------------------------------------
+    divDate.appendChild(inputDate);
+    divDate.appendChild(spanDate);
 
     divTitle.appendChild(labelTitle);
     divTitle.appendChild(inputTitle);
-    divTitle.appendChild(spanTitle); // <--------------------------------------------------
+    divTitle.appendChild(spanTitle);
 
     divDescription.appendChild(labelDescription);
     divDescription.appendChild(textareaDescription);
-    divDescription.appendChild(spanDescription); // <----------------------------------------
+    divDescription.appendChild(spanDescription);
 
     // pDate.replaceWith(inputDate);
     pDate.replaceWith(divDate);
@@ -609,9 +609,7 @@ class DOMHandler {
 
   validateInput(element) {
     console.log("validateInput()");
-    console.log(element);
     const role = element.dataset.role;
-    console.log(role);
     let input;
     let obj = { result: "", value: "" };
     switch (role) {

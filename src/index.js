@@ -278,8 +278,11 @@ document.addEventListener("DOMContentLoaded", () => {
     switch (role) {
       // hide span invalid if user enters something into input field
       case "create-todo-input-date":
+      case "edit-todo-input-date":
       case "create-todo-input-title":
+      case "edit-todo-input-title":
       case "create-todo-input-description":
+      case "edit-todo-input-description":
         article = event.target.closest("article");
         domHandler.hideSpanValidationError(article, role);
         break;
