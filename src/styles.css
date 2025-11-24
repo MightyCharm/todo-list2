@@ -140,22 +140,40 @@ main,
   background-color: hsl(125, 88%, 47%);
 }
 
+/* ======================================================================================= */
 .li-project-name {
-  display: flex;
-  gap: 0.4rem;
-  padding-left: 0.2rem;
-  padding-right: 0.2rem;
+  display: grid;
+  grid-template-areas:
+    "input-project-name btn-confirm-project btn-cancel-project"
+    "create-project-span create-project-span create-project-span";
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 0.2rem;
+  /* border: 2px solid red; */
 }
 
-.li-project-name input {
-  flex: 3;
-  padding-left: 0.2rem;
+.input-project-name {
+  grid-area: input-project-name;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
   border-radius: 4px;
+}
+
+.create-project-span {
+  grid-area: create-project-span;
+}
+
+.btn-confirm-project {
+  grid-area: btn-confirm-project;
+}
+
+.btn-cancel-project {
+  grid-area: btn-cancel-project;
 }
 
 .btn-confirm-project,
 .btn-cancel-project {
-  flex: 1;
   border: 1px solid hsla(0, 0%, 61%, 0.887);
   border-radius: 4px;
 }

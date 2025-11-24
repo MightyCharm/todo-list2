@@ -19,6 +19,7 @@ class DOMHandler {
 
     const list = document.createElement("li");
     const input = document.createElement("input");
+    const spanInvalid = document.createElement("span");
     const btnConfirm = document.createElement("button");
     const btnCancel = document.createElement("button");
     const iconConfirm = document.createElement("i");
@@ -27,10 +28,14 @@ class DOMHandler {
     list.id = "li-project-name";
     list.setAttribute("data-form", "create-project-container");
     input.id = "input-project-name";
+    input.classList.add("input-project-name");
     input.type = "text";
     input.maxLength = "40";
     input.required = true;
     input.setAttribute("data-role", "input-create-project");
+    spanInvalid.classList.add("create-project-span", "invalid");
+    spanInvalid.setAttribute("data-role", "input-create-project-span");
+    spanInvalid.textContent = "Invalid";
     btnConfirm.id = "btn-confirm-project";
     btnCancel.id = "btn-cancel-project";
 
@@ -45,7 +50,9 @@ class DOMHandler {
 
     btnConfirm.appendChild(iconConfirm);
     btnCancel.appendChild(iconCancel);
+
     list.appendChild(input);
+    list.appendChild(spanInvalid);
     list.appendChild(btnConfirm);
     list.appendChild(btnCancel);
 
@@ -573,8 +580,8 @@ class DOMHandler {
       }
       return {
         check: false,
-        inputs: {
-          name: checkName.value,
+        errors: {
+          name: !checkName.result,
         },
       };
     }
@@ -652,9 +659,11 @@ class DOMHandler {
   showValidationErrors(article, validationForm) {
     console.log("showValidationErrors()");
     let dataForm = article.dataset.form;
+    console.log(dataForm);
     let spanInvalidDate;
     let spanInvalidTitle;
     let spanInvalidDescription;
+    let spanInvalidProjectName;
 
     // check if article is the window for todo creation
     if (dataForm === "create-todo-container") {
@@ -669,6 +678,15 @@ class DOMHandler {
       spanInvalidDescription = article.querySelector(
         ".edit-todo-description-span",
       );
+    } else if (dataForm === "create-project-container") {
+      spanInvalidProjectName = article.querySelector(".create-project-span");
+
+      spanInvalidProjectName.classList.remove("is-visible");
+      if (validationForm.errors.name) {
+        spanInvalidProjectName.classList.add("is-visible");
+      }
+
+      return;
     }
 
     // safety guard, if something is missing

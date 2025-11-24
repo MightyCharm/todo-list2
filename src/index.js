@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-project":
         console.log("btn-confirm-project");
-        // validationProject = domHandler.validationInputProject();
         list = event.target.closest("li");
         validationProject = domHandler.validateForms(list);
         if (validationProject.check) {
@@ -79,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.removeToDos();
 
           projectManager.setLocalStorage();
+        } else {
+          domHandler.showValidationErrors(list, validationProject);
         }
         break;
 
