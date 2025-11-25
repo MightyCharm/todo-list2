@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
     const role = event.target.closest("[data-role]")?.dataset.role;
+
     let validationProject;
     let validationCreateToDoForm;
     let validateEditToDoInput;
@@ -164,21 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.renderActiveProjectToDos();
         break;
 
-      case "btn-trash-project":
-        console.log("btn-trash-project");
-        list = event.target.closest("li");
-        id = list.id;
-        // removed prevents the deletion of default project
-        removedProject = projectManager.removeProject(list.id);
-        if (removedProject) {
-          domHandler.removeElement(list.id);
-          domHandler.highlightActiveProject();
-          domHandler.removeToDos();
-          domHandler.renderActiveProjectToDos();
-
-          projectManager.setLocalStorage();
-        }
-        break;
       case "btn-trash-todo":
       case "btn-kebab-delete":
         console.log("btn-trash-todo");
@@ -192,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-kebab-menu":
-        console.log("btn-kebab-menu");
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         ulKebab = article.querySelector(".kebab-menu-list");
@@ -211,6 +196,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
         domHandler.closeKebabMenu();
         break;
+
+      //============================================================
+      case "btn-kebab-menu-project":
+        console.log("btn-kebab-menu-project");
+        if (domHandler.getIsFormOpen()) return;
+        list = event.target.closest("li");
+        ulKebab = list.querySelector(".kebab-menu-list-project");
+        domHandler.handleKebabClick(ulKebab);
+        break;
+
+      case "btn-kebab-menu-project-edit":
+        console.log("edit project");
+        break;
+
+      case "btn-kebab-menu-project-delete":
+        console.log("btn-kebab-menu-project-delete");
+        list = event.target.closest("li[id]");
+        console.log(list);
+        id = list.id;
+        console.log("list id: ", id);
+        // removed prevents the deletion of default project
+        removedProject = projectManager.removeProject(list.id);
+        if (removedProject) {
+          domHandler.removeElement(list.id);
+          domHandler.highlightActiveProject();
+          domHandler.removeToDos();
+          domHandler.renderActiveProjectToDos();
+
+          projectManager.setLocalStorage();
+        }
+        break;
+
+      //=============================================================
 
       case "checkbox-todo":
         console.log("checkbox-todo");

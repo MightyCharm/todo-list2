@@ -43,7 +43,6 @@ class ProjectManager {
       console.log("Project was removed. Project default was set as active");
       this.activeProject = this.default;
     }
-    console.log("Project was removed.");
     return true;
   }
 

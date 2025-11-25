@@ -92,7 +92,7 @@ main,
 
 .page-project-list h2 {
 }
-
+/* ===================================================== */
 .project-list {
   display: flex;
   flex-direction: column;
@@ -118,17 +118,49 @@ main,
   border-bottom-left-radius: var(--border-radius);
 }
 
-.btn-project-trash {
-  border: none;
+.project-div-kebab {
+  display: flex;
+  position: relative;
+}
+
+.btn-kebab-menu-project {
+  width: 100%;
+  border: 1px solid grey;
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-  background-color: hsl(0, 89%, 69%);
 }
 
-.btn-project-trash:disabled {
-  background-color: hsla(0, 1%, 46%, 0.757);
+.kebab-menu-list-project {
+  list-style-type: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-radius: 4px;
+  border: 1px solid rgb(163, 163, 163);
+  background-color: hsl(0, 1%, 82%);
 }
 
+.btn-kebab-edit-project {
+  width: 100%;
+}
+
+.btn-kebab-delete-project {
+  width: 100%;
+}
+
+/* for default project */
+.kebab-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ==================================================== */
 .btn-add-project {
   font-weight: bold;
   width: 100%;
@@ -140,7 +172,7 @@ main,
   background-color: hsl(125, 88%, 47%);
 }
 
-/* ======================================================================================= */
+/* form user input project name */
 .li-project-name {
   display: grid;
   grid-template-areas:

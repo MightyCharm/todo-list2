@@ -328,8 +328,7 @@ class DOMHandler {
 
     const list = document.createElement("li");
     const buttonProject = document.createElement("button");
-    const buttonTrash = document.createElement("button");
-    const icon = document.createElement("i");
+    const divKebab = this.createKebabMenu("project");
 
     list.id = project.getId();
     list.classList.add("li-project");
@@ -337,18 +336,13 @@ class DOMHandler {
     buttonProject.setAttribute("data-role", "btn-project");
     buttonProject.textContent = project.getName();
 
-    buttonTrash.classList.add("btn-project-trash");
-    buttonTrash.setAttribute("data-role", "btn-trash-project");
-    icon.classList.add("fas", "fa-trash");
-
-    buttonTrash.appendChild(icon);
-
     list.appendChild(buttonProject);
-    list.appendChild(buttonTrash);
+    list.appendChild(divKebab);
     this.projectList.appendChild(list);
 
     if (projectId === defaultProjectId) {
-      buttonTrash.disabled = true;
+      console.log("default project");
+      divKebab.classList.add("kebab-disabled");
     }
   }
 
@@ -366,14 +360,7 @@ class DOMHandler {
     const pTitle = document.createElement("p");
     const checkDone = document.createElement("input");
 
-    const divKebab = document.createElement("div");
-    const btnKebab = document.createElement("button");
-    const iconKebab = document.createElement("i");
-    const ulKebab = document.createElement("ul");
-    const liKebabEdit = document.createElement("li");
-    const liKebabDelete = document.createElement("li");
-    const btnKebabEdit = document.createElement("button");
-    const btnKebabDelete = document.createElement("button");
+    const divKebab = this.createKebabMenu("todo");
 
     const selectPriority = document.createElement("select");
     const optionLow = document.createElement("option");
@@ -403,18 +390,6 @@ class DOMHandler {
     checkDone.value = "done";
     checkDone.checked = todo.done;
 
-    divKebab.classList.add("todo-div-kebab");
-    btnKebab.classList.add("btn-kebab-menu");
-    btnKebab.dataset.role = "btn-kebab-menu";
-    iconKebab.classList.add("fas", "fa-ellipsis-v");
-    ulKebab.classList.add("kebab-menu-list", "is-hidden");
-    btnKebabEdit.classList.add("btn-kebab-edit");
-    btnKebabEdit.setAttribute("data-role", "btn-kebab-edit");
-    btnKebabEdit.textContent = "Edit";
-    btnKebabDelete.classList.add("btn-kebab-delete");
-    btnKebabDelete.textContent = "Delete";
-    btnKebabDelete.setAttribute("data-role", "btn-kebab-delete");
-
     selectPriority.id = `select-priority-${todo.id}`;
     selectPriority.classList.add("todo-priority");
     selectPriority.name = "priority";
@@ -437,14 +412,6 @@ class DOMHandler {
     selectPriority.appendChild(optionNormal);
     selectPriority.appendChild(optionHigh);
 
-    liKebabEdit.appendChild(btnKebabEdit);
-    liKebabDelete.appendChild(btnKebabDelete);
-    ulKebab.appendChild(liKebabEdit);
-    ulKebab.appendChild(liKebabDelete);
-    btnKebab.appendChild(iconKebab);
-    divKebab.appendChild(btnKebab);
-    divKebab.appendChild(ulKebab);
-
     btnTrash.appendChild(iconTrash);
 
     article.appendChild(pDueDate);
@@ -459,6 +426,49 @@ class DOMHandler {
 
     this.updateLineThrough(pTitle, todo.done);
     this.containerToDos.insertBefore(article, nextSibling);
+  }
+
+  createKebabMenu(context) {
+    const divKebab = document.createElement("div");
+    const btnKebab = document.createElement("button");
+    const iconKebab = document.createElement("i");
+    const ulKebab = document.createElement("ul");
+    const liKebabEdit = document.createElement("li");
+    const liKebabDelete = document.createElement("li");
+    const btnKebabEdit = document.createElement("button");
+    const btnKebabDelete = document.createElement("button");
+    if (context === "todo") {
+      divKebab.classList.add("todo-div-kebab");
+      btnKebab.classList.add("btn-kebab-menu");
+      btnKebab.dataset.role = "btn-kebab-menu";
+      ulKebab.classList.add("kebab-menu-list", "is-hidden");
+      btnKebabEdit.classList.add("btn-kebab-edit");
+      btnKebabEdit.setAttribute("data-role", "btn-kebab-edit");
+      btnKebabDelete.classList.add("btn-kebab-delete");
+      btnKebabDelete.setAttribute("data-role", "btn-kebab-delete");
+    } else if (context === "project") {
+      divKebab.classList.add("project-div-kebab");
+      btnKebab.classList.add("btn-kebab-menu-project");
+      btnKebab.dataset.role = "btn-kebab-menu-project";
+      ulKebab.classList.add("kebab-menu-list-project", "is-hidden");
+      btnKebabEdit.classList.add("btn-kebab-edit-project");
+      btnKebabEdit.setAttribute("data-role", "btn-kebab-menu-project-edit");
+      btnKebabDelete.classList.add("btn-kebab-delete-project");
+      btnKebabDelete.setAttribute("data-role", "btn-kebab-menu-project-delete");
+    }
+    iconKebab.classList.add("fas", "fa-ellipsis-v");
+    btnKebabEdit.textContent = "Edit";
+    btnKebabDelete.textContent = "Delete";
+
+    liKebabEdit.appendChild(btnKebabEdit);
+    liKebabDelete.appendChild(btnKebabDelete);
+    ulKebab.appendChild(liKebabEdit);
+    ulKebab.appendChild(liKebabDelete);
+    btnKebab.appendChild(iconKebab);
+    divKebab.appendChild(btnKebab);
+    divKebab.appendChild(ulKebab);
+
+    return divKebab;
   }
 
   renderActiveProjectToDos() {
