@@ -301,6 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const role = event.target.dataset.role;
     let validationInput;
     let article;
+    let li;
     let inputElement;
     console.log(role);
     switch (role) {
@@ -319,6 +320,14 @@ document.addEventListener("DOMContentLoaded", () => {
           inputElement,
           validationInput,
         );
+        break;
+
+      case "input-create-project":
+        inputElement = event.target;
+        li = inputElement.closest("li");
+        validationInput = domHandler.validateInput(inputElement);
+
+        domHandler.showSingleValidationError(li, inputElement, validationInput);
         break;
     }
   });

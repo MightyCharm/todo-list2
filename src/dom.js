@@ -714,15 +714,6 @@ class DOMHandler {
     }
   }
 
-  // hides span error element of user enter something into input field
-  hideSpanValidationError(element, role) {
-    console.log("hideSpanValidationError");
-    let spanInvalid = element.querySelector(`[data-role="${role}-span"]`);
-    if (spanInvalid) {
-      spanInvalid.classList.remove("is-visible");
-    }
-  }
-
   showSingleValidationError(article, inputElement, inputValidation) {
     console.log("showSingleValidationError()");
     console.log(inputElement);
@@ -734,6 +725,15 @@ class DOMHandler {
       if (!inputValidation.result) {
         span.classList.add("is-visible");
       }
+    }
+  }
+
+  // hides span error element of user enter something into input field
+  hideSpanValidationError(element, role) {
+    console.log("hideSpanValidationError");
+    let spanInvalid = element.querySelector(`[data-role="${role}-span"]`);
+    if (spanInvalid) {
+      spanInvalid.classList.remove("is-visible");
     }
   }
 }
