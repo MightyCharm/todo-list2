@@ -2,6 +2,13 @@ class DOMHandler {
   #isFormOpen = false;
   #activeKebab = null;
 
+  static validationMessages = {
+    projectName: "Invalid Name",
+    date: "Invalid Date",
+    title: "Invalid Title",
+    description: "Invalid Description",
+  };
+
   constructor(
     projectList,
     containerProjectBtn,
@@ -35,7 +42,7 @@ class DOMHandler {
     input.setAttribute("data-role", "input-create-project");
     spanInvalid.classList.add("create-project-span", "invalid");
     spanInvalid.setAttribute("data-role", "input-create-project-span");
-    spanInvalid.textContent = "Invalid";
+    spanInvalid.textContent = DOMHandler.validationMessages.projectName;
     btnConfirm.id = "btn-confirm-project";
     btnCancel.id = "btn-cancel-project";
 
@@ -102,9 +109,8 @@ class DOMHandler {
     inputDate.type = "date";
     inputDate.required = true;
     inputDate.setAttribute("data-role", "create-todo-input-date");
-    // spanDate.id = "create-todo-date-span";
     spanDate.classList.add("create-todo-date-span", "invalid");
-    spanDate.textContent = "Invalid";
+    spanDate.textContent = DOMHandler.validationMessages.date;
     spanDate.setAttribute("data-role", "create-todo-input-date-span");
 
     selectPriority.id = "create-todo-priority";
@@ -127,7 +133,7 @@ class DOMHandler {
     inputTitle.setAttribute("data-role", "create-todo-input-title");
     // spanTitle.id = "create-todo-title-span";
     spanTitle.classList.add("create-todo-title-span", "invalid");
-    spanTitle.textContent = "Invalid";
+    spanTitle.textContent = DOMHandler.validationMessages.title;
     spanTitle.setAttribute("data-role", "create-todo-input-title-span");
 
     divDescription.classList.add("create-todo-description");
@@ -144,7 +150,7 @@ class DOMHandler {
     );
     // spanDescription.id = "create-todo-description-span";
     spanDescription.classList.add("create-todo-description-span", "invalid");
-    spanDescription.textContent = "Invalid";
+    spanDescription.textContent = DOMHandler.validationMessages.description;
     spanDescription.setAttribute(
       "data-role",
       "create-todo-input-description-span",
@@ -230,7 +236,7 @@ class DOMHandler {
     inputDate.setAttribute("data-role", "edit-todo-input-date");
     inputDate.required = true;
     spanDate.classList.add("edit-todo-date-span", "invalid");
-    spanDate.textContent = "Invalid";
+    spanDate.textContent = DOMHandler.validationMessages.date;
     spanDate.setAttribute("data-role", "edit-todo-input-date-span");
 
     divTitle.classList.add("edit-div-title");
@@ -241,7 +247,7 @@ class DOMHandler {
     inputTitle.setAttribute("data-role", "edit-todo-input-title");
     inputTitle.required = true;
     spanTitle.classList.add("edit-todo-title-span", "invalid");
-    spanTitle.textContent = "Invalid";
+    spanTitle.textContent = DOMHandler.validationMessages.title;
     spanTitle.setAttribute("data-role", "edit-todo-input-title-span");
 
     divDescription.classList.add("edit-div-description");
@@ -255,7 +261,7 @@ class DOMHandler {
     );
     textareaDescription.required = true;
     spanDescription.classList.add("edit-todo-description-span", "invalid");
-    spanDescription.textContent = "Invalid";
+    spanDescription.textContent = DOMHandler.validationMessages.description;
     spanDescription.setAttribute(
       "data-role",
       "edit-todo-input-description-span",
