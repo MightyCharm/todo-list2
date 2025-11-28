@@ -92,7 +92,7 @@ main,
 
 .page-project-list h2 {
 }
-/* ===================================================== */
+
 .project-list {
   display: flex;
   flex-direction: column;
@@ -104,10 +104,16 @@ main,
 
 .li-project {
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 4fr auto;
   width: 80%;
   height: 45px;
   border-radius: var(--border-radius);
+  /* border: 1px solid red; */
+}
+
+.li-project-edit {
+  /* border: 1px solid red; */
+  grid-template-columns: 5fr 1fr 1fr auto;
 }
 
 .btn-project {
@@ -118,9 +124,19 @@ main,
   border-bottom-left-radius: var(--border-radius);
 }
 
+.input-project-edit,
+.btn-confirm-project-edit {
+  border: 1px solid hsla(0, 0%, 61%, 0.887);
+  border-radius: 4px;
+}
+
+.btn-cancel-project-edit {
+}
+
 .project-div-kebab {
   display: flex;
   position: relative;
+  min-width: 30px;
 }
 
 .btn-kebab-menu-project {
@@ -133,6 +149,7 @@ main,
 .kebab-menu-list-project {
   list-style-type: none;
   position: absolute;
+  z-index: 1000;
   top: 100%;
   right: 0;
   min-width: 50px;
@@ -155,12 +172,11 @@ main,
 
 /* for default project */
 .kebab-disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   pointer-events: none;
   cursor: not-allowed;
 }
 
-/* ==================================================== */
 .btn-add-project {
   font-weight: bold;
   width: 100%;
@@ -180,6 +196,7 @@ main,
     "create-project-span create-project-span create-project-span";
   grid-template-columns: 3fr 1fr 1fr;
   gap: 0.2rem;
+  height: 45px;
   /* border: 2px solid red; */
 }
 
@@ -190,6 +207,7 @@ main,
   padding-left: 0.3rem;
   padding-right: 0.3rem;
   border-radius: 4px;
+  height: 45px;
 }
 
 .create-project-span {

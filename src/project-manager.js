@@ -90,6 +90,10 @@ class ProjectManager {
     this.activeProject = this.default;
     this.projects.push(this.default);
   }
+
+  getProjectById(id) {
+    return this.projects.find((project) => project.id === id);
+  }
 }
 
 export { ProjectManager, DEFAULT_PROJECT_ID };

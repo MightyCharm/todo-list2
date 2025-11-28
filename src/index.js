@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let todo;
     let article;
     let title;
+    let nextSibling;
     if (!role) {
       return;
     }
@@ -89,6 +90,20 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(false);
         domHandler.cancelProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
+        break;
+
+      case "btn-confirm-edit-project":
+        console.log("btn-confirm-edit-project");
+        break;
+      case "btn-cancel-edit-project":
+        console.log("btn-cancel-edit-project");
+        domHandler.setIsFormOpen(false);
+        list = event.target.closest("li");
+        nextSibling = list.nextSibling;
+        console.log("->", nextSibling);
+        id = list.id;
+        project = projectManager.getProjectById(id);
+        domHandler.renderProject(project, nextSibling);
         break;
 
       case "btn-add-todo":
@@ -134,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
           project = projectManager.getActiveProject();
           project.updateToDo(id, validateEditToDoInput.inputs);
           // grab sibling so newly render todo can be inserted in same spot as before
-          const nextSibling = article.nextSibling;
+          nextSibling = article.nextSibling;
           domHandler.removeElement(id);
           domHandler.renderToDo(id, nextSibling);
 
@@ -207,7 +222,12 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-kebab-menu-project-edit":
-        console.log("edit project");
+        console.log("btn-kebab-menu-project-edit");
+        if (domHandler.getIsFormOpen()) return;
+        domHandler.setIsFormOpen(true);
+        list = event.target.closest("li[id]");
+        domHandler.renderEditProject(list);
+
         break;
 
       case "btn-kebab-menu-project-delete":
@@ -309,6 +329,9 @@ document.addEventListener("DOMContentLoaded", () => {
       case "input-create-project":
         list = event.target.closest("li");
         domHandler.hideSpanValidationError(list, role);
+        break;
+      case "input-edit-project":
+        console.log("here we are ma boi");
         break;
     }
   });

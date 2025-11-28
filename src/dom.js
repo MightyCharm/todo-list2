@@ -131,7 +131,6 @@ class DOMHandler {
     inputTitle.type = "text";
     inputTitle.required = true;
     inputTitle.setAttribute("data-role", "create-todo-input-title");
-    // spanTitle.id = "create-todo-title-span";
     spanTitle.classList.add("create-todo-title-span", "invalid");
     spanTitle.textContent = DOMHandler.validationMessages.title;
     spanTitle.setAttribute("data-role", "create-todo-input-title-span");
@@ -304,11 +303,6 @@ class DOMHandler {
     divButtons.appendChild(buttonCancel);
 
     article.appendChild(divButtons);
-
-    // remove later
-    // spanDate.classList.add("is-visible");
-    // spanTitle.classList.add("is-visible");
-    // spanDescription.classList.add("is-visible");
   }
 
   createProject(activeProject) {
@@ -321,11 +315,18 @@ class DOMHandler {
     });
   }
 
-  renderProject(project) {
+  renderProject(project, nextSibling = null) {
     this.removeElement("li-project-name");
     const projectId = project.id;
-    const defaultProjectId = this.projectManager.getDefaultProject().getId();
+    const projects = this.projectManager.getProjects();
+    const checkForProject = projects.find(
+      (project) => project.id === projectId,
+    );
+    if (checkForProject) {
+      this.removeElement(checkForProject.id);
+    }
 
+    const defaultProjectId = this.projectManager.getDefaultProject().getId();
     const list = document.createElement("li");
     const buttonProject = document.createElement("button");
     const divKebab = this.createKebabMenu("project");
@@ -338,12 +339,47 @@ class DOMHandler {
 
     list.appendChild(buttonProject);
     list.appendChild(divKebab);
-    this.projectList.appendChild(list);
+    // if next sibling, then the call comes from edit mode and project must be
+    // inserted where it was
+    if (nextSibling) {
+      this.projectList.insertBefore(list, nextSibling);
+      // project is new, append to the end of container
+    } else {
+      this.projectList.appendChild(list);
+    }
 
     if (projectId === defaultProjectId) {
-      console.log("default project");
       divKebab.classList.add("kebab-disabled");
     }
+  }
+
+  renderEditProject(list) {
+    console.log("renderEditProject()");
+    console.log(list);
+    const btnProject = list.querySelector(".btn-project");
+    const divKebab = list.querySelector(".project-div-kebab");
+    const input = document.createElement("input");
+    const btnConfirm = document.createElement("button");
+    const iconConfirm = document.createElement("i");
+    const btnCancel = document.createElement("button");
+    const iconCancel = document.createElement("i");
+
+    list.classList.add("li-project-edit");
+    input.id = `${list.id}-input`;
+    input.classList.add("input-project-edit");
+    input.setAttribute("data-role", "input-edit-project");
+    btnConfirm.classList.add("btn-confirm-project-edit");
+    btnConfirm.setAttribute("data-role", "btn-confirm-edit-project");
+    btnCancel.classList.add("btn-cancel-project-edit");
+    btnCancel.setAttribute("data-role", "btn-cancel-edit-project");
+    iconConfirm.classList.add("fas", "fa-check", "fa-lg");
+    iconCancel.classList.add("fas", "fa-times", "fa-lg");
+
+    btnProject.replaceWith(input);
+    btnConfirm.appendChild(iconConfirm);
+    btnCancel.appendChild(iconCancel);
+    list.insertBefore(btnConfirm, divKebab);
+    list.insertBefore(btnCancel, divKebab);
   }
 
   renderToDo(idToDo, nextSibling = null) {
