@@ -355,7 +355,6 @@ class DOMHandler {
 
   renderEditProject(list) {
     console.log("renderEditProject()");
-    console.log(list);
     const btnProject = list.querySelector(".btn-project");
     const divKebab = list.querySelector(".project-div-kebab");
     const input = document.createElement("input");
@@ -363,6 +362,7 @@ class DOMHandler {
     const iconConfirm = document.createElement("i");
     const btnCancel = document.createElement("button");
     const iconCancel = document.createElement("i");
+    const spanInvalid = document.createElement("span");
 
     list.classList.add("li-project-edit");
     list.setAttribute("data-form", "edit-project-container");
@@ -377,12 +377,16 @@ class DOMHandler {
     btnCancel.setAttribute("data-role", "btn-cancel-edit-project");
     iconConfirm.classList.add("fas", "fa-check", "fa-lg");
     iconCancel.classList.add("fas", "fa-times", "fa-lg");
+    spanInvalid.textContent = DOMHandler.validationMessages.projectName;
+    spanInvalid.classList.add("edit-project-span", "invalid");
+    spanInvalid.setAttribute("data-role", "input-edit-project-span");
 
     btnProject.replaceWith(input);
     btnConfirm.appendChild(iconConfirm);
     btnCancel.appendChild(iconCancel);
     list.insertBefore(btnConfirm, divKebab);
     list.insertBefore(btnCancel, divKebab);
+    list.appendChild(spanInvalid);
   }
 
   renderToDo(idToDo, nextSibling = null) {
@@ -730,15 +734,15 @@ class DOMHandler {
     return obj;
   }
 
-  // show and hide span error elements if button confirm is clicked
-  showValidationErrors(element, validationForm) {
-    console.log("showValidationErrors()");
+  showFormErrorsOnSubmit(element, validationForm) {
+    console.log("showFormErrorsOnSubmit()");
     let dataForm = element.dataset.form;
     let spanInvalidDate;
     let spanInvalidTitle;
     let spanInvalidDescription;
     let spanInvalidProjectName;
-
+    let spanInvalidProjectNameEdit;
+    console.log(dataForm);
     // check if article is the window for todo creation
     if (dataForm === "create-todo-container") {
       spanInvalidDate = element.querySelector(".create-todo-date-span");
@@ -760,6 +764,15 @@ class DOMHandler {
         spanInvalidProjectName.classList.add("is-visible");
       }
 
+      return;
+    } else if (dataForm === "edit-project-container") {
+      console.log(validationForm);
+      spanInvalidProjectNameEdit = element.querySelector(".edit-project-span");
+
+      spanInvalidProjectNameEdit.classList.remove("is-visible");
+      if (validationForm.errors.name) {
+        spanInvalidProjectNameEdit.classList.add("is-visible");
+      }
       return;
     }
 
@@ -789,8 +802,8 @@ class DOMHandler {
     }
   }
 
-  showSingleValidationError(article, inputElement, inputValidation) {
-    console.log("showSingleValidationError()");
+  showFieldErrorOnBlur(article, inputElement, inputValidation) {
+    console.log("showFieldErrorOnBlur()");
     console.log(inputElement);
     console.log(inputValidation);
     const role = `${inputElement.dataset.role}-span`;
@@ -803,7 +816,6 @@ class DOMHandler {
     }
   }
 
-  // hides span error element of user enter something into input field
   hideSpanValidationError(element, role) {
     console.log("hideSpanValidationError");
     let spanInvalid = element.querySelector(`[data-role="${role}-span"]`);

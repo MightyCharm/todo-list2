@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.renderProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
         break;
-      //========================================================================================
       case "btn-confirm-project":
         console.log("btn-confirm-project");
         list = event.target.closest("li");
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           projectManager.setLocalStorage();
         } else {
-          domHandler.showValidationErrors(list, validationProject);
+          domHandler.showFormErrorsOnSubmit(list, validationProject);
         }
         break;
 
@@ -110,10 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.highlightActiveProject();
         } else {
           console.log("validation was not successful. Show span Invalid");
+          domHandler.showFormErrorsOnSubmit(list, validationProject);
         }
 
         break;
-      //=============================================================================================
       case "btn-cancel-edit-project":
         console.log("btn-cancel-edit-project");
         domHandler.setIsFormOpen(false);
@@ -146,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.toggleHideDisplay(btnAddToDo);
           projectManager.setLocalStorage();
         } else {
-          domHandler.showValidationErrors(article, validationCreateToDoForm);
+          domHandler.showFormErrorsOnSubmit(article, validationCreateToDoForm);
         }
         break;
 
@@ -174,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           projectManager.setLocalStorage();
         } else {
-          domHandler.showValidationErrors(article, validateEditToDoInput);
+          domHandler.showFormErrorsOnSubmit(article, validateEditToDoInput);
         }
         break;
 
@@ -231,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.closeKebabMenu();
         break;
 
-      //============================================================
       case "btn-kebab-menu-project":
         console.log("btn-kebab-menu-project");
         if (domHandler.getIsFormOpen()) return;
@@ -262,12 +260,9 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.highlightActiveProject();
           domHandler.removeToDos();
           domHandler.renderActiveProjectToDos();
-
           projectManager.setLocalStorage();
         }
         break;
-
-      //=============================================================
 
       case "checkbox-todo":
         console.log("checkbox-todo");
@@ -317,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let role = selectPriority.dataset.role;
     switch (role) {
       case "select-priority":
-        console.log("Inside case priority");
+        console.log("select-priority");
         project = projectManager.getActiveProject();
         id = event.target.closest("article").id;
         todo = project.getToDo(id);
@@ -350,7 +345,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.hideSpanValidationError(list, role);
         break;
       case "input-edit-project":
-        // console.log("here we are ma boi");
+        console.log("here we are ma boi");
+        list = event.target.closest("li");
+        domHandler.hideSpanValidationError(list, role);
         break;
     }
   });
@@ -363,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let article;
     let li;
     let inputElement;
-    console.log(role);
+    // console.log(role);
     switch (role) {
       case "create-todo-input-date":
       case "edit-todo-input-date":
@@ -375,19 +372,16 @@ document.addEventListener("DOMContentLoaded", () => {
         article = inputElement.closest("article");
         validationInput = domHandler.validateInput(inputElement);
 
-        domHandler.showSingleValidationError(
-          article,
-          inputElement,
-          validationInput,
-        );
+        domHandler.showFieldErrorOnBlur(article, inputElement, validationInput);
         break;
 
       case "input-create-project":
+      case "input-edit-project":
         inputElement = event.target;
         li = inputElement.closest("li");
         validationInput = domHandler.validateInput(inputElement);
 
-        domHandler.showSingleValidationError(li, inputElement, validationInput);
+        domHandler.showFieldErrorOnBlur(li, inputElement, validationInput);
         break;
     }
   });
