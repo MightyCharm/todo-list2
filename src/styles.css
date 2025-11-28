@@ -108,11 +108,9 @@ main,
   width: 80%;
   height: 45px;
   border-radius: var(--border-radius);
-  /* border: 1px solid red; */
 }
 
 .li-project-edit {
-  /* border: 1px solid red; */
   grid-template-columns: 5fr 1fr 1fr auto;
 }
 
@@ -124,7 +122,15 @@ main,
   border-bottom-left-radius: var(--border-radius);
 }
 
-.input-project-edit,
+.input-project-edit {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  border-radius: 4px;
+  height: 45px;
+}
+
 .btn-confirm-project-edit {
   border: 1px solid hsla(0, 0%, 61%, 0.887);
   border-radius: 4px;

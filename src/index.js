@@ -66,14 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.renderProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
         break;
-
+      //========================================================================================
       case "btn-confirm-project":
         console.log("btn-confirm-project");
         list = event.target.closest("li");
         validationProject = domHandler.validateForms(list);
         if (validationProject.check) {
-          projectManager.addProject(validationProject.inputs.name);
           domHandler.setIsFormOpen(false);
+          projectManager.addProject(validationProject.inputs.name);
           domHandler.createProject(projectManager.getActiveProject());
           domHandler.highlightActiveProject();
           domHandler.toggleHideDisplay(btnAddProject);
@@ -94,16 +94,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-confirm-edit-project":
         console.log("btn-confirm-edit-project");
+        list = event.target.closest("li");
+        id = list.id;
+        nextSibling = list.nextSibling;
+        console.log(list);
+        validationProject = domHandler.validateForms(list);
+        console.log(validationProject);
+        if (validationProject.check) {
+          console.log("validation of edit project was successful");
+          domHandler.setIsFormOpen(false);
+          project = projectManager.getProjectById(id);
+          project.setName(validationProject.inputs.name);
+          projectManager.setLocalStorage();
+          domHandler.renderProject(project, nextSibling);
+          domHandler.highlightActiveProject();
+        } else {
+          console.log("validation was not successful. Show span Invalid");
+        }
+
         break;
+      //=============================================================================================
       case "btn-cancel-edit-project":
         console.log("btn-cancel-edit-project");
         domHandler.setIsFormOpen(false);
         list = event.target.closest("li");
         nextSibling = list.nextSibling;
-        console.log("->", nextSibling);
         id = list.id;
         project = projectManager.getProjectById(id);
         domHandler.renderProject(project, nextSibling);
+        domHandler.highlightActiveProject();
         break;
 
       case "btn-add-todo":
@@ -331,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.hideSpanValidationError(list, role);
         break;
       case "input-edit-project":
-        console.log("here we are ma boi");
+        // console.log("here we are ma boi");
         break;
     }
   });

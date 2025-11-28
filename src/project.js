@@ -52,6 +52,10 @@ class Project {
     return this.name;
   }
 
+  setName(newName) {
+    this.name = newName;
+  }
+
   getId() {
     return this.id;
   }

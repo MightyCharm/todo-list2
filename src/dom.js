@@ -365,9 +365,12 @@ class DOMHandler {
     const iconCancel = document.createElement("i");
 
     list.classList.add("li-project-edit");
+    list.setAttribute("data-form", "edit-project-container");
     input.id = `${list.id}-input`;
     input.classList.add("input-project-edit");
     input.setAttribute("data-role", "input-edit-project");
+    input.value = btnProject.textContent;
+    input.required = true;
     btnConfirm.classList.add("btn-confirm-project-edit");
     btnConfirm.setAttribute("data-role", "btn-confirm-edit-project");
     btnCancel.classList.add("btn-cancel-project-edit");
@@ -636,6 +639,23 @@ class DOMHandler {
           name: !checkName.result,
         },
       };
+    } else if (role === "edit-project-container") {
+      name = parent.querySelector(".input-project-edit");
+      const checkName = this.validateInput(name);
+      if (checkName.result) {
+        return {
+          check: true,
+          inputs: {
+            name: checkName.value,
+          },
+        };
+      }
+      return {
+        check: false,
+        errors: {
+          name: !checkName.result,
+        },
+      };
     }
     const checkDate = this.validateInput(date);
     const priorityValue = priority.value;
@@ -668,7 +688,9 @@ class DOMHandler {
 
   validateInput(element) {
     console.log("validateInput()");
+    console.log(element);
     const role = element.dataset.role;
+    console.log("role:", role);
     let input;
     let obj = { result: "", value: "" };
     switch (role) {
@@ -696,6 +718,7 @@ class DOMHandler {
         obj.value = input;
         break;
       case "input-create-project":
+      case "input-edit-project":
         input = element.value.trim();
         obj.result = input === "" ? false : true;
         obj.value = input;
