@@ -130,6 +130,7 @@ class DOMHandler {
     inputTitle.classList.add("input-title");
     inputTitle.type = "text";
     inputTitle.required = true;
+    inputTitle.maxLength = "50";
     inputTitle.setAttribute("data-role", "create-todo-input-title");
     spanTitle.classList.add("create-todo-title-span", "invalid");
     spanTitle.textContent = DOMHandler.validationMessages.title;
@@ -141,7 +142,7 @@ class DOMHandler {
     textareaDescription.id = "textarea-description";
     textareaDescription.classList.add("textarea-description");
     textareaDescription.rows = "3";
-    textareaDescription.maxLength = "100";
+    textareaDescription.maxLength = "200";
     textareaDescription.required = true;
     textareaDescription.setAttribute(
       "data-role",
