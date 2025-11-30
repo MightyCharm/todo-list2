@@ -8,6 +8,8 @@
 
 :root {
   --border-radius: 8px;
+  --border-color: hsl(0, 0%, 76%);
+  --bg-color-header-footer: hsl(232, 23%, 87%);
 }
 
 /* Fallback: older browsers */
@@ -40,12 +42,16 @@ input {
   }
 }
 
-html,
-body {
+html {
   height: 100%;
 }
 
 body {
+  min-width: 320px;
+  max-width: 1200px;
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0 auto;
   background-color: #f9f9f9;
   font-family: "Montserrat", sans-serif;
 }
@@ -73,9 +79,9 @@ main,
 
 .page-header {
   grid-area: header;
-  background-color: hsl(232, 23%, 87%);
   text-align: center;
   padding: 0.5rem;
+  background-color: var(--bg-color-header-footer);
 }
 
 .page-header h1 {
@@ -88,6 +94,8 @@ main,
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
+
+  /* border: 4px solid red; */
 }
 
 .page-project-list h2 {
@@ -108,8 +116,6 @@ main,
   width: 80%;
   height: 45px;
   border-radius: var(--border-radius);
-
-  /* border: 1px solid red; */
 }
 
 .li-project-edit {
@@ -134,8 +140,8 @@ main,
 }
 
 .btn-confirm-project-edit {
-  border: 1px solid hsla(0, 0%, 61%, 0.887);
   border-radius: 4px;
+  border: 1px solid hsla(0, 0%, 61%, 0.887);
 }
 
 .btn-cancel-project-edit {
@@ -204,8 +210,6 @@ main,
     "create-project-span create-project-span create-project-span";
   grid-template-columns: 3fr 1fr 1fr;
   gap: 0.2rem;
-  /* height: 45px; */
-  border: 2px solid red;
 }
 
 .input-project-name {
@@ -232,8 +236,8 @@ main,
 
 .btn-confirm-project,
 .btn-cancel-project {
-  border: 1px solid hsla(0, 0%, 61%, 0.887);
   border-radius: 4px;
+  border: 1px solid hsla(0, 0%, 61%, 0.887);
 }
 
 .fa-check {
@@ -250,7 +254,9 @@ main {
   flex-direction: column;
   align-items: center;
   margin-top: 1rem;
-  /* border: 1px solid red; */
+  padding-top: 1rem;
+  /* border: 5px solid rgb(0, 119, 255); */
+  border-top: 2px solid var(--border-color);
 }
 
 .container-todos {
@@ -259,6 +265,8 @@ main {
   align-items: center;
   gap: 1rem;
   padding: 1rem 2rem;
+
+  width: 100%;
 }
 
 .container-add-project-btn,
@@ -294,6 +302,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
+  /* border: 1px solid red; */
 }
 
 .card-todo-expanded {
@@ -304,9 +313,20 @@ main {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
+  /* border: 1px solid green; */
 }
 
-.card-todo-editing {
+.card-create-todo {
+  grid-template-areas:
+    "create-todo-date create-todo-priority"
+    "create-todo-title create-todo-title"
+    "create-todo-description create-todo-buttons";
+  column-gap: 1rem;
+  padding: 1rem;
+  /* border: 1px solid brown; */
+}
+
+.card-todo-edit {
   grid-template-areas:
     "input-dueDate-edit todo-priority todo-done todo-div-kebab"
     "edit-div-title edit-div-title  edit-div-title edit-div-title"
@@ -320,18 +340,15 @@ main {
 .card-todo,
 .card-todo-expanded,
 .card-todo-editing {
-  /* grid-template-columns: repeat(4, minmax(0, 1fr)); */
-  /* min-width: 0; */
   width: 100%;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  max-width: 400px;
+
   grid-template-columns: 130px 1fr auto auto;
 }
 
 .todo-dueDate {
   grid-area: todo-dueDate;
   white-space: nowrap;
-
-  /* border: 1px solid red; */
 }
 
 /* used in normal and edit mode */
@@ -339,8 +356,6 @@ main {
   grid-area: todo-priority;
   align-self: start;
   justify-self: center;
-
-  /* border: 1px solid red; */
 }
 
 /* used in normal and edit mode */
@@ -359,13 +374,7 @@ main {
   position: relative;
   appearance: none;
   transition: all 1.3s;
-
-  /* border: 2px solid red; */
 }
-
-/* .todo-done:valid {
-  border-color: hsl(0, 0%, 41%);
-} */
 
 .todo-done:checked {
   border-color: hsl(207, 71%, 46%);
@@ -393,8 +402,6 @@ main {
   justify-content: end;
   position: relative;
   align-self: start;
-
-  /* border: 1px solid red; */
 }
 
 .kebab-menu-list {
@@ -427,15 +434,12 @@ main {
 
   min-width: 0;
   overflow-wrap: break-word;
-  /* border: 1px solid red; */
 }
 
 .todo-description {
   grid-area: todo-description;
   min-width: 0;
   overflow-wrap: break-word;
-  /* 
-  border: 1px solid red; */
 }
 
 .todo-btn-trash {
@@ -447,81 +451,13 @@ main {
   height: 20px;
 }
 
-/* classes for items in edit mode */
-.edit-todo-div-date {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-
-  /* border: 1px solid red; */
-}
-
-.edit-input-dueDate {
-  /* border: 2px solid red; */
-}
-
-.edit-div-title {
-  grid-area: edit-div-title;
-  display: flex;
-  flex-direction: column;
-
-  /* border: 1px solid red; */
-}
-
-.input-title-edit {
-  padding: 0.2rem;
-}
-
-.edit-div-description {
-  grid-area: edit-div-description;
-
-  display: flex;
-  flex-direction: column;
-
-  /* border: 1px solid red; */
-}
-
-.textarea-edit-todo {
-  resize: none;
-  padding: 0.4rem 0.2rem;
-}
-
-.todo-div-edit-btns {
-  grid-area: todo-div-edit-btns;
-  align-self: end;
-
-  display: flex;
-  gap: 0.5rem;
-}
-
-.card-create-todo {
-  grid-template-areas:
-    "create-todo-date create-todo-priority"
-    "create-todo-title create-todo-title"
-    "create-todo-description create-todo-buttons";
-  column-gap: 1rem;
-  padding: 1rem;
-  width: 100%;
-}
-
-.card-edit-todo {
-  grid-template-areas:
-    "create-todo-date create-todo-priority edit-todo-checkbox"
-    "create-todo-title create-todo-title create-todo-title"
-    "create-todo-description create-todo-description create-todo-buttons";
-  gap: 1rem;
-  padding: 1rem;
-}
-
+/* create new todo form */
 .create-todo-div-date {
   grid-area: create-todo-date;
 
   display: flex;
   flex-direction: column;
   gap: 1px;
-  /* min-height: 40px; */
-  /* background-color: silver; */
-  /* border: 1px solid red; */
 }
 
 .create-todo-date {
@@ -535,7 +471,6 @@ main {
   grid-area: create-todo-priority;
 
   align-self: start;
-  /* border: 2px solid red; */
 }
 
 .create-todo-title {
@@ -544,9 +479,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  /* min-height: 60px; */
-  /* background-color: pink; */
-  /* border: 1px solid rgb(17, 0, 255); */
 }
 
 .input-title {
@@ -563,9 +495,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  /* min-height: 98px; */
-  /* background-color: grey; */
-  /* border: 1px solid red; */
 }
 
 .textarea-description {
@@ -594,6 +523,46 @@ main {
   /* border: 5px solid red; */
 }
 
+/* classes for items in edit mode */
+.edit-todo-div-date {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.edit-input-dueDate {
+}
+
+.edit-div-title {
+  grid-area: edit-div-title;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-title-edit {
+  padding: 0.2rem;
+}
+
+.edit-div-description {
+  grid-area: edit-div-description;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-edit-todo {
+  resize: none;
+  padding: 0.4rem 0.2rem;
+}
+
+.todo-div-edit-btns {
+  grid-area: todo-div-edit-btns;
+  align-self: end;
+
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* page footer */
 .page-footer {
   grid-area: footer;
@@ -604,7 +573,7 @@ main {
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: var(--bg-footer);
+  background-color: var(--bg-color-header-footer);
 }
 
 .footer-header {
@@ -642,7 +611,6 @@ main {
   text-decoration: underline;
 }
 
-/* ==================== */
 .is-hidden {
   display: none;
 }
@@ -668,8 +636,26 @@ main {
   visibility: visible;
 }
 
-@media (max-width: 480px) {
-  body {
-    /* border: 1px solid red; */
+@media (min-width: 768px) {
+  main {
+    padding-top: 0;
+  }
+
+  .main-container {
+    grid-template-areas:
+      "header header"
+      "project-list main"
+      "footer footer";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr 2fr;
+    height: 100%;
+    max-width: 100%;
+    /* border: 4px solid green; */
+  }
+
+  main {
+    margin: 0;
+    border-top: none;
+    border-left: 2px solid var(--border-color);
   }
 }

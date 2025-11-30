@@ -201,7 +201,7 @@ class DOMHandler {
   // after that, i have to add functionality
   renderEditToDo(article, todo) {
     article.classList.remove("card-todo", "card-todo-expanded");
-    article.classList.add("card-todo-editing");
+    article.classList.add("card-todo-edit");
     article.setAttribute("data-form", "edit-todo-container");
     const trashButton = article.querySelector(".todo-btn-trash");
     trashButton.remove();
