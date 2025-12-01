@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
     const role = event.target.closest("[data-role]")?.dataset.role;
-
     let validationProject;
     let validationCreateToDoForm;
     let validateEditToDoInput;
@@ -150,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-cancel-create-todo":
-        console.log("btn-cancel-todo");
+        console.log("btn-cancel-create-todo");
         domHandler.setIsFormOpen(false);
         domHandler.cancelToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
@@ -190,6 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "btn-project":
         console.log("btn-project");
+        if (domHandler.getIsFormOpen()) {
+          domHandler.setIsFormOpen(false);
+          domHandler.cancelProjectForm();
+          if (btnAddToDo.classList.contains("is-hidden")) {
+            domHandler.toggleHideDisplay(btnAddToDo);
+          }
+          if (btnAddProject.classList.contains("is-hidden")) {
+            domHandler.toggleHideDisplay(btnAddProject);
+          }
+        }
         list = event.target.closest("li");
         id = list.id;
         projectManager.switchActiveProject(id);

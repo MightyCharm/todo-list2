@@ -67,7 +67,11 @@ class DOMHandler {
   }
 
   cancelProjectForm() {
-    this.removeElement("li-project-name");
+    const element = document.getElementById("li-project-name");
+    if (element) {
+      console.log("project form is open, remove it now");
+      this.removeElement("li-project-name");
+    }
   }
 
   renderToDoForm() {
