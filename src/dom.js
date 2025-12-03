@@ -19,6 +19,94 @@ class DOMHandler {
     this.containerProjectBtn = containerProjectBtn;
     this.containerToDos = containerToDos;
     this.projectManager = projectManager;
+
+    this.isCreateProject = false;
+    this.isEditProject = false;
+    this.isCreateToDo = false;
+    this.isEditToDo = false;
+  }
+
+  updateButtonStates(article = null) {
+    console.log("updateButtonState()");
+    console.log(`isCreateProject: ${this.isCreateProject}`);
+    console.log(`isEditProject: ${this.isEditProject}`);
+    console.log(`isCreateToDo: ${this.isCreateToDo}`);
+    console.log(`isEditToDo: ${this.isEditToDo}`);
+    const btnAddProject = document.getElementById("btn-add-project");
+    const kebabProjects = document.querySelectorAll(".btn-kebab-menu-project");
+    const btnAddToDo = document.getElementById("btn-add-todo");
+    const todoPriority = document.querySelectorAll(".todo-priority");
+    const todoCheckboxDone = document.querySelectorAll(".todo-done");
+    const kebabToDos = document.querySelectorAll(".btn-kebab-menu");
+    const trashToDos = document.querySelectorAll(".todo-btn-trash");
+
+    // reset elements
+    if (btnAddProject) {
+      btnAddProject.disabled = false;
+    }
+    if (kebabProjects) {
+      kebabProjects.forEach((btn) => (btn.disabled = false));
+    }
+    if (btnAddToDo) {
+      btnAddToDo.disabled = false;
+    }
+    if (todoPriority) {
+      todoPriority.forEach((element) => (element.disabled = false));
+    }
+    if (todoCheckboxDone) {
+      todoCheckboxDone.forEach((checkbox) => {
+        checkbox.disabled = false;
+        checkbox.classList.remove("checkbox-disabled");
+      });
+    }
+    if (kebabToDos) {
+      kebabToDos.forEach((btn) => (btn.disabled = false));
+    }
+    if (trashToDos) {
+      trashToDos.forEach((btn) => (btn.disabled = false));
+    }
+    // disable elements if project create form is open
+    if (
+      this.isCreateProject ||
+      this.isEditProject ||
+      this.isCreateToDo ||
+      this.isEditToDo
+    ) {
+      console.log("isCreateProject");
+      if (btnAddProject) {
+        btnAddProject.disabled = true;
+      }
+      if (kebabProjects) {
+        kebabProjects.forEach((btn) => (btn.disabled = true));
+      }
+      if (btnAddToDo) {
+        btnAddToDo.disabled = true;
+      }
+      if (todoPriority) {
+        todoPriority.forEach((element) => (element.disabled = true));
+      }
+      if (todoCheckboxDone) {
+        todoCheckboxDone.forEach((checkbox) => {
+          checkbox.disabled = true;
+          checkbox.classList.add("checkbox-disabled");
+        });
+      }
+      if (kebabToDos) {
+        kebabToDos.forEach((btn) => (btn.disabled = true));
+      }
+      if (trashToDos) {
+        trashToDos.forEach((btn) => (btn.disabled = true));
+      }
+    }
+
+    if (article) {
+      console.log("mah boi we need to activate priority and checkbox again");
+      const priority = article.querySelector(".todo-priority");
+      const checkboxDone = article.querySelector(".todo-done");
+      priority.disabled = false;
+      checkboxDone.disabled = false;
+      checkboxDone.classList.remove("checkbox-disabled");
+    }
   }
 
   renderProjectForm() {
@@ -67,10 +155,10 @@ class DOMHandler {
   }
 
   cancelProjectForm() {
-    const element = document.getElementById("li-project-name");
-    if (element) {
+    const createProject = document.getElementById("li-project-name");
+    if (createProject) {
       console.log("project form is open, remove it now");
-      this.removeElement("li-project-name");
+      this.removeElement(createProject.id);
     }
   }
 
@@ -697,9 +785,7 @@ class DOMHandler {
 
   validateInput(element) {
     console.log("validateInput()");
-    console.log(element);
     const role = element.dataset.role;
-    console.log("role:", role);
     let input;
     let obj = { result: "", value: "" };
     switch (role) {
@@ -747,7 +833,6 @@ class DOMHandler {
     let spanInvalidDescription;
     let spanInvalidProjectName;
     let spanInvalidProjectNameEdit;
-    console.log(dataForm);
     // check if article is the window for todo creation
     if (dataForm === "create-todo-container") {
       spanInvalidDate = element.querySelector(".create-todo-date-span");
@@ -771,7 +856,6 @@ class DOMHandler {
 
       return;
     } else if (dataForm === "edit-project-container") {
-      console.log(validationForm);
       spanInvalidProjectNameEdit = element.querySelector(".edit-project-span");
 
       spanInvalidProjectNameEdit.classList.remove("is-visible");
@@ -794,8 +878,6 @@ class DOMHandler {
     spanInvalidTitle.classList.remove("is-visible");
     spanInvalidDescription.classList.remove("is-visible");
 
-    console.log(validationForm);
-
     if (validationForm.errors.date) {
       spanInvalidDate.classList.add("is-visible");
     }
@@ -809,8 +891,6 @@ class DOMHandler {
 
   showFieldErrorOnBlur(article, inputElement, inputValidation) {
     console.log("showFieldErrorOnBlur()");
-    console.log(inputElement);
-    console.log(inputValidation);
     const role = `${inputElement.dataset.role}-span`;
     const span = article.querySelector(`[data-role="${role}"]`);
     if (span) {

@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let ulKebab;
     let description;
     let list;
+    let existingEditForm;
     let id;
     let project;
     let todo;
@@ -64,6 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
+
+        domHandler.isCreateProject = true;
+        domHandler.updateButtonStates();
         break;
       case "btn-confirm-project":
         console.log("btn-confirm-project");
@@ -76,8 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.highlightActiveProject();
           domHandler.toggleHideDisplay(btnAddProject);
           domHandler.removeToDos();
-
           projectManager.setLocalStorage();
+
+          domHandler.isCreateProject = false;
+          domHandler.updateButtonStates();
         } else {
           domHandler.showFormErrorsOnSubmit(list, validationProject);
         }
@@ -88,6 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(false);
         domHandler.cancelProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
+
+        domHandler.isCreateProject = false;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-confirm-edit-project":
@@ -95,19 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
         list = event.target.closest("li");
         id = list.id;
         nextSibling = list.nextSibling;
-        console.log(list);
         validationProject = domHandler.validateForms(list);
-        console.log(validationProject);
         if (validationProject.check) {
-          console.log("validation of edit project was successful");
           domHandler.setIsFormOpen(false);
           project = projectManager.getProjectById(id);
           project.setName(validationProject.inputs.name);
           projectManager.setLocalStorage();
           domHandler.renderProject(project, nextSibling);
           domHandler.highlightActiveProject();
+
+          domHandler.isEditProject = false;
+          domHandler.updateButtonStates();
         } else {
-          console.log("validation was not successful. Show span Invalid");
           domHandler.showFormErrorsOnSubmit(list, validationProject);
         }
 
@@ -121,6 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getProjectById(id);
         domHandler.renderProject(project, nextSibling);
         domHandler.highlightActiveProject();
+
+        domHandler.isEditProject = false;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-add-todo":
@@ -129,6 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         domHandler.renderToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
+
+        domHandler.isCreateToDo = true;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-confirm-create-todo":
@@ -143,6 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.renderToDo(id);
           domHandler.toggleHideDisplay(btnAddToDo);
           projectManager.setLocalStorage();
+          domHandler.isCreateToDo = false;
+          domHandler.updateButtonStates();
         } else {
           domHandler.showFormErrorsOnSubmit(article, validationCreateToDoForm);
         }
@@ -153,6 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(false);
         domHandler.cancelToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
+
+        domHandler.isCreateToDo = false;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-confirm-edit-todo":
@@ -169,8 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
           nextSibling = article.nextSibling;
           domHandler.removeElement(id);
           domHandler.renderToDo(id, nextSibling);
-
           projectManager.setLocalStorage();
+
+          domHandler.isEditToDo = false;
+          domHandler.updateButtonStates();
         } else {
           domHandler.showFormErrorsOnSubmit(article, validateEditToDoInput);
         }
@@ -185,6 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
         todo = project.getToDo(id);
         domHandler.removeElement(id);
         domHandler.renderToDo(id);
+
+        domHandler.isEditToDo = false;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-project":
@@ -192,6 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (domHandler.getIsFormOpen()) {
           domHandler.setIsFormOpen(false);
           domHandler.cancelProjectForm();
+
+          existingEditForm = document.querySelector(".li-project-edit");
+          nextSibling = existingEditForm.nextSibling;
+          id = existingEditForm.id;
+          project = projectManager.getProjectById(id);
+          domHandler.renderProject(project, nextSibling);
+
           if (btnAddToDo.classList.contains("is-hidden")) {
             domHandler.toggleHideDisplay(btnAddToDo);
           }
@@ -205,6 +236,13 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.highlightActiveProject();
         domHandler.removeToDos();
         domHandler.renderActiveProjectToDos();
+
+        // reset button state
+        domHandler.isCreateProject = false;
+        domHandler.isEditProject = false;
+        domHandler.isCreateToDo = false;
+        domHandler.isEditToDo = false;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-trash-todo":
@@ -235,8 +273,10 @@ document.addEventListener("DOMContentLoaded", () => {
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
         domHandler.renderEditToDo(article, todo);
-
         domHandler.closeKebabMenu();
+
+        domHandler.isEditToDo = true;
+        domHandler.updateButtonStates(article);
         break;
 
       case "btn-kebab-menu-project":
@@ -253,7 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         list = event.target.closest("li[id]");
         domHandler.renderEditProject(list);
-
+        domHandler.isEditProject = true;
+        domHandler.updateButtonStates();
         break;
 
       case "btn-kebab-menu-project-delete":
@@ -261,7 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
         list = event.target.closest("li[id]");
         console.log(list);
         id = list.id;
-        console.log("list id: ", id);
         // removed prevents the deletion of default project
         removedProject = projectManager.removeProject(list.id);
         if (removedProject) {
@@ -297,6 +337,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "expand-todo":
         console.log("expand-todo");
+        if (
+          domHandler.isCreateProject ||
+          domHandler.isEditProject ||
+          domHandler.isCreateToDo ||
+          domHandler.isEditToDo
+        )
+          return;
         article = event.target.closest("article");
         description = article.querySelector(".todo-description");
         if (description) {
@@ -363,7 +410,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // if user loses focus on input field
   container.addEventListener("focusout", (event) => {
-    console.log("blur event");
     const role = event.target.dataset.role;
     let validationInput;
     let article;
