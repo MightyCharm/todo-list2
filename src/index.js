@@ -3,6 +3,11 @@ import { DOMHandler } from "./dom.js";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
+//=============================
+import { createSeedData } from "./seedData.js";
+
+//=============================
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
   const projectList = document.getElementById("project-list");
@@ -20,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     containerToDos,
     projectManager,
   );
-
   // New implemented block, does check and load data inside localStorage
   // load data
   const data = projectManager.getLocalStorage();
@@ -37,6 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.renderAllProjects(projectManager.getProjects());
   domHandler.highlightActiveProject();
   domHandler.renderActiveProjectToDos();
+
+  //================================================================================================
+  createSeedData(projectManager, domHandler);
+  //================================================================================================
 
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);
@@ -218,10 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
           domHandler.cancelProjectForm();
 
           existingEditForm = document.querySelector(".li-project-edit");
-          nextSibling = existingEditForm.nextSibling;
-          id = existingEditForm.id;
-          project = projectManager.getProjectById(id);
-          domHandler.renderProject(project, nextSibling);
+          if (existingEditForm) {
+            nextSibling = existingEditForm.nextSibling;
+            id = existingEditForm.id;
+            project = projectManager.getProjectById(id);
+            domHandler.renderProject(project, nextSibling);
+          }
 
           if (btnAddToDo.classList.contains("is-hidden")) {
             domHandler.toggleHideDisplay(btnAddToDo);

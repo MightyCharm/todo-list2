@@ -759,7 +759,6 @@ class DOMHandler {
     const doneValue = checkboxDone?.checked || false;
     const checkTitle = this.validateInput(title);
     const checkDescription = this.validateInput(description);
-
     if (checkDate.result && checkTitle.result && checkDescription.result) {
       return {
         check: true,

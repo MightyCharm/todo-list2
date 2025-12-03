@@ -12,7 +12,6 @@ class ProjectManager {
     const project = new Project(name);
     this.activeProject = project;
     this.projects.push(project);
-    console.log(`Project "${name}" was added.`);
     return project;
   }
 
@@ -81,7 +80,7 @@ class ProjectManager {
     if (data) {
       return JSON.parse(data);
     }
-    return []; // before: return this.project;
+    return [];
   }
 
   createDefaultProject() {
