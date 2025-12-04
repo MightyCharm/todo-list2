@@ -212,8 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
         id = article.id;
         project = projectManager.getActiveProject();
         todo = project.getToDo(id);
+        nextSibling = article.nextSibling;
         domHandler.removeElement(id);
-        domHandler.renderToDo(id);
+        domHandler.renderToDo(id, nextSibling);
 
         domHandler.isEditToDo = false;
         domHandler.updateButtonStates();

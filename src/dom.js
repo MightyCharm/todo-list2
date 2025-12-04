@@ -289,6 +289,87 @@ class DOMHandler {
     this.removeElement("card-create-todo");
   }
 
+  renderToDo(idToDo, nextSibling = null) {
+    console.log("renderToDo");
+    if (!nextSibling) {
+      this.removeElement("card-create-todo");
+    }
+
+    const project = this.projectManager.getActiveProject();
+    const todo = project.getToDo(idToDo);
+
+    const article = document.createElement("article");
+    const pDueDate = document.createElement("p");
+    const pTitle = document.createElement("p");
+    const checkDone = document.createElement("input");
+
+    const divKebab = this.createKebabMenu("todo");
+
+    const selectPriority = document.createElement("select");
+    const optionLow = document.createElement("option");
+    const optionNormal = document.createElement("option");
+    const optionHigh = document.createElement("option");
+    const pDescription = document.createElement("p");
+    const btnTrash = document.createElement("button");
+    const iconTrash = document.createElement("i");
+
+    article.id = todo.id;
+    article.classList.add("card", "card-todo");
+    article.setAttribute("data-role", "expand-todo");
+
+    pDueDate.classList.add("todo-dueDate");
+    pDueDate.setAttribute("data-role", "expand-todo");
+    pDueDate.textContent = `Due: ${todo.dueDate}`;
+
+    pTitle.classList.add("todo-title");
+    pTitle.setAttribute("data-role", "expand-todo");
+    pTitle.textContent = todo.title;
+
+    checkDone.id = `checkbox-done-${todo.id}`;
+    checkDone.classList.add("todo-done");
+    checkDone.setAttribute("data-role", "checkbox-todo");
+    checkDone.type = "checkbox";
+    checkDone.name = "done";
+    checkDone.value = "done";
+    checkDone.checked = todo.done;
+
+    selectPriority.id = `select-priority-${todo.id}`;
+    selectPriority.classList.add("todo-priority");
+    selectPriority.name = "priority";
+    selectPriority.setAttribute("data-role", "select-priority");
+    optionLow.value = "low";
+    optionLow.textContent = "LOW";
+    optionNormal.value = "normal";
+    optionNormal.textContent = "NORMAL";
+    optionHigh.value = "high";
+    optionHigh.textContent = "HIGH";
+
+    pDescription.classList.add("todo-description", "is-hidden");
+    pDescription.textContent = todo.description;
+
+    btnTrash.classList.add("todo-btn-trash");
+    btnTrash.setAttribute("data-role", "btn-trash-todo");
+    iconTrash.classList.add("fas", "fa-trash");
+
+    selectPriority.appendChild(optionLow);
+    selectPriority.appendChild(optionNormal);
+    selectPriority.appendChild(optionHigh);
+
+    btnTrash.appendChild(iconTrash);
+
+    article.appendChild(pDueDate);
+    article.appendChild(selectPriority);
+    article.appendChild(checkDone);
+    article.appendChild(divKebab);
+    article.appendChild(pTitle);
+    article.appendChild(pDescription);
+    article.appendChild(btnTrash);
+
+    selectPriority.value = todo.getPriority();
+
+    this.updateLineThrough(pTitle, todo.done);
+    this.containerToDos.insertBefore(article, nextSibling);
+  }
   // i implemented html, next i have to update css and the layout,
   // after that, i have to add functionality
   renderEditToDo(article, todo) {
@@ -296,7 +377,13 @@ class DOMHandler {
     article.classList.add("card-todo-edit");
     article.setAttribute("data-form", "edit-todo-container");
     const trashButton = article.querySelector(".todo-btn-trash");
-    trashButton.remove();
+    const kebabMenu = article.querySelector(".todo-div-kebab");
+    if (trashButton) {
+      trashButton.remove();
+    }
+    if (kebabMenu) {
+      kebabMenu.remove();
+    }
 
     const pDate = article.querySelector(".todo-dueDate");
     const pTitle = article.querySelector(".todo-title");
@@ -480,88 +567,6 @@ class DOMHandler {
     list.insertBefore(btnConfirm, divKebab);
     list.insertBefore(btnCancel, divKebab);
     list.appendChild(spanInvalid);
-  }
-
-  renderToDo(idToDo, nextSibling = null) {
-    console.log("renderToDo");
-    if (!nextSibling) {
-      this.removeElement("card-create-todo");
-    }
-
-    const project = this.projectManager.getActiveProject();
-    const todo = project.getToDo(idToDo);
-
-    const article = document.createElement("article");
-    const pDueDate = document.createElement("p");
-    const pTitle = document.createElement("p");
-    const checkDone = document.createElement("input");
-
-    const divKebab = this.createKebabMenu("todo");
-
-    const selectPriority = document.createElement("select");
-    const optionLow = document.createElement("option");
-    const optionNormal = document.createElement("option");
-    const optionHigh = document.createElement("option");
-    const pDescription = document.createElement("p");
-    const btnTrash = document.createElement("button");
-    const iconTrash = document.createElement("i");
-
-    article.id = todo.id;
-    article.classList.add("card", "card-todo");
-    article.setAttribute("data-role", "expand-todo");
-
-    pDueDate.classList.add("todo-dueDate");
-    pDueDate.setAttribute("data-role", "expand-todo");
-    pDueDate.textContent = `Due: ${todo.dueDate}`;
-
-    pTitle.classList.add("todo-title");
-    pTitle.setAttribute("data-role", "expand-todo");
-    pTitle.textContent = todo.title;
-
-    checkDone.id = `checkbox-done-${todo.id}`;
-    checkDone.classList.add("todo-done");
-    checkDone.setAttribute("data-role", "checkbox-todo");
-    checkDone.type = "checkbox";
-    checkDone.name = "done";
-    checkDone.value = "done";
-    checkDone.checked = todo.done;
-
-    selectPriority.id = `select-priority-${todo.id}`;
-    selectPriority.classList.add("todo-priority");
-    selectPriority.name = "priority";
-    selectPriority.setAttribute("data-role", "select-priority");
-    optionLow.value = "low";
-    optionLow.textContent = "LOW";
-    optionNormal.value = "normal";
-    optionNormal.textContent = "NORMAL";
-    optionHigh.value = "high";
-    optionHigh.textContent = "HIGH";
-
-    pDescription.classList.add("todo-description", "is-hidden");
-    pDescription.textContent = todo.description;
-
-    btnTrash.classList.add("todo-btn-trash");
-    btnTrash.setAttribute("data-role", "btn-trash-todo");
-    iconTrash.classList.add("fas", "fa-trash");
-
-    selectPriority.appendChild(optionLow);
-    selectPriority.appendChild(optionNormal);
-    selectPriority.appendChild(optionHigh);
-
-    btnTrash.appendChild(iconTrash);
-
-    article.appendChild(pDueDate);
-    article.appendChild(selectPriority);
-    article.appendChild(checkDone);
-    article.appendChild(divKebab);
-    article.appendChild(pTitle);
-    article.appendChild(pDescription);
-    article.appendChild(btnTrash);
-
-    selectPriority.value = todo.getPriority();
-
-    this.updateLineThrough(pTitle, todo.done);
-    this.containerToDos.insertBefore(article, nextSibling);
   }
 
   createKebabMenu(context) {
