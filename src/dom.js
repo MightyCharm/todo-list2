@@ -912,6 +912,15 @@ class DOMHandler {
       spanInvalid.classList.remove("is-visible");
     }
   }
+
+  scrollFormIntoView(idForm) {
+    setTimeout(() => {
+      const form = document.getElementById(idForm);
+      if (form) {
+        form.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }, 50);
+  }
 }
 
 export { DOMHandler };

@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         domHandler.renderProjectForm();
         domHandler.toggleHideDisplay(btnAddProject);
-
         domHandler.isCreateProject = true;
         domHandler.updateButtonStates();
+        domHandler.scrollFormIntoView("li-project-name");
         break;
       case "btn-confirm-project":
         console.log("btn-confirm-project");
@@ -148,9 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.setIsFormOpen(true);
         domHandler.renderToDoForm();
         domHandler.toggleHideDisplay(btnAddToDo);
-
         domHandler.isCreateToDo = true;
         domHandler.updateButtonStates();
+        domHandler.scrollFormIntoView("card-create-todo");
         break;
 
       case "btn-confirm-create-todo":

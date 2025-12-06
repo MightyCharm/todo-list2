@@ -49,7 +49,6 @@ html {
 
 body {
   min-width: 320px;
-  max-width: 1200px;
   height: 100vh;
   min-height: 100vh;
   margin: 0 auto;
@@ -93,10 +92,8 @@ main,
 
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   align-items: center;
-
-  /* border: 4px solid red; */
+  gap: 0.5rem;
 }
 
 .page-project-list h2 {
@@ -109,9 +106,11 @@ main,
   gap: 0.3rem;
   list-style-type: none;
   width: 100%;
+  min-height: 0;
 }
 
 .li-project {
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: 4fr auto;
   width: 80%;
@@ -243,9 +242,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  /* border: 5px solid rgb(0, 119, 255); */
   border-top: 2px solid var(--border-color);
 }
 
@@ -255,7 +254,6 @@ main {
   align-items: center;
   gap: 1rem;
   padding: 1rem 2rem;
-
   width: 100%;
 }
 
@@ -654,12 +652,36 @@ button:disabled {
     grid-template-columns: 1fr 2fr;
     height: 100%;
     max-width: 100%;
-    /* border: 4px solid green; */
   }
 
   main {
     margin: 0;
     border-top: none;
     border-left: 2px solid var(--border-color);
+  }
+
+  .page-project-list {
+    /* border: 4px solid red; */
+    min-height: 0;
+  }
+
+  .project-list {
+    /* border: 4px solid blue; */
+    flex: 1;
+  }
+
+  main {
+    min-height: 0;
+    /* border: 4px solid red; */
+  }
+
+  .container-todos {
+    flex: 1;
+    /* border: 4px solid blue; */
+  }
+
+  .project-list,
+  .container-todos {
+    overflow-y: auto;
   }
 }
