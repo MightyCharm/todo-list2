@@ -27,6 +27,8 @@ Everything will be saved inside localStorage, so data won't be lost when the pro
 
 ## Live Demo 🖥️
 
+[Live Demo](https://mightycharm.github.io/todo-list2/)
+
 ## How to run locally
 
 npm run dev
