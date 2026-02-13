@@ -10,7 +10,41 @@
   --border-radius: 8px;
   --border-color: hsl(0, 0%, 76%);
   --bg-color-header-footer: hsl(232, 23%, 87%);
-  --bg-color-add-btn: hsl(118, 100%, 25%);
+  /* btn-project and btn.project.activeProject */
+  --bg-project-btn: hsl(240, 2%, 82%);
+  --bg-project-btn-hover: hsl(240, 2%, 85%);
+  --bg-project-btn-active: hsl(215, 83%, 50%);
+  --bg-project-btn-active-hover: hsl(215, 83%, 55%);
+  /* .btn-add-project && .btn-add-todo */
+  --bg-add-btn: hsl(118, 100%, 25%);
+  --bg-add-btn-hover: hsl(118, 100%, 30%);
+  /* .btn-confirm-project && btn-cancel-project */
+  --bg-confirm-cancel-project-btn: hsl(240, 2%, 82%);
+  --bg-confirm-cancel-project-btn-hover: hsl(240, 2%, 85%);
+  /* btn-kebab-menu-project*/
+  --bg-kebab-menu-project-btn: hsl(240, 2%, 90%);
+  --bg-kebab-menu-project-btn-hover: hsl(240, 2%, 95%);
+  /* btn-kebab-edit-project and .btn-kebab-delete-project */
+  --bg-kebab-edit-delete-project-btn: hsl(240, 2%, 82%);
+  --bg-kebab-edit-delete-project-btn-hover: hsl(240, 2%, 95%);
+  /* .btn-confirm-project-edit .btn-cancel-project-edit  */
+  --bg-confirm-cancel-project-edit-btn: hsl(240, 2%, 90%);
+  --bg-confirm-cancel-project-edit-btn-hover: hsl(240, 2%, 98%);
+  /* .btn-confirm-create-todo .btn-cancel-create-todo */
+  --bg-confirm-cancel-create-todo-btn: hsl(240, 2%, 90%);
+  --bg-confirm-cancel-create-todo-btn-hover: hsl(240, 2%, 98%);
+  /* .todo-div-kebab (parent of button) */
+  --bg-todo-kebab-btn: hsl(240, 2%, 90%);
+  --bg-todo-kebab-btn-hover: hsl(240, 2%, 98%);
+  /* .btn-kebab-edit .btn-kebab-delete */
+  --bg-todo-kebab-edit-delete-btn: hsl(240, 2%, 95%);
+  --bg-todo-kebab-edit-delete-btn-hover: hsl(240, 2%, 100%);
+  /* .btn-confirm-edit-todo .btn-cancel-edit-todo */
+  --bg-confirm-edit-todo-btn: hsl(240, 2%, 90%);
+  --bg-confirm-edit-todo-btn-hover: hsl(240, 2%, 98%);
+  /* .todo.btn-trash */
+  --bg-trash-todo-btn: hsl(240, 2%, 70%);
+  --bg-trash-todo-btn-hover: hsl(240, 2%, 75%);
 }
 
 /* Fallback: older browsers */
@@ -125,9 +159,16 @@ main,
 .btn-project {
   width: 100%;
   border: none;
-  background-color: hsl(240, 2%, 82%);
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
+  background-color: var(--bg-project-btn);
+  transition: background-color 0.3s ease;
+}
+
+.activeProject {
+  font-weight: bold;
+  color: hsl(0, 0%, 100%);
+  background-color: var(--bg-project-btn-active);
 }
 
 .input-project-edit {
@@ -136,15 +177,14 @@ main,
   padding-left: 0.3rem;
   padding-right: 0.3rem;
   border-radius: 4px;
-  /* height: 45px; */
 }
 
-.btn-confirm-project-edit {
+.btn-confirm-project-edit,
+.btn-cancel-project-edit {
   border-radius: 4px;
   border: 1px solid hsla(0, 0%, 61%, 0.887);
-}
-
-.btn-cancel-project-edit {
+  background-color: var(--bg-confirm-cancel-project-edit-btn);
+  transition: background-color 0.3s ease;
 }
 
 .project-div-kebab {
@@ -158,6 +198,8 @@ main,
   border: 1px solid grey;
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
+  background-color: var(--bg-kebab-menu-project-btn);
+  transition: background-color 0.3s ease;
 }
 
 .kebab-menu-list-project {
@@ -176,12 +218,11 @@ main,
   background-color: hsl(0, 1%, 82%);
 }
 
-.btn-kebab-edit-project {
-  width: 100%;
-}
-
+.btn-kebab-edit-project,
 .btn-kebab-delete-project {
   width: 100%;
+  background-color: var(--bg-kebab-edit-delete-project-btn);
+  transition: background-color 0.3s ease;
 }
 
 /* for default project */
@@ -227,6 +268,8 @@ main,
 .btn-cancel-project {
   border-radius: 4px;
   border: 1px solid hsla(0, 0%, 61%, 0.887);
+  background-color: var(--bg-confirm-cancel-project-btn);
+  transition: background-color 0.3s ease;
 }
 
 .fa-check {
@@ -274,7 +317,8 @@ main {
   border-radius: 16px;
   border: none;
   color: hsl(0, 0%, 100%);
-  background-color: var(--bg-color-add-btn);
+  background-color: var(--bg-add-btn);
+  transition: background-color 0.3s ease;
 }
 
 .card {
@@ -290,7 +334,6 @@ main {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  /* border: 1px solid red; */
 }
 
 .card-todo-expanded {
@@ -301,7 +344,6 @@ main {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  /* border: 1px solid green; */
 }
 
 .card-create-todo {
@@ -311,7 +353,6 @@ main {
     "create-todo-description create-todo-description create-todo-description";
   column-gap: 1rem;
   padding: 1rem;
-  /* border: 1px solid red; */
 }
 
 .card-todo-edit {
@@ -392,6 +433,11 @@ main {
   align-self: start;
 }
 
+.btn-kebab-menu {
+  background-color: var(--bg-todo-kebab-btn);
+  transition: background-color 0.3s ease;
+}
+
 .kebab-menu-list {
   list-style-type: none;
   position: absolute;
@@ -414,6 +460,8 @@ main {
   width: 100%;
   padding: 0.1rem 0.2rem;
   border: none;
+  background-color: var(--bg-todo-kebab-edit-delete-btn);
+  transition: background-color 0.3s ease;
 }
 
 .todo-title {
@@ -434,9 +482,11 @@ main {
   grid-area: todo-btn-trash;
   justify-self: end;
   align-self: end;
-  border: none;
   width: 20px;
   height: 20px;
+  border: 1px solid grey;
+  background-color: var(--bg-trash-todo-btn);
+  transition: background-color 0.3s ease;
 }
 
 /* create new todo form */
@@ -452,7 +502,6 @@ main {
 }
 
 .create-todo-date-span {
-  /* border: 1px solid blue; */
 }
 
 .create-todo-priority {
@@ -505,12 +554,11 @@ main {
   gap: 0.1rem;
 }
 
-.btn-confirm-create-todo {
-  /* border: 5px solid red; */
-}
-
+.btn-confirm-create-todo,
 .btn-cancel-create-todo {
-  /* border: 5px solid red; */
+  border: 1px solid grey;
+  background-color: var(--bg-confirm-cancel-create-todo-btn);
+  transition: background-color 0.3s ease;
 }
 
 /* classes for items in edit mode */
@@ -553,6 +601,12 @@ main {
 
   display: flex;
   gap: 0.1rem;
+}
+
+.btn-confirm-edit-todo,
+.btn-cancel-edit-todo {
+  background-color: var(--bg-confirm-edit-todo-btn);
+  transition: background-color 0.3s ease;
 }
 
 /* page footer */
@@ -607,12 +661,6 @@ main {
   display: none;
 }
 
-.activeProject {
-  font-weight: bold;
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(215, 83%, 50%);
-}
-
 .checked {
   text-decoration: line-through;
   color: grey;
@@ -661,27 +709,98 @@ button:disabled {
   }
 
   .page-project-list {
-    /* border: 4px solid red; */
     min-height: 0;
   }
 
   .project-list {
-    /* border: 4px solid blue; */
     flex: 1;
   }
 
   main {
     min-height: 0;
-    /* border: 4px solid red; */
   }
 
   .container-todos {
     flex: 1;
-    /* border: 4px solid blue; */
   }
 
   .project-list,
   .container-todos {
     overflow-y: auto;
+  }
+}
+
+@media (hover: hover) {
+  button:hover,
+  input:hover,
+  select:hover,
+  textarea:hover {
+    cursor: pointer;
+  }
+
+  /* if clicked, card will expand */
+  .todo-title:hover {
+    cursor: pointer;
+  }
+  .btn-project:hover {
+    background-color: var(--bg-project-btn-hover);
+  }
+
+  .btn-project.activeProject:hover {
+    background-color: var(--bg-project-btn-active-hover);
+  }
+
+  /* kebab menu projects */
+  .btn-kebab-menu-project:hover {
+    background-color: var(--bg-kebab-menu-project-btn-hover);
+  }
+
+  .btn-kebab-edit-project:hover,
+  .btn-kebab-delete-project:hover {
+    background-color: var(--bg-kebab-edit-delete-project-btn-hover);
+  }
+
+  .btn-confirm-project-edit:hover,
+  .btn-cancel-project-edit:hover {
+    background-color: var(--bg-confirm-cancel-project-edit-btn-hover);
+  }
+  /* .input-project-edit:hover {
+    cursor: pointer;
+  } */
+
+  .btn-add-project:hover,
+  .btn-add-todo:hover {
+    background-color: var(--bg-add-btn-hover);
+  }
+
+  .btn-confirm-project:hover,
+  .btn-cancel-project:hover {
+    background-color: var(--bg-confirm-cancel-project-btn-hover);
+  }
+  /* .input-project-name {
+    cursor: pointer;
+  } */
+
+  .btn-confirm-create-todo:hover,
+  .btn-cancel-create-todo:hover {
+    background-color: var(--bg-confirm-cancel-create-todo-btn-hover);
+  }
+
+  .btn-kebab-menu:hover {
+    background-color: var(--bg-todo-kebab-btn-hover);
+  }
+
+  .btn-kebab-edit:hover,
+  .btn-kebab-delete:hover {
+    background-color: var(--bg-todo-kebab-edit-delete-btn-hover);
+  }
+
+  .btn-confirm-edit-todo:hover,
+  .btn-cancel-edit-todo:hover {
+    background-color: var(--bg-confirm-edit-todo-btn-hover);
+  }
+
+  .todo-btn-trash:hover {
+    background-color: var(--bg-trash-todo-btn-hover);
   }
 }
