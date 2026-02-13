@@ -2,11 +2,7 @@ import { ProjectManager, DEFAULT_PROJECT_ID } from "./project-manager.js";
 import { DOMHandler } from "./dom.js";
 import "./styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
-
-//=============================
 import { createSeedData } from "./seedData.js";
-
-//=============================
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("main-container");
@@ -25,8 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     containerToDos,
     projectManager,
   );
-  // New implemented block, does check and load data inside localStorage
-  // load data
+  // check and load data inside localStorage
   const data = projectManager.getLocalStorage();
   // check if default projects is present
   const checkForDefault = data.some(
@@ -42,9 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   domHandler.highlightActiveProject();
   domHandler.renderActiveProjectToDos();
 
-  //================================================================================================
   createSeedData(projectManager, domHandler);
-  //================================================================================================
 
   container.addEventListener("click", (event) => {
     domHandler.handleOutsideClick(event.target);

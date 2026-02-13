@@ -9,7 +9,8 @@
 :root {
   --border-radius: 8px;
   --border-color: hsl(0, 0%, 76%);
-  --bg-color-header-footer: hsl(232, 23%, 87%);
+  --col-header-footer: white;
+  --bg-color-header-footer: hsl(215, 67%, 41%);
   /* btn-project and btn.project.activeProject */
   --bg-project-btn: hsl(240, 2%, 82%);
   --bg-project-btn-hover: hsl(240, 2%, 85%);
@@ -114,11 +115,20 @@ main,
 .page-header {
   grid-area: header;
   text-align: center;
-  padding: 0.5rem;
+  padding: 1rem;
+  color: var(--col-header-footer);
   background-color: var(--bg-color-header-footer);
 }
 
 .page-header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fa-tasks {
+  font-size: 1.6rem;
 }
 
 .page-project-list {
@@ -617,9 +627,17 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
   padding: 1rem;
+  color: var(--col-header-footer);
   background-color: var(--bg-color-header-footer);
+}
+
+.footer-header,
+.footer-list,
+.footer-name {
+  /* border: 1px solid red; */
+  /* padding: 0.5rem; */
 }
 
 .footer-header {
@@ -634,10 +652,18 @@ main {
   list-style-type: none;
 }
 
+.footer-list li {
+  display: flex;
+  align-items: center;
+  /* padding: 2px; */
+}
+
 .footer-list a {
   display: flex;
   align-items: center;
   text-decoration: none;
+  color: white;
+  transition: transform 0.3s ease;
 }
 
 .fa.fa-twitter::before {
@@ -645,12 +671,12 @@ main {
 }
 
 .img-solo-learn {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
 }
 
 .footer-name {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .link-text {
@@ -802,5 +828,9 @@ button:disabled {
 
   .todo-btn-trash:hover {
     background-color: var(--bg-trash-todo-btn-hover);
+  }
+
+  .footer-list a:hover {
+    transform: scale(1.2);
   }
 }
