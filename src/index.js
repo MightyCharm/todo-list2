@@ -261,12 +261,13 @@ document.addEventListener("DOMContentLoaded", () => {
         projectManager.setLocalStorage();
         break;
 
-      case "btn-kebab-menu":
+      case "btn-kebab-menu": // kebab button todos
         console.log("btn-kebab-menu");
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         ulKebab = article.querySelector(".kebab-menu-list");
         domHandler.handleKebabClick(ulKebab);
+        domHandler.scrollKebabMenuIntoView(ulKebab);
         break;
 
       case "btn-kebab-edit":
@@ -284,15 +285,13 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.updateButtonStates(article);
         break;
 
-      //=============================================================0
       case "btn-kebab-menu-project":
         console.log("btn-kebab-menu-project");
-        console.log("here--------------------------------------");
-        console.log(domHandler.getIsFormOpen());
         if (domHandler.getIsFormOpen()) return;
         list = event.target.closest("li");
         ulKebab = list.querySelector(".kebab-menu-list-project");
-        domHandler.handleKebabClick(ulKebab); // <---------------------------
+        domHandler.handleKebabClick(ulKebab);
+        domHandler.scrollKebabMenuIntoView(ulKebab);
         break;
 
       case "btn-kebab-menu-project-edit":
@@ -320,8 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
           projectManager.setLocalStorage();
         }
         break;
-
-      //=============================================================0
 
       case "checkbox-todo":
         console.log("checkbox-todo");

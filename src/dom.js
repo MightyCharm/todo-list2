@@ -671,8 +671,6 @@ class DOMHandler {
   }
 
   handleKebabClick(ulKebab) {
-    console.log(ulKebab);
-    console.log(this.#activeKebab === ulKebab);
     if (this.#activeKebab === ulKebab) {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;
@@ -929,6 +927,13 @@ class DOMHandler {
       if (form) {
         form.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
+    }, 50);
+  }
+
+  scrollKebabMenuIntoView(ulKebab) {
+    if (ulKebab.classList.contains("is-hidden")) return;
+    setTimeout(() => {
+      ulKebab.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, 50);
   }
 }
