@@ -7,11 +7,13 @@
 }
 
 :root {
+  /*  */
   --border-radius: 8px;
   --border-color: hsla(215, 67%, 41%, 0.5);
   --col-header-footer: white;
   --bg-color-header-footer: hsl(215, 67%, 41%);
   /* btn-project and btn.project.activeProject */
+  --col-project-btn: hsl(215, 83%, 50%);
   --bg-project-btn: hsl(240, 2%, 82%);
   --bg-project-btn-hover: hsl(240, 2%, 85%);
   --bg-project-btn-active: hsl(215, 83%, 50%);
@@ -23,9 +25,11 @@
   --bg-confirm-cancel-project-btn: hsl(240, 0%, 100%);
   --bg-confirm-cancel-project-btn-hover: hsl(240, 2%, 95%);
   /* btn-kebab-menu-project*/
+  --col-kebab-menu-project-btn: hsl(215, 83%, 50%);
   --bg-kebab-menu-project-btn: hsl(0, 0%, 100%);
   --bg-kebab-menu-project-btn-hover: hsl(240, 2%, 95%);
   /* btn-kebab-edit-project and .btn-kebab-delete-project */
+  --col-kebab-edit-delete-project-btn: hsl(215, 83%, 50%);
   --bg-kebab-edit-delete-project-btn: hsl(0, 0%, 100%);
   --bg-kebab-edit-delete-project-btn-hover: hsl(240, 2%, 95%);
   /* .btn-confirm-project-edit .btn-cancel-project-edit  */
@@ -38,6 +42,7 @@
   --bg-todo-kebab-btn: hsl(240, 0%, 100%);
   --bg-todo-kebab-btn-hover: hsl(240, 2%, 95%);
   /* .btn-kebab-edit .btn-kebab-delete */
+  --col-todo-kebab-edit-delete-btn: hsl(219, 83%, 37%);
   --bg-todo-kebab-edit-delete-btn: hsl(0, 0%, 100%);
   --bg-todo-kebab-edit-delete-btn-hover: hsl(240, 2%, 95%);
   /* .btn-confirm-edit-todo .btn-cancel-edit-todo */
@@ -46,6 +51,13 @@
   /* .todo.btn-trash */
   --bg-trash-todo-btn: hsl(240, 0%, 100%);
   --bg-trash-todo-btn-hover: hsl(240, 0%, 95%);
+  /* text color and background color for card class */
+  --col-card: hsl(219, 83%, 37%);
+  --bg-card: hsla(232, 23%, 87%, 1);
+}
+
+body {
+  max-width: 1200px;
 }
 
 /* Fallback: older browsers */
@@ -153,7 +165,7 @@ main,
   list-style-type: none;
   width: 100%;
   min-height: 0;
-  padding-bottom: 60px; /* added so kebab menu of last project has enough space to open  */
+  padding-bottom: 60px; /* added so kebab menu of last project has enough space  */
 }
 
 .li-project {
@@ -175,6 +187,7 @@ main,
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   background-color: var(--bg-project-btn);
+  color: var(--col-project-btn);
   transition: background-color 0.3s ease;
 }
 
@@ -190,6 +203,7 @@ main,
   padding-left: 0.3rem;
   padding-right: 0.3rem;
   border-radius: 4px;
+  border: 1px solid grey;
 }
 
 .btn-confirm-project-edit,
@@ -212,8 +226,9 @@ main,
   border: 1px solid hsl(0, 1%, 71%);
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-  background-color: var(--bg-kebab-menu-project-btn);
   transition: background-color 0.3s ease;
+  color: var(--col-kebab-menu-project-btn);
+  background-color: var(--bg-kebab-menu-project-btn);
 }
 
 .kebab-menu-list-project {
@@ -236,7 +251,6 @@ main,
   height: 25px;
 }
 
-/* used in kebab project and kebab todo */
 .dropdown-divider {
   border: 1px solid hsl(0, 0%, 82%);
 }
@@ -246,6 +260,7 @@ main,
   width: 100%;
   height: 20px;
   border: none;
+  color: var(--col-kebab-edit-delete-project-btn);
   background-color: var(--bg-kebab-edit-delete-project-btn);
   transition: background-color 0.3s ease;
 }
@@ -258,14 +273,12 @@ main,
   border-radius: 0px 0px 4px 4px;
 }
 
-/* for default project */
 .kebab-disabled {
   opacity: 0.3;
   pointer-events: none;
   cursor: not-allowed;
 }
 
-/* form user input project name */
 .li-project-name {
   display: grid;
   grid-template-areas:
@@ -283,6 +296,7 @@ main,
   padding-right: 0.3rem;
   border-radius: 4px;
   height: 45px;
+  color: hsl(219, 83%, 37%);
 }
 
 .create-project-span {
@@ -349,20 +363,26 @@ main h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.2rem;
 
   font-weight: bold;
-  padding: 1rem;
-  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
   border: none;
   color: hsl(0, 0%, 100%);
   background-color: var(--bg-add-btn);
   transition: background-color 0.3s ease;
 }
 
+.fa-plus-circle {
+  font-size: 1.2rem;
+}
+
 .card {
   display: grid;
-  border-radius: var(--border-radius);
-  background-color: hsla(232, 23%, 87%, 1);
+  border-radius: 2px;
+  color: var(--col-card);
+  background-color: var(--bg-card);
 }
 
 .card-todo {
@@ -399,7 +419,6 @@ main h2 {
     "edit-div-title edit-div-title  edit-div-title edit-div-title"
     "edit-div-description edit-div-description edit-div-description edit-div-description";
   align-items: center;
-  /* gap: 0.5rem; */
   column-gap: 0.5rem;
   padding: 1rem;
 }
@@ -418,29 +437,29 @@ main h2 {
   white-space: nowrap;
 }
 
-/* used in normal and edit mode */
 .todo-priority {
   grid-area: todo-priority;
   align-self: start;
   justify-self: center;
   border-radius: 4px;
+  padding: 1px;
+  color: var(--col-card);
+  border: 1px solid grey;
   background-color: white;
 }
 
-/* used in normal and edit mode */
 .todo-done {
   grid-area: todo-done;
+  position: relative;
 
   width: 20px;
   height: 20px;
   justify-self: end;
   align-self: start;
-
-  border: 1px solid hsl(0, 0%, 41%);
+  border: none;
   border-radius: 4px;
   background-color: white;
 
-  position: relative;
   appearance: none;
   transition: all 1.3s;
 }
@@ -463,7 +482,6 @@ main h2 {
   transform: translate(-50%, -50%);
 }
 
-/* used in normal and edit mode */
 .todo-div-kebab {
   grid-area: todo-div-kebab;
 
@@ -474,10 +492,12 @@ main h2 {
 }
 
 .btn-kebab-menu {
+  color: var(--col-card);
   border: 1px solid grey;
-  padding: 1px;
+  padding: 2px;
   border-radius: 4px 4px 4px 4px;
   background-color: var(--bg-todo-kebab-btn);
+  border: none;
   transition: background-color 0.3s ease;
 }
 
@@ -501,6 +521,7 @@ main h2 {
   width: 100%;
   height: 20px;
   border: none;
+  color: var(--col-todo-kebab-edit-delete-btn);
   background-color: var(--bg-todo-kebab-edit-delete-btn);
   transition: background-color 0.3s ease;
 }
@@ -533,7 +554,8 @@ main h2 {
   width: 21px;
   height: 21px;
   border-radius: 4px;
-  border: 1px solid grey;
+  border: none;
+  color: var(--col-card);
   background-color: var(--bg-trash-todo-btn);
   transition: background-color 0.3s ease;
 }
@@ -548,6 +570,9 @@ main h2 {
 }
 
 .create-todo-date {
+  padding: 2px;
+  color: var(--col-card);
+  border: 1px solid grey;
 }
 
 .create-todo-date-span {
@@ -556,6 +581,8 @@ main h2 {
 .create-todo-priority {
   grid-area: create-todo-priority;
   align-self: start;
+  padding: 2px;
+  color: var(--col-card);
 }
 
 .create-todo-title {
@@ -568,6 +595,8 @@ main h2 {
 
 .input-title {
   padding: 0.2rem;
+  border: 1px solid grey;
+  color: var(--col-card);
 }
 
 .create-todo-title-span {
@@ -585,6 +614,8 @@ main h2 {
   resize: none;
   padding: 0.2rem;
   min-height: 4.2rem;
+  border: 1px solid grey;
+  color: var(--col-card);
 }
 
 .create-todo-description-span {
@@ -616,6 +647,8 @@ main h2 {
 }
 
 .edit-input-dueDate {
+  color: var(--col-card);
+  border: 1px solid grey;
 }
 
 .edit-div-title {
@@ -626,6 +659,8 @@ main h2 {
 
 .input-title-edit {
   padding: 0.2rem;
+  border: 1px solid grey;
+  color: var(--col-card);
 }
 
 .edit-div-description {
@@ -639,6 +674,8 @@ main h2 {
   resize: none;
   padding: 0.2rem;
   min-height: 4.2rem;
+  border: 1px solid grey;
+  color: var(--col-card);
 }
 
 .todo-div-edit-btns {
@@ -793,6 +830,12 @@ button:disabled {
   }
 }
 
+@media (min-width: 1200px) {
+  body {
+    border: 5px solid var(--bg-color-header-footer);
+  }
+}
+
 @media (hover: hover) {
   button:hover,
   input:hover,
@@ -801,7 +844,6 @@ button:disabled {
     cursor: pointer;
   }
 
-  /* if clicked, card will expand */
   .todo-title:hover {
     cursor: pointer;
   }
