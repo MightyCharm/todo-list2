@@ -100,7 +100,6 @@ class DOMHandler {
     }
 
     if (article) {
-      console.log("mah boi we need to activate priority and checkbox again");
       const priority = article.querySelector(".todo-priority");
       const checkboxDone = article.querySelector(".todo-done");
       priority.disabled = false;
@@ -575,6 +574,12 @@ class DOMHandler {
     const iconKebab = document.createElement("i");
     const ulKebab = document.createElement("ul");
     const liKebabEdit = document.createElement("li");
+    //=======================0
+    const liDivider = document.createElement("li");
+    const hr = document.createElement("hr");
+    hr.classList.add("dropdown-divider");
+    liDivider.appendChild(hr);
+    //===========================
     const liKebabDelete = document.createElement("li");
     const btnKebabEdit = document.createElement("button");
     const btnKebabDelete = document.createElement("button");
@@ -604,6 +609,9 @@ class DOMHandler {
     liKebabEdit.appendChild(btnKebabEdit);
     liKebabDelete.appendChild(btnKebabDelete);
     ulKebab.appendChild(liKebabEdit);
+    //================0
+    ulKebab.appendChild(liDivider);
+    //==================
     ulKebab.appendChild(liKebabDelete);
     btnKebab.appendChild(iconKebab);
     divKebab.appendChild(btnKebab);
@@ -663,6 +671,8 @@ class DOMHandler {
   }
 
   handleKebabClick(ulKebab) {
+    console.log(ulKebab);
+    console.log(this.#activeKebab === ulKebab);
     if (this.#activeKebab === ulKebab) {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;
@@ -671,15 +681,15 @@ class DOMHandler {
     if (this.#activeKebab) {
       this.toggleHideDisplay(this.#activeKebab);
     }
-
     this.#activeKebab = ulKebab;
     this.toggleHideDisplay(this.#activeKebab);
   }
 
   handleOutsideClick(target) {
-    const isKebabButton = target.closest(".btn-kebab-menu");
+    const isKebabButton = target.closest(".btn-kebab-menu-project");
     const isInsideKebab = target.closest(".todo-div-kebab");
     if (isKebabButton || isInsideKebab) return;
+
     if (this.#activeKebab) {
       this.toggleHideDisplay(this.#activeKebab);
       this.#activeKebab = null;

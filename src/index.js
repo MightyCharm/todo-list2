@@ -262,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
 
       case "btn-kebab-menu":
+        console.log("btn-kebab-menu");
         if (domHandler.getIsFormOpen()) return;
         article = event.target.closest("article");
         ulKebab = article.querySelector(".kebab-menu-list");
@@ -283,12 +284,15 @@ document.addEventListener("DOMContentLoaded", () => {
         domHandler.updateButtonStates(article);
         break;
 
+      //=============================================================0
       case "btn-kebab-menu-project":
         console.log("btn-kebab-menu-project");
+        console.log("here--------------------------------------");
+        console.log(domHandler.getIsFormOpen());
         if (domHandler.getIsFormOpen()) return;
         list = event.target.closest("li");
         ulKebab = list.querySelector(".kebab-menu-list-project");
-        domHandler.handleKebabClick(ulKebab);
+        domHandler.handleKebabClick(ulKebab); // <---------------------------
         break;
 
       case "btn-kebab-menu-project-edit":
@@ -316,6 +320,8 @@ document.addEventListener("DOMContentLoaded", () => {
           projectManager.setLocalStorage();
         }
         break;
+
+      //=============================================================0
 
       case "checkbox-todo":
         console.log("checkbox-todo");
@@ -419,7 +425,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let article;
     let li;
     let inputElement;
-    // console.log(role);
     switch (role) {
       case "create-todo-input-date":
       case "edit-todo-input-date":
